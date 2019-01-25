@@ -21,7 +21,6 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     devServer: {
-        open: true,
         openPage: "index.html",
         contentBase: path.join(__dirname, "app"),
         watchContentBase: true,
