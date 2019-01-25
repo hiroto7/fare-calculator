@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "downlevelIteration": true,
+        "lib": [
+            "es7",
+            "dom"
+        ],
+        "target": "esnext",
+        "module": "commonjs"
+    }
+}
