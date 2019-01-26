@@ -124,7 +124,7 @@ class SectionIterator implements IterableIterator<StationOnLine> {
         if (result.done) {
             return {
                 done: true,
-                value: <StationOnLine><unknown>undefined
+                value: undefined as unknown as StationOnLine
             };
         } else {
             const value: StationOnLine | null = result.value.on(this.line);

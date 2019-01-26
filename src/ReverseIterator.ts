@@ -11,7 +11,7 @@ export default class ReverseIterator<T> implements IterableIterator<T> {
         if (this.index <= 0) {
             return {
                 done: true,
-                value: <T><unknown>undefined
+                value: undefined as unknown as T
             }
         } else {
             this.index--;
