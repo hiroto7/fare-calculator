@@ -3,11 +3,12 @@ import Line from "./Line";
 import Station, { StationOnLine, StationOnLine1, StationSubstance } from "./Station";
 
 export class Section implements Line {
-    private line: Line;
-    private direction: Direction;
-    private rawFrom?: Station;
-    private rawTo?: Station;
-    private stationsOnLineMap: Map<StationSubstance, StationOnLine>;
+    private readonly line: Line;
+    private readonly direction: Direction;
+    private readonly rawFrom?: Station;
+    private readonly rawTo?: Station;
+    private readonly stationsOnLineMap: Map<StationSubstance, StationOnLine>;
+    // private set: ReadonlySet<StationOnLine>;
 
     constructor({ line, direction, from, to, stations = [] }: {
         line: Line,
@@ -25,6 +26,7 @@ export class Section implements Line {
         this.rawFrom = from;
         this.rawTo = to;
 
+        // this.set = new Set(this.originalIterator());
         this.stationsOnLineMap = new Map();
         for (const station of stations) {
             this.stationsOnLineMap.set(station.substance, new StationOnLine1({ line: this, ...station }));
@@ -53,7 +55,6 @@ export class Section implements Line {
         else
             to = this.line.from();
 
-
         if (to === null) throw new Error();
         return to;
     }
@@ -76,16 +77,41 @@ export class Section implements Line {
         return this.direction * length;
     }
 
+    private originalIterator(direction?: Direction): IterableIterator<StationOnLine>
+    private originalIterator(direction: Direction,
+        { from, to }: { from?: Station, to?: Station }): IterableIterator<StationOnLine> | null
+    private originalIterator(direction: Direction = Direction.outbound,
+        { from, to }: { from?: Station, to?: Station } = {}): IterableIterator<StationOnLine> | null {
+
+        return this.line.stations(direction, { from, to });
+    }
+
     stations(direction?: Direction): IterableIterator<StationOnLine>
     stations(direction: Direction,
         { from, to }: { from?: Station, to?: Station }): IterableIterator<StationOnLine> | null
     stations(direction: Direction = Direction.outbound,
         { from, to }: { from?: Station, to?: Station } = {}): IterableIterator<StationOnLine> | null {
 
-        const stations = this.line.stations(direction, { from: this.from(), to: this.to() });
+        if (from === undefined) {
+            if (direction === Direction.outbound)
+                from = this.from();
+            else
+                from = this.to();
+        }
+        if (to === undefined) {
+            if (direction === Direction.outbound)
+                to = this.to();
+            else
+                to = this.from();
+        }
+
+        const stations = this.originalIterator(direction, { from, to });
 
         if (stations === null) {
-            if (from === undefined && to === undefined) throw new Error();
+            if (direction === Direction.outbound && from === this.from() && to === this.to() ||
+                direction === Direction.inbound && from === this.to() && to === this.from())
+                throw new Error();
+
             return null;
         }
 
@@ -97,7 +123,7 @@ export class Section implements Line {
         let onLine: StationOnLine | undefined = this.stationsOnLineMap.get(substance);
 
         if (onLine === undefined) {
-            if (!new Set(this.stations()).has(station.on(this.line)!)) return null;
+            if (!new Set(this.originalIterator()).has(station.on(this.line)!)) return null;
             onLine = new StationOnLine1({ line: this, substance, code: null });
             this.stationsOnLineMap.set(substance, onLine);
         }

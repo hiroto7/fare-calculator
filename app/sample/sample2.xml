@@ -5,7 +5,7 @@
         <section line="東海道本線" direction="+" from="東京" to="横浜" />
     </route>
 
-    <route name="常磐快速線" code="JJ" hide-via="">
+    <route name="常磐線快速" code="JJ" hide-via="">
         <section line="東北本線" direction="+" from="上野" to="日暮里" />
         <section line="常磐線0" direction="+" from="日暮里" to="取手" />
         <station name="上野" code="01" />
@@ -26,34 +26,36 @@
     </route>
 
     <route name="常磐線" key="常磐線3">
-        <section line="常磐快速線" direction="+" />
+        <section line="常磐線快速" direction="+" />
         <section line="常磐線2" direction="+" />
-    </route>
-
-    <section name="上野東京ライン" line="東北本線" direction="+" from="東京" to="上野" />
-
-    <route name="上野東京ライン（常磐線）">
-        <section line="東海道線" direction="-" from="品川" to="東京" />
-        <section line="上野東京ライン" direction="+" />
-        <section line="常磐線3" direction="+" from="上野" to="高萩" />
     </route>
 
     <route name="宇都宮・高崎線" code="JU" hide-via="">
         <section line="東北本線" direction="+" from="東京" to="日暮里" />
         <section line="東北本線（尾久支線）" direction="+" />
         <section line="東北本線" direction="+" from="赤羽" to="大宮" />
-        <station name="東京" code="01">
-        <station name="上野" code="02">
-        <station name="尾久" code="03">
-        <station name="赤羽" code="04">
-        <station name="浦和" code="05">
-        <station name="さいたま新都心" code="06">
-        <station name="大宮" code="07">
+
+        <station name="東京" code="01" />
+        <station name="上野" code="02" />
+        <station name="尾久" code="03" />
+        <station name="赤羽" code="04" />
+        <station name="浦和" code="05" />
+        <station name="さいたま新都心" code="06" />
+        <station name="大宮" code="07" />
     </route>
 
     <route name="宇都宮線">
         <section line="宇都宮・高崎線" direction="+" />
         <section line="東北本線" direction="+" from="大宮" to="黒磯" />
+    </route>
+
+    <!-- <section name="上野東京ライン" line="宇都宮・高崎線" direction="+" from="東京" to="上野" /> -->
+    <section name="上野東京ライン" line="東北本線" direction="+" from="東京" to="上野" />
+
+    <route name="上野東京ライン（常磐線）">
+        <section line="東海道線" direction="-" from="品川" to="東京" />
+        <section line="上野東京ライン" direction="+" />
+        <section line="常磐線3" direction="+" from="上野" to="高萩" />
     </route>
 
     <route name="上野東京ライン（宇都宮線〜東海道線）">

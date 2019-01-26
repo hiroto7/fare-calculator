@@ -55,39 +55,57 @@ export class OfficialLine implements Line {
 
         if (this.rawStations === undefined) throw new Error();
 
+        if (from === undefined) {
+            if (direction === Direction.outbound)
+                from = this.from();
+            else
+                from = this.to();
+        }
+        if (to === undefined) {
+            if (direction === Direction.outbound)
+                to = this.to();
+            else
+                to = this.from();
+        }
+
         let array: ReadonlyArray<StationOnOfficialLine>;
-        if (from === undefined && to === undefined) {
+        if (direction === Direction.outbound && from === this.from() && to === this.to() ||
+            direction === Direction.inbound && from === this.to() && to === this.from()) {
+
             array = this.rawStations;
         } else {
-            let fromOnLine: StationOnOfficialLine;
-            let toOnLine: StationOnOfficialLine;
+            let fromIndex: number;
+            let toIndex: number;
 
-            if (from === undefined) {
-                fromOnLine = this.from();
+            if (direction === Direction.outbound && from === this.from()) {
+                fromIndex = 0;
+            } else if (direction === Direction.inbound && from === this.to()) {
+                fromIndex = this.rawStations.length - 1;
             } else {
-                let fromOnLine1 = this.onLineOf(from);
-                if (fromOnLine1 === null)
-                    return null;
-                fromOnLine = fromOnLine1;
+                const fromOnLine = this.onLineOf(from);
+                if (fromOnLine === null) return null;
+                fromIndex = this.rawStations.indexOf(fromOnLine);
             }
 
-            if (to === undefined) {
-                toOnLine = this.to();
+            if (direction === Direction.outbound && to === this.to()) {
+                toIndex = this.rawStations.length - 1;
+            } else if (direction === Direction.inbound && to === this.from()) {
+                toIndex = 0;
             } else {
-                let toOnLine1 = this.onLineOf(to);
-                if (toOnLine1 === null)
-                    return null;
-                toOnLine = toOnLine1;
+                const toOnLine = this.onLineOf(to);
+                if (toOnLine === null) return null;
+                toIndex = this.rawStations.indexOf(toOnLine);
             }
-
-            let fromIndex = this.rawStations.indexOf(fromOnLine);
-            let toIndex = this.rawStations.indexOf(toOnLine);
 
             if (fromIndex < 0) throw new Error();
             if (toIndex < 0) throw new Error();
 
             if (direction * fromIndex > direction * toIndex) return null;
-            array = this.rawStations.slice(fromIndex, toIndex + 1);
+
+            if (direction === Direction.outbound)
+                array = this.rawStations.slice(fromIndex, toIndex + 1);
+            else
+                array = this.rawStations.slice(toIndex, fromIndex + 1);
         }
 
         if (direction === Direction.outbound)
