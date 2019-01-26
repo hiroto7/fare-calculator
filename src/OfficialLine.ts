@@ -1,9 +1,9 @@
 import { Direction } from "./Direction";
 import Line from "./Line";
 import ReverseIterator from "./ReverseIterator";
-import Station, { StationOnLine, StationOnLine1, StationSubstance } from "./Station";
+import Station, { StationOnLine1, StationSubstance } from "./Station";
 
-export class OfficialLine implements Line {
+export default class OfficialLine implements Line {
     private rawName: string;
     private rawCode: string | null;
     private rawColor: string | null;
@@ -47,11 +47,11 @@ export class OfficialLine implements Line {
         return this.rawColor;
     }
 
-    stations(direction?: Direction): IterableIterator<StationOnLine>;
+    stations(direction?: Direction): IterableIterator<StationOnOfficialLine>;
     stations(direction: Direction,
-        { from, to }: { from?: Station; to?: Station; }): IterableIterator<StationOnLine> | null;
+        { from, to }: { from?: Station; to?: Station; }): IterableIterator<StationOnOfficialLine> | null;
     stations(direction: Direction = Direction.outbound,
-        { from, to }: { from?: Station; to?: Station; } = {}): IterableIterator<StationOnLine> | null {
+        { from, to }: { from?: Station; to?: Station; } = {}): IterableIterator<StationOnOfficialLine> | null {
 
         if (this.rawStations === undefined) throw new Error();
 
@@ -140,8 +140,8 @@ export class OfficialLine implements Line {
         const station2OnLine = this.onLineOf(station2);
         if (station1OnLine === null || station2OnLine === null) return null;
 
-        const d1 = station1OnLine.distanceFromStart;
-        const d2 = station2OnLine.distanceFromStart;
+        const d1 = station1OnLine.distanceFromStart();
+        const d2 = station2OnLine.distanceFromStart();
         return d1 === null || d2 === null ? null : d2 - d1;
     }
 
@@ -151,7 +151,8 @@ export class OfficialLine implements Line {
 }
 
 class StationOnOfficialLine extends StationOnLine1 {
-    readonly distanceFromStart: number | null;
+    private readonly rawDistanceFromStart: number | null;
+    protected readonly rawLine: OfficialLine;
 
     constructor({ line, substance, distanceFromStart, code = null }: {
         line: OfficialLine,
@@ -160,6 +161,23 @@ class StationOnOfficialLine extends StationOnLine1 {
         code?: string | null
     }) {
         super({ line, substance, code });
-        this.distanceFromStart = distanceFromStart;
+        this.rawDistanceFromStart = distanceFromStart;
+        this.rawLine = line;
+    }
+
+    line(): OfficialLine {
+        return this.rawLine;
+    }
+
+    distanceFromStart(): number | null {
+        if (this === this.line().from()) {
+            if (this.rawDistanceFromStart === null) throw new Error();
+            return 0;
+        } else {
+            const distanceOfStart = this.line().from().rawDistanceFromStart;
+            if (distanceOfStart === null) throw new Error();
+            if (this.rawDistanceFromStart === null) return null;
+            return this.rawDistanceFromStart - distanceOfStart;
+        }
     }
 }

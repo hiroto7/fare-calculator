@@ -21,6 +21,7 @@ export interface StationSubstance extends Station {
 export interface StationOnLine extends Station {
     line(): Line;
     code(): string | null;
+    distanceFromStart(): number | null;
 }
 
 export class Station1 implements StationSubstance, WritableStation {
@@ -70,7 +71,7 @@ export class Station1 implements StationSubstance, WritableStation {
 export class StationOnLine1 implements StationOnLine {
     private readonly rawSubstance: StationSubstance;
     private readonly rawCode: string | null;
-    private readonly rawLine: Line;
+    protected readonly rawLine: Line;
 
     constructor({ line, substance, code = null }: {
         line: Line,
@@ -96,5 +97,10 @@ export class StationOnLine1 implements StationOnLine {
         else
             return this.substance().on(line);
     }
+
+    distanceFromStart(): number | null {
+        return this.line().distance(this.line().from(), this);
+    }
+}
 }
 

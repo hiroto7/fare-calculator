@@ -2,7 +2,7 @@ import { Direction } from "./Direction";
 import Line from "./Line";
 import Station, { StationOnLine, StationOnLine1, StationSubstance } from "./Station";
 
-export class Section implements Line {
+export default class Section implements Line {
     private readonly line: Line;
     private readonly direction: Direction;
     private readonly rawFrom?: Station;

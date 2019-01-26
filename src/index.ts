@@ -1,7 +1,7 @@
 import { Direction } from "./Direction";
 import Line from "./Line";
-import { OfficialLine } from "./OfficialLine";
-import { Section } from "./Section";
+import OfficialLine from "./OfficialLine";
+import Section from "./Section";
 import { Station1, StationSubstance, WritableStation } from "./Station";
 
 class StationsDB {
@@ -22,6 +22,7 @@ class StationsDB {
 }
 
 class XMLHandler {
+    private visited: Set<string> = new Set();
     linesDB = new Map<string, Line>();
     stationsDB = new StationsDB();
 
@@ -110,6 +111,11 @@ class XMLHandler {
         if (src === null) throw new Error();
 
         const url: URL = new URL(src, baseURL);
+        if (this.visited.has(url.toString())) {
+            console.warn(e);
+            return;
+        }
+
         const srcText = await (await fetch(url.toString())).text();
         const parser = new DOMParser();
         const srcXml = parser.parseFromString(srcText, 'text/xml');
@@ -147,6 +153,27 @@ class XMLHandler {
     }
 }
 
+const a = (line: Line): HTMLElement => {
+    const section: HTMLElement = document.createElement('section');
+
+    section.innerHTML = `<h1>${line.name()}</h1>
+    <p>区間 : ${line.from().name()} - ${line.to().name()}</p>
+    <p>営業キロ : ${line.length()}</p>
+    `;
+
+    const table = document.createElement('table');
+    for (const station of line.stations()) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${station.name()}</td>
+        <td>${station.distanceFromStart()}</td>
+        <td>${station.isSeasonal() ? '臨時駅' : ''}</td>`
+        table.appendChild(tr);
+    }
+    section.appendChild(table);
+
+    return section;
+}
+
 (async () => {
     const indexXML = new URL('./sample/index.xml', location.href);
     const text = await (await fetch(indexXML.toString())).text();
@@ -159,6 +186,8 @@ class XMLHandler {
     console.log(handler);
 
     const linesDB = handler.linesDB;
-    console.log(linesDB.get('上野東京ライン')!.stations())
-    console.log([...linesDB.get('上野東京ライン')!.stations()])
+
+    for (const line of linesDB.values()) {
+        document.body.appendChild(a(line));
+    }
 })();
