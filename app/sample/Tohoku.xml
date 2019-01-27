@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="東北本線">
+        <station name="東京" distance="0" />
+        <station name="神田" distance="1.3" />
+        <station name="秋葉原" distance="2.0" />
+        <station name="御徒町" distance="3.0" />
+        <station name="上野" distance="3.6" />
+        <station name="鶯谷" distance="4.7" />
+        <station name="日暮里" distance="5.8" />
+        <station name="西日暮里" distance="6.3" />
+        <station name="田端" distance="7.1" />
+        <station name="上中里" distance="8.8" />
+        <station name="王子" distance="9.9" />
+        <station name="東十条" distance="11.4" />
+        <station name="赤羽" distance="13.2" />
+        <station name="川口" distance="15.8" />
+        <station name="西川口" distance="17.8" />
+        <station name="蕨" distance="19.7" />
+        <station name="南浦和" distance="22.5" />
+        <station name="浦和" distance="24.2" />
+        <station name="北浦和" distance="26.0" />
+        <station name="与野" distance="27.6" />
+        <station name="さいたま新都心" distance="28.7" />
+        <station name="大宮" distance="30.3" />
+        <station name="土呂" distance="33.3" />
+        <station name="東大宮" distance="35.4" />
+        <station name="蓮田" distance="39.2" />
+        <station name="白岡" distance="43.5" />
+        <station name="新白岡" distance="45.9" />
+        <station name="久喜" distance="48.9" />
+        <station name="東鷲宮" distance="51.6" />
+        <station name="栗橋" distance="57.2" />
+        <station name="古河" distance="64.7" />
+        <station name="野木" distance="69.4" />
+        <station name="間々田" distance="73.3" />
+        <station name="小山" distance="80.6" />
+        <station name="小金井" distance="88.1" />
+        <station name="自治医大" distance="90.7" />
+        <station name="石橋" distance="95.4" />
+        <station name="雀宮" distance="101.8" />
+        <station name="宇都宮" distance="109.5" />
+        <station name="岡本" distance="115.7" />
+        <station name="宝積寺" distance="121.2" />
+        <station name="氏家" distance="127.1" />
+        <station name="蒲須坂" distance="131.6" />
+        <station name="片岡" distance="135.5" />
+        <station name="矢板" distance="141.8" />
+        <station name="野崎" distance="146.6" />
+        <station name="西那須野" distance="151.8" />
+        <station name="那須塩原" distance="157.8" />
+        <station name="黒磯" distance="163.3" />
+        <station name="高久" distance="167.3" />
+        <station name="黒田原" distance="171.5" />
+        <station name="豊原" distance="176.7" />
+        <station name="白坂" distance="182" />
+        <station name="新白河" distance="185.4" />
+        <station name="白河" distance="188.2" />
+        <station name="久田野" distance="192.9" />
+        <station name="泉崎" distance="197.4" />
+        <station name="矢吹" distance="203.4" />
+        <station name="鏡石" distance="208.8" />
+        <station name="須賀川" distance="215.1" />
+        <station name="安積永盛" distance="221.8" />
+        <station name="郡山" distance="226.7" />
+        <station name="日和田" distance="232.4" />
+        <station name="五百川" distance="236.9" />
+        <station name="本宮" distance="240.7" />
+        <station name="杉田" distance="246.6" />
+        <station name="二本松" distance="250.3" />
+        <station name="安達" distance="254.5" />
+        <station name="松川" distance="259.5" />
+        <station name="金谷川" distance="264" />
+        <station name="南福島" distance="269.4" />
+        <station name="福島" distance="272.8" />
+        <station name="東福島" distance="278.8" />
+        <station name="伊達" distance="281.9" />
+        <station name="桑折" distance="285.9" />
+        <station name="藤田" distance="289.3" />
+        <station name="貝田" distance="294.9" />
+        <station name="越河" distance="298.6" />
+        <station name="白石" distance="306.8" />
+        <station name="東白石" distance="311" />
+        <station name="北白川" distance="315.3" />
+        <station name="大河原" distance="320.1" />
+        <station name="船岡" distance="323.1" />
+        <station name="槻木" distance="327.7" />
+        <station name="岩沼" distance="334.2" />
+        <station name="館腰" distance="337.9" />
+        <station name="名取" distance="341.4" />
+        <station name="南仙台" distance="344.1" />
+        <station name="太子堂" distance="346.3" />
+        <station name="長町" distance="347.3" />
+        <station name="仙台" distance="351.8" />
+        <station name="東仙台" distance="355.8" />
+        <station name="岩切" distance="359.9" />
+        <station name="陸前山王" distance="362.2" />
+        <station name="国府多賀城" distance="363.5" />
+        <station name="塩釜" distance="365.2" />
+        <station name="松島" distance="375.2" />
+        <station name="愛宕" distance="377.2" />
+        <station name="品井沼" distance="381.6" />
+        <station name="鹿島台" distance="386.6" />
+        <station name="松山町" distance="391.5" />
+        <station name="小牛田" distance="395" />
+        <station name="田尻" distance="401.1" />
+        <station name="瀬峰" distance="407.8" />
+        <station name="梅ケ沢" distance="411.5" />
+        <station name="新田" distance="416.2" />
+        <station name="石越" distance="423.5" />
+        <station name="油島" distance="427" />
+        <station name="花泉" distance="431.2" />
+        <station name="清水原" distance="434.4" />
+        <station name="有壁" distance="437.8" />
+        <station name="一ノ関" distance="445.1" />
+    </official>
+
+    <official name="東北本線（尾久支線）">
+        <station name="日暮里" distance="5.8" />
+        <station name="尾久" distance="8.4" />
+        <station name="赤羽" distance="13.4" />
+    </official>
+
+    <route name="宇都宮・高崎線" code="JU" hide-via="">
+        <section line="東北本線" direction="+" from="東京" to="日暮里" />
+        <section line="東北本線（尾久支線）" direction="+" />
+        <section line="東北本線" direction="+" from="赤羽" to="大宮" />
+
+        <station name="東京" code="01" />
+        <station name="上野" code="02" />
+        <station name="尾久" code="03" />
+        <station name="赤羽" code="04" />
+        <station name="浦和" code="05" />
+        <station name="さいたま新都心" code="06" />
+        <station name="大宮" code="07" />
+    </route>
+
+    <route name="宇都宮線">
+        <section line="宇都宮・高崎線" direction="+" />
+        <section line="東北本線" direction="+" from="大宮" to="黒磯" />
+    </route>
+
+    <!-- <section name="上野東京ライン" line="宇都宮・高崎線" direction="+" from="東京" to="上野" /> -->
+    <section name="上野東京ライン" line="東北本線" direction="+" from="東京" to="上野" />
+</data>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="北陸本線">
+        <station name="米原" distance="0" />
+        <station name="坂田" distance="2.4" />
+        <station name="田村" distance="4.7" />
+        <station name="長浜" distance="7.7" />
+        <station name="虎姫" distance="12.8" />
+        <station name="河毛" distance="15.6" />
+        <station name="高月" distance="18.2" />
+        <station name="木ノ本" distance="22.4" />
+        <station name="余呉" distance="26.5" />
+        <station name="近江塩津" distance="31.4" />
+        <station name="新疋田" distance="39.2" />
+        <station name="敦賀" distance="45.9" />
+        <station name="南今庄" distance="62.5" />
+        <station name="今庄" distance="65.1" />
+        <station name="湯尾" distance="68.7" />
+        <station name="南条" distance="72.2" />
+        <station name="王子保" distance="76.7" />
+        <station name="武生" distance="81" />
+        <station name="鯖江" distance="86.2" />
+        <station name="北鯖江" distance="89.4" />
+        <station name="大土呂" distance="94.1" />
+        <station name="越前花堂" distance="97.3" />
+        <station name="福井" distance="99.9" />
+        <station name="森田" distance="105.8" />
+        <station name="春江" distance="108.1" />
+        <station name="丸岡" distance="111.8" />
+        <station name="芦原温泉" distance="117.6" />
+        <station name="細呂木" distance="121.4" />
+        <station name="牛ノ谷" distance="124.5" />
+        <station name="大聖寺" distance="130.2" />
+        <station name="加賀温泉" distance="134.3" />
+        <station name="動橋" distance="137.5" />
+        <station name="粟津" distance="142.4" />
+        <station name="小松" distance="148.2" />
+        <station name="明峰" distance="151" />
+        <station name="能美根上" distance="154" />
+        <station name="小舞子" distance="157" />
+        <station name="美川" distance="158.8" />
+        <station name="加賀笠間" distance="162.8" />
+        <station name="松任" distance="167.2" />
+        <station name="野々市" distance="170.5" />
+        <station name="西金沢" distance="172.9" />
+        <station name="金沢" distance="176.6" />
+    </official>
+
+    <section line="北陸本線" key="北陸本線1" direction="+" from="米原" to="敦賀" hidden="" code="JR-A" hidden="">
+        <station name="米原" code="12" />
+        <station name="坂田" code="11" />
+        <station name="田村" code="10" />
+        <station name="長浜" code="09" />
+        <station name="虎姫" code="08" />
+        <station name="河毛" code="07" />
+        <station name="高月" code="06" />
+        <station name="木ノ本" code="05" />
+        <station name="余呉" code="04" />
+        <station name="近江塩津" code="03" />
+        <station name="新疋田" code="02" />
+        <station name="敦賀" code="01" />
+    </section>
+
+    <route name="北陸本線" key="北陸本線2">
+        <section line="北陸本線1" direction="+" />
+        <section line="北陸本線" direction="+" from="敦賀" to="金沢" />
+    </route>
+</data>
+
