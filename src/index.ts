@@ -74,7 +74,8 @@ class XMLHandler {
 
             const substance = this.handleStation(stationXML);
             const stationCode1 = stationXML.getAttribute('code');
-            const stationCode = stationCode1 === null ? undefined : lineCode + stationCode1;
+            const stationCode = stationCode1 === null ? undefined :
+                lineCode === null ? stationCode1 : lineCode + stationCode1;
 
             stations.push({ substance, code: stationCode });
         }
@@ -99,9 +100,11 @@ class XMLHandler {
 
         const name = e.getAttribute('name');
         if (name === null) throw new Error();
+        const lineCode: string | null = e.getAttribute('code');
 
         const key: string = e.getAttribute('key') || name;
-        const line = new OfficialLine(name);
+
+        const line = new OfficialLine(name, { code: lineCode });
         this.linesDB.set(key, line);
 
         const stations: {
@@ -115,9 +118,12 @@ class XMLHandler {
             const substance = this.handleStation(stationXML);
             const distanceFromStartString = stationXML.getAttribute('distance');
             const distanceFromStart = distanceFromStartString === null ? null : +distanceFromStartString;
-            const code = stationXML.getAttribute('code');
 
-            stations.push({ substance, distanceFromStart, code });
+            const stationCode1 = stationXML.getAttribute('code');
+            const stationCode = stationCode1 === null ? null :
+                lineCode === null ? stationCode1 : lineCode + stationCode1;
+
+            stations.push({ substance, distanceFromStart, code: stationCode });
         }
         line.setStations(stations);
         return line;
@@ -186,9 +192,9 @@ const a = (line: Line): HTMLElement => {
     const table = document.createElement('table');
     for (const station of line.stations()) {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${station.name()}</td>
+        tr.innerHTML = `<td>${station.code() ? station.code() : ''}</td>
+        <td>${station.name()}</td>
         <td>${station.distanceFromStart()}</td>
-        <td>${station.code() ? station.code() : ''}</td>
         <td>${station.isSeasonal() ? '臨時駅' : ''}</td>`
         table.appendChild(tr);
     }
