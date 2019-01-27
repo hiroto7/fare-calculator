@@ -57,11 +57,11 @@ export default class Section implements Line {
     to() {
         let to: StationOnLine | null;
         if (this.rawTo !== undefined)
-            to = this.rawTo.on(this.line);
+            to = this.rawTo.on(this);
         else if (this.direction === Direction.outbound)
-            to = this.line.to();
+            to = this.line.to().on(this);
         else
-            to = this.line.from();
+            to = this.line.from().on(this);
 
         if (to === null) throw new Error();
         return to;
@@ -91,7 +91,7 @@ export default class Section implements Line {
     private originalIterator(direction: Direction = Direction.outbound,
         { from, to }: { from?: Station, to?: Station } = {}): IterableIterator<StationOnLine> | null {
 
-        return this.line.stations(direction, { from, to });
+        return this.line.stations(this.direction * direction, { from, to });
     }
 
     stations(direction?: Direction): IterableIterator<StationOnLine>
