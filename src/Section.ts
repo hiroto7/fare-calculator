@@ -3,6 +3,9 @@ import Line from "./Line";
 import Station, { StationOnLine, StationOnLine1, StationSubstance } from "./Station";
 
 export default class Section implements Line {
+    private readonly rawName?: string;
+    private readonly rawCode?: string | null;
+    private readonly rawColor?: string | null;
     private readonly line: Line;
     private readonly direction: Direction;
     private readonly rawFrom?: Station;
@@ -10,7 +13,10 @@ export default class Section implements Line {
     private readonly stationsOnLineMap: Map<StationSubstance, StationOnLine>;
     // private set: ReadonlySet<StationOnLine>;
 
-    constructor({ line, direction, from, to, stations = [] }: {
+    constructor({ name, code, color, line, direction, from, to, stations = [] }: {
+        name?: string
+        code?: string | null;
+        color?: string | null;
         line: Line,
         direction: Direction,
         from?: Station,
@@ -21,6 +27,9 @@ export default class Section implements Line {
             code?: string | null;
         }>
     }) {
+        this.rawName = name;
+        this.rawCode = code;
+        this.rawColor = color;
         this.line = line;
         this.direction = direction;
         this.rawFrom = from;
@@ -60,15 +69,15 @@ export default class Section implements Line {
     }
 
     name() {
-        return this.line.name();
+        return this.rawName === undefined ? this.line.name() : this.rawName;
     }
 
     code() {
-        return this.line.code();
+        return this.rawCode === undefined ? this.line.code() : this.rawCode;
     }
 
     color() {
-        return this.line.color();
+        return this.rawColor === undefined ? this.line.color() : this.rawColor;
     }
 
     length() {

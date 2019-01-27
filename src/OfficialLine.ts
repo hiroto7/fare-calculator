@@ -4,9 +4,9 @@ import ReverseIterator from "./ReverseIterator";
 import Station, { StationOnLine1, StationSubstance } from "./Station";
 
 export default class OfficialLine implements Line {
-    private rawName: string;
-    private rawCode: string | null;
-    private rawColor: string | null;
+    private readonly rawName: string;
+    private readonly rawCode: string | null;
+    private readonly rawColor: string | null;
     private rawStations?: ReadonlyArray<StationOnOfficialLine>;
     private stationsOnLineMap?: ReadonlyMap<StationSubstance, StationOnOfficialLine>;
 

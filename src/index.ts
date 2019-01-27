@@ -59,10 +59,12 @@ class XMLHandler {
         const from = fromKey === null ? undefined : this.stationsDB.get(fromKey);
         const to = toKey === null ? undefined : this.stationsDB.get(toKey);
 
-        const section: Section = new Section({ line, direction, from, to });
+        const name1: string | null = e.getAttribute('name');
+        const name: string | undefined = name1 === null ? undefined : name1;
 
-        const name: string | null = e.getAttribute('name');
-        if (name !== null) {
+        const section: Section = new Section({ name, line, direction, from, to });
+
+        if (name !== undefined) {
             const key: string = e.getAttribute('key') || name;
             this.linesDB.set(key, section);
         }
