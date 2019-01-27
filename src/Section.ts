@@ -23,7 +23,6 @@ export default class Section implements Line {
         to?: Station,
         stations?: Iterable<{
             substance: StationSubstance;
-            distanceFromStart: number | null;
             code?: string | null;
         }>
     }) {

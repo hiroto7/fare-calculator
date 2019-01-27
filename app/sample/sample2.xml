@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
+    <section name="東海道線" line="東海道本線" direction="+" code="JT" from="東京" to="熱海">
+        <station name="東京" code="01" />
+        <station name="新橋" code="02" />
+        <station name="品川" code="03" />
+        <station name="川崎" code="04" />
+        <station name="横浜" code="05" />
+        <station name="戸塚" code="06" />
+        <station name="大船" code="07" />
+        <station name="藤沢" code="08" />
+        <station name="辻堂" code="09" />
+        <station name="茅ヶ崎" code="10" />
+        <station name="平塚" code="11" />
+        <station name="大磯" code="12" />
+        <station name="二宮" code="13" />
+        <station name="国府津" code="14" />
+        <station name="鴨宮" code="15" />
+        <station name="小田原" code="16" />
+        <station name="早川" code="17" />
+        <station name="根府川" code="18" />
+        <station name="真鶴" code="19" />
+        <station name="湯河原" code="20" />
+        <station name="熱海" code="21" />
+    </section>
+
     <route name="京浜東北線" code="JK" hide-via="">
         <section line="東北本線" direction="-" from="大宮" to="東京" />
         <section line="東海道本線" direction="+" from="東京" to="横浜" />

@@ -62,7 +62,24 @@ class XMLHandler {
         const name1: string | null = e.getAttribute('name');
         const name: string | undefined = name1 === null ? undefined : name1;
 
-        const section: Section = new Section({ name, line, direction, from, to });
+        const lineCode1: string | null = e.getAttribute('code');
+        const lineCode: string | undefined = lineCode1 === null ? undefined : lineCode1;
+
+        const stations: {
+            substance: StationSubstance,
+            code?: string | null
+        }[] = [];
+        for (const stationXML of Array.from(e.children)) {
+            if (stationXML.tagName !== 'station') continue;
+
+            const substance = this.handleStation(stationXML);
+            const stationCode1 = stationXML.getAttribute('code');
+            const stationCode = stationCode1 === null ? undefined : lineCode + stationCode1;
+
+            stations.push({ substance, code: stationCode });
+        }
+
+        const section: Section = new Section({ name, code: lineCode, line, direction, from, to, stations });
 
         if (name !== undefined) {
             const key: string = e.getAttribute('key') || name;
@@ -118,6 +135,8 @@ class XMLHandler {
             return;
         }
 
+        this.visited.add(url.toString());
+
         const srcText = await (await fetch(url.toString())).text();
         const parser = new DOMParser();
         const srcXml = parser.parseFromString(srcText, 'text/xml');
@@ -161,6 +180,7 @@ const a = (line: Line): HTMLElement => {
     section.innerHTML = `<h1>${line.name()}</h1>
     <p>区間 : ${line.from().name()} - ${line.to().name()}</p>
     <p>営業キロ : ${line.length()}</p>
+    <p>路線記号 : ${line.code()}</p>
     `;
 
     const table = document.createElement('table');
@@ -168,6 +188,7 @@ const a = (line: Line): HTMLElement => {
         const tr = document.createElement('tr');
         tr.innerHTML = `<td>${station.name()}</td>
         <td>${station.distanceFromStart()}</td>
+        <td>${station.code() ? station.code() : ''}</td>
         <td>${station.isSeasonal() ? '臨時駅' : ''}</td>`
         table.appendChild(tr);
     }

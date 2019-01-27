@@ -159,6 +159,48 @@
         <station name="真鶴" distance="95.8" />
         <station name="湯河原" distance="99.1" />
         <station name="熱海" distance="104.6" />
+        <!-- Wikipedia:東海道線_(静岡地区)#駅一覧 -->
+        <station name="函南" distance="114.5" />
+        <station name="三島" distance="120.7" />
+        <station name="沼津" distance="126.2" />
+        <station name="片浜" distance="130.3" />
+        <station name="原" distance="132.8" />
+        <station name="東田子の浦" distance="137.4" />
+        <station name="吉原" distance="141.3" />
+        <station name="富士" distance="146.2" />
+        <station name="富士川" distance="149.7" />
+        <station name="新蒲原" distance="152.5" />
+        <station name="蒲原" distance="154.9" />
+        <station name="由比" distance="158.4" />
+        <station name="興津" distance="164.3" />
+        <station name="清水" distance="169" />
+        <station name="草薙" distance="174.2" />
+        <station name="東静岡" distance="177.7" />
+        <station name="静岡" distance="180.2" />
+        <station name="安倍川" distance="184.5" />
+        <station name="用宗" distance="186.6" />
+        <station name="焼津" distance="193.7" />
+        <station name="西焼津" distance="197" />
+        <station name="藤枝" distance="200.3" />
+        <station name="六合" distance="204.9" />
+        <station name="島田" distance="207.8" />
+        <station name="金谷" distance="212.9" />
+        <station name="菊川" distance="222.2" />
+        <station name="掛川" distance="229.3" />
+        <station name="愛野" distance="234.6" />
+        <station name="袋井" distance="238.1" />
+        <station name="磐田" distance="245.9" />
+        <station name="豊田町" distance="248.8" />
+        <station name="天竜川" distance="252.7" />
+        <station name="浜松" distance="257.1" />
+        <station name="高塚" distance="262.4" />
+        <station name="舞阪" distance="267.5" />
+        <station name="弁天島" distance="269.8" />
+        <station name="新居町" distance="272.9" />
+        <station name="鷲津" distance="276.6" />
+        <station name="新所原" distance="282.4" />
+        <station name="二川" distance="286.7" />
+        <station name="豊橋" distance="293.6" />
     </official>
 
     <official name="常磐線" key="常磐線0">
