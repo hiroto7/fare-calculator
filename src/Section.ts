@@ -141,7 +141,8 @@ export default class Section implements Line {
 
     distance(station1: Station, station2: Station): number | null {
         if (!this.has(station1) || !this.has(station2)) return null;
-        return this.line.distance(station1, station2);
+        const distance = this.line.distance(station1, station2)
+        return distance === null ? null : this.direction * distance;
     }
 
     has(station: Station): boolean {
