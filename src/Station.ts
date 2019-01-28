@@ -99,8 +99,6 @@ export class StationOnLine1 implements StationOnLine {
     }
 
     distanceFromStart(): number | null {
-        return this.line().distance(this.line().from(), this);
+        return this.line().distanceBetween(this.line().from(), this);
     }
 }
-}
-

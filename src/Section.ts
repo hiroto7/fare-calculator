@@ -80,7 +80,7 @@ export default class Section implements Line {
     }
 
     length() {
-        const length = this.line.distance(this.from(), this.to());
+        const length = this.line.distanceBetween(this.from(), this.to());
         if (length === null) throw new Error();
         return this.direction * length;
     }
@@ -139,9 +139,9 @@ export default class Section implements Line {
         return onLine;
     }
 
-    distance(station1: Station, station2: Station): number | null {
+    distanceBetween(station1: Station, station2: Station): number | null {
         if (!this.has(station1) || !this.has(station2)) return null;
-        const distance = this.line.distance(station1, station2)
+        const distance = this.line.distanceBetween(station1, station2)
         return distance === null ? null : this.direction * distance;
     }
 

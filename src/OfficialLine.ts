@@ -125,7 +125,7 @@ export default class OfficialLine implements Line {
     }
 
     length(): number {
-        const length = this.distance(this.from(), this.to());
+        const length = this.distanceBetween(this.from(), this.to());
         if (length === null) throw new Error();
         return length;
     }
@@ -135,9 +135,9 @@ export default class OfficialLine implements Line {
         return this.stationsOnLineMap.get(station.substance()) || null;
     }
 
-    distance(station1: Station, station2: Station): number | null {
-        const station1OnLine = this.onLineOf(station1);
-        const station2OnLine = this.onLineOf(station2);
+    distanceBetween(from: Station, to: Station): number | null {
+        const station1OnLine = this.onLineOf(from);
+        const station2OnLine = this.onLineOf(to);
         if (station1OnLine === null || station2OnLine === null) return null;
 
         const d1 = station1OnLine.distanceFromStart();
