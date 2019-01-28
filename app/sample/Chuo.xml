@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="中央本線">
+        <station name="東京" distance="0" />
+        <station name="神田" distance="1.3" />
+        <station name="御茶ノ水" distance="2.6" />
+        <station name="水道橋" distance="3.4" />
+        <station name="飯田橋" distance="4.3" />
+        <station name="市ケ谷" distance="5.8" />
+        <station name="四ツ谷" distance="6.6" />
+        <station name="信濃町" distance="7.9" />
+        <station name="千駄ケ谷" distance="8.6" />
+        <station name="代々木" distance="9.6" />
+        <station name="新宿" distance="10.3" />
+        <station name="大久保" distance="11.7" />
+        <station name="東中野" distance="12.8" />
+        <station name="中野" distance="14.7" />
+        <station name="高円寺" distance="16.1" />
+        <station name="阿佐ケ谷" distance="17.3" />
+        <station name="荻窪" distance="18.7" />
+        <station name="西荻窪" distance="20.6" />
+        <station name="吉祥寺" distance="22.5" />
+        <station name="三鷹" distance="24.1" />
+        <station name="武蔵境" distance="25.7" />
+        <station name="東小金井" distance="27.4" />
+        <station name="武蔵小金井" distance="29.1" />
+        <station name="国分寺" distance="31.4" />
+        <station name="西国分寺" distance="32.8" />
+        <station name="国立" distance="34.5" />
+        <station name="立川" distance="37.5" />
+        <station name="日野" distance="40.8" />
+        <station name="豊田" distance="43.1" />
+        <station name="八王子" distance="47.4" />
+        <station name="西八王子" distance="49.8" />
+        <station name="高尾" distance="53.1" />
+    </official>
+
+    <section name="中央線快速" direction="+" line="中央本線" from="東京" to="高尾" code="JC">
+        <station name="東京" code="01" />
+        <station name="神田" code="02" />
+        <station name="御茶ノ水" code="03" />
+        <station name="四ツ谷" code="04" />
+        <station name="新宿" code="05" />
+        <station name="中野" code="06" />
+        <station name="高円寺" code="07" />
+        <station name="阿佐ケ谷" code="08" />
+        <station name="荻窪" code="09" />
+        <station name="西荻窪" code="10" />
+        <station name="吉祥寺" code="11" />
+        <station name="三鷹" code="12" />
+        <station name="武蔵境" code="13" />
+        <station name="東小金井" code="14" />
+        <station name="武蔵小金井" code="15" />
+        <station name="国分寺" code="16" />
+        <station name="西国分寺" code="17" />
+        <station name="国立" code="18" />
+        <station name="立川" code="19" />
+        <station name="日野" code="20" />
+        <station name="豊田" code="21" />
+        <station name="八王子" code="22" />
+        <station name="西八王子" code="23" />
+        <station name="高尾" code="24" />
+    </section>
+</data>
