@@ -46,7 +46,7 @@
         <station name="金沢" distance="176.6" />
     </official>
 
-    <section line="北陸本線" key="北陸本線1" direction="+" from="米原" to="敦賀" hidden="" code="JR-A" hidden="">
+    <section line="北陸本線" name="北陸本線" key="北陸本線1" direction="+" from="米原" to="敦賀" hidden="" code="JR-A">
         <station name="米原" code="12" />
         <station name="坂田" code="11" />
         <station name="田村" code="10" />

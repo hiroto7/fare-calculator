@@ -183,7 +183,7 @@
         <station name="熱海" code="21" />
     </section>
 
-    <section key="東海道本線（JR東海）" line="東海道本線" direction="+" code="CA" from="熱海" to="米原" hidden="">
+    <section name="東海道本線" key="東海道本線（JR東海）" line="東海道本線" direction="+" code="CA" from="熱海" to="米原" hidden="">
         <!-- Wikipedia:東海道線_(静岡地区)#駅一覧 -->
         <station name="熱海" code="00" />
         <station name="函南" code="01" />
