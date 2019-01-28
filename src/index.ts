@@ -129,6 +129,14 @@ class XMLHandler {
         return line;
     }
 
+    async import(url: URL) {
+        const srcText = await (await fetch(url.toString())).text();
+        const parser = new DOMParser();
+        const srcXML = parser.parseFromString(srcText, 'text/xml');
+
+        await this.handleXMLData(srcXML.children[0], url);
+    }
+
     async handleImport(e: Element, baseURL: URL) {
         if (e.tagName !== 'import') throw new Error();
 
@@ -142,13 +150,7 @@ class XMLHandler {
         }
 
         this.visited.add(url.toString());
-
-        const srcText = await (await fetch(url.toString())).text();
-        const parser = new DOMParser();
-        const srcXml = parser.parseFromString(srcText, 'text/xml');
-        console.log(srcXml);
-
-        await this.handleXMLData(srcXml.children[0], baseURL);
+        await this.import(url);
     }
 
     async handleXMLData(data: Element, baseURL: URL) {
@@ -169,7 +171,7 @@ class XMLHandler {
                     break;
 
                 case 'route':
-                    this.handleRouteLine(child);
+                    // this.handleRouteLine(child);
                     break;
 
                 case 'section':
@@ -204,14 +206,9 @@ const a = (line: Line): HTMLElement => {
 }
 
 (async () => {
-    const indexXML = new URL('./sample/index.xml', location.href);
-    const text = await (await fetch(indexXML.toString())).text();
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(text, 'text/xml');
-    console.log(xml);
-
     const handler = new XMLHandler();
-    await handler.handleXMLData(xml.children[0], indexXML);
+    const indexURL = new URL('./sample/index.xml', location.href);
+    await handler.import(indexURL);
     console.log(handler);
 
     const linesDB = handler.linesDB;
