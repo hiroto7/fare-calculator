@@ -47,11 +47,16 @@ export default class OfficialLine implements Line {
         return this.rawColor;
     }
 
-    stations(direction?: Direction): IterableIterator<StationOnOfficialLine>;
-    stations(direction: Direction,
-        { from, to }: { from?: Station; to?: Station; }): IterableIterator<StationOnOfficialLine> | null;
-    stations(direction: Direction = Direction.outbound,
-        { from, to }: { from?: Station; to?: Station; } = {}): IterableIterator<StationOnOfficialLine> | null {
+    stations(direction: Direction = Direction.outbound): IterableIterator<StationOnOfficialLine> {
+        if (this.rawStations === undefined) throw new Error();
+
+        if (direction === Direction.outbound)
+            return this.rawStations[Symbol.iterator]();
+        else
+            return new ReverseIterator(this.rawStations);
+    }
+
+    stationsBetween(from: Station, to: Station, direction: Direction = Direction.outbound): IterableIterator<StationOnOfficialLine> | null {
 
         if (this.rawStations === undefined) throw new Error();
 

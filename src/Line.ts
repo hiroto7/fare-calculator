@@ -7,7 +7,7 @@ export default interface Line {
     color(): string | null;
     length(): number;
     stations(direction?: Direction): IterableIterator<StationOnLine>;
-    stations(direction: Direction, { from, to }: { from?: Station, to?: Station }): IterableIterator<StationOnLine> | null;
+    stationsBetween(from: Station, to: Station, direction?: Direction): IterableIterator<StationOnLine> | null;
     from(): StationOnLine;
     to(): StationOnLine;
     onLineOf(station: Station): StationOnLine | null;

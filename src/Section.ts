@@ -85,44 +85,27 @@ export default class Section implements Line {
         return this.direction * length;
     }
 
-    private originalIterator(direction?: Direction): IterableIterator<StationOnLine>
-    private originalIterator(direction: Direction,
-        { from, to }: { from?: Station, to?: Station }): IterableIterator<StationOnLine> | null
-    private originalIterator(direction: Direction = Direction.outbound,
-        { from, to }: { from?: Station, to?: Station } = {}): IterableIterator<StationOnLine> | null {
-
-        return this.line.stations(this.direction * direction, { from, to });
+    private originalStations(direction: Direction = Direction.outbound): IterableIterator<StationOnLine> {
+        if (this.rawFrom === undefined && this.rawTo === undefined)
+            return this.line.stations(this.direction * direction);
+        else {
+            const stations = this.line.stationsBetween(this.rawFrom || this.line.from(), this.rawTo || this.line.to(), this.direction * direction);
+            if (stations === null) throw Error();
+            return stations;
+        }
     }
 
-    stations(direction?: Direction): IterableIterator<StationOnLine>
-    stations(direction: Direction,
-        { from, to }: { from?: Station, to?: Station }): IterableIterator<StationOnLine> | null
-    stations(direction: Direction = Direction.outbound,
-        { from, to }: { from?: Station, to?: Station } = {}): IterableIterator<StationOnLine> | null {
+    private originalStationsBetween(from: Station, to: Station, direction: Direction = Direction.outbound): IterableIterator<StationOnLine> | null {
+        return this.line.stationsBetween(from, to, this.direction * direction);
+    }
 
-        if (from === undefined) {
-            if (direction === Direction.outbound)
-                from = this.from();
-            else
-                from = this.to();
-        }
-        if (to === undefined) {
-            if (direction === Direction.outbound)
-                to = this.to();
-            else
-                to = this.from();
-        }
+    stations(direction: Direction = Direction.outbound): IterableIterator<StationOnLine> {
+        return this.originalStations(direction);
+    }
 
-        const stations = this.originalIterator(direction, { from, to });
-
-        if (stations === null) {
-            if (direction === Direction.outbound && from === this.from() && to === this.to() ||
-                direction === Direction.inbound && from === this.to() && to === this.from())
-                throw new Error();
-
-            return null;
-        }
-
+    stationsBetween(from: Station, to: Station, direction: Direction = Direction.outbound): IterableIterator<StationOnLine> | null {
+        const stations = this.originalStationsBetween(from, to, direction);
+        if (stations === null) return null;
         return new SectionIterator(this, stations);
     }
 
@@ -131,7 +114,7 @@ export default class Section implements Line {
         let onLine: StationOnLine | undefined = this.stationsOnLineMap.get(substance);
 
         if (onLine === undefined) {
-            if (!new Set(this.originalIterator()).has(station.on(this.line)!)) return null;
+            if (!new Set(this.originalStations()).has(station.on(this.line)!)) return null;
             onLine = new StationOnLine1({ line: this, substance, code: null });
             this.stationsOnLineMap.set(substance, onLine);
         }
