@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="中央本線">
-        <station name="東京" distance="0" />
+    <official name="中央本線（神田〜代々木）">
+        <!-- Wikipedia:中央線快速#駅一覧 -->
         <station name="神田" distance="1.3" />
         <station name="御茶ノ水" distance="2.6" />
         <station name="水道橋" distance="3.4" />
@@ -11,6 +11,10 @@
         <station name="信濃町" distance="7.9" />
         <station name="千駄ケ谷" distance="8.6" />
         <station name="代々木" distance="9.6" />
+    </official>
+
+    <official name="中央本線（新宿〜金山）">
+        <!-- Wikipedia:中央線快速#駅一覧 -->
         <station name="新宿" distance="10.3" />
         <station name="大久保" distance="11.7" />
         <station name="東中野" distance="12.8" />
@@ -33,9 +37,104 @@
         <station name="八王子" distance="47.4" />
         <station name="西八王子" distance="49.8" />
         <station name="高尾" distance="53.1" />
+        <!-- Wikipedia:中央本線#駅一覧 -->
+        <station name="相模湖" distance="62.6" />
+        <station name="藤野" distance="66.3" />
+        <station name="上野原" distance="69.8" />
+        <station name="四方津" distance="74" />
+        <station name="梁川" distance="77.6" />
+        <station name="鳥沢" distance="81.2" />
+        <station name="猿橋" distance="85.3" />
+        <station name="大月" distance="87.8" />
+        <station name="初狩" distance="93.9" />
+        <station name="笹子" distance="100.4" />
+        <station name="甲斐大和" distance="106.5" />
+        <station name="勝沼ぶどう郷" distance="112.5" />
+        <station name="塩山" distance="116.9" />
+        <station name="東山梨" distance="120.1" />
+        <station name="山梨市" distance="122.2" />
+        <station name="春日居町" distance="125" />
+        <station name="石和温泉" distance="127.8" />
+        <station name="酒折" distance="131.2" />
+        <station name="甲府" distance="134.1" />
+        <station name="竜王" distance="138.6" />
+        <station name="塩崎" distance="142.7" />
+        <station name="韮崎" distance="147" />
+        <station name="新府" distance="151.2" />
+        <station name="穴山" distance="154.7" />
+        <station name="日野春" distance="160.1" />
+        <station name="長坂" distance="166.3" />
+        <station name="小淵沢" distance="173.7" />
+        <station name="信濃境" distance="178.2" />
+        <station name="富士見" distance="182.9" />
+        <station name="すずらんの里" distance="186.1" />
+        <station name="青柳" distance="188" />
+        <station name="茅野" distance="195.2" />
+        <station name="上諏訪" distance="201.9" />
+        <station name="下諏訪" distance="206.3" />
+        <station name="岡谷" distance="210.4" />
+        <station name="みどり湖" distance="218.2" />
+        <station name="塩尻" distance="222.1" />
+        <station name="洗馬" distance="226.3" />
+        <station name="日出塩" distance="231" />
+        <station name="贄川" distance="236.2" />
+        <station name="木曽平沢" distance="241.4" />
+        <station name="奈良井" distance="243.2" />
+        <station name="藪原" distance="249.8" />
+        <station name="宮ノ越" distance="255.5" />
+        <station name="原野" distance="258.3" />
+        <station name="木曽福島" distance="263.8" />
+        <station name="上松" distance="271.1" />
+        <station name="倉本" distance="277.7" />
+        <station name="須原" distance="282.5" />
+        <station name="大桑" distance="285.8" />
+        <station name="野尻" distance="288.8" />
+        <station name="十二兼" distance="292.5" />
+        <station name="南木曽" distance="298" />
+        <station name="田立" distance="304.3" />
+        <station name="坂下" distance="307.1" />
+        <station name="落合川" distance="313.2" />
+        <station name="中津川" distance="317" />
+        <!-- Wikipedia:中央線_(名古屋地区)#駅一覧 -->
+        <station name="美乃坂本" distance="323.4" />
+        <station name="恵那" distance="328.6" />
+        <station name="武並" distance="334" />
+        <station name="釜戸" distance="339.4" />
+        <station name="瑞浪" distance="346.8" />
+        <station name="土岐市" distance="353.7" />
+        <station name="多治見" distance="360.7" />
+        <station name="古虎渓" distance="365.3" />
+        <station name="定光寺" distance="368.8" />
+        <station name="高蔵寺" distance="372.9" />
+        <station name="神領" distance="376.1" />
+        <station name="春日井" distance="378.8" />
+        <station name="勝川" distance="381.9" />
+        <station name="新守山" distance="384.6" />
+        <station name="大曽根" distance="387.1" />
+        <station name="千種" distance="389.8" />
+        <station name="鶴舞" distance="391.3" />
+        <station name="金山" distance="393.6" />
     </official>
 
-    <section name="中央線快速" direction="+" line="中央本線" from="東京" to="高尾" code="JC">
+    <official name="中央本線（辰野支線）">
+        <station name="岡谷" distance="0.0" />
+        <station name="川岸" distance="3.5" />
+        <station name="辰野" distance="9.5" />
+        <station name="信濃川島" distance="13.8" />
+        <station name="小野" distance="17.8" />
+        <station name="塩尻" distance="27.7" />
+    </official>
+
+    <!-- 東北本線 -->
+    <import src="./Tohoku.xml" />
+    <!-- 山手線 -->
+    <import src="./Yamanote.xml" />
+    <route name="中央線快速" direction="+" code="JC" hides-via="" hidden="">
+        <section line="東北本線" direction="+" from="東京" to="神田" />
+        <section line="中央本線（神田〜代々木）" direction="+" from="神田" to="代々木" />
+        <section line="山手線" direction="+" from="代々木" to="新宿" />
+        <section line="中央本線（代々木〜金山）" direction="+" from="新宿" to="高尾" />
+
         <station name="東京" code="01" />
         <station name="神田" code="02" />
         <station name="御茶ノ水" code="03" />
@@ -60,5 +159,42 @@
         <station name="八王子" code="22" />
         <station name="西八王子" code="23" />
         <station name="高尾" code="24" />
-    </section>
+    </route>
+
+    <!-- 東海道本線 -->
+    <import src="./Tokaido.xml" />
+    <route name="中央本線" key="中央本線（JR東海）" code="CF" hides-via="" hidden="">
+        <section line="東海道本線" direction="-" from="名古屋" to="金山" />
+        <section line="中央本線" direction="-" from="金山" to="塩尻" />
+
+        <station name="名古屋" code="00" />
+        <station name="金山" code="01" />
+        <station name="鶴舞" code="02" />
+        <station name="千種" code="03" />
+        <station name="大曽根" code="04" />
+        <station name="新守山" code="05" />
+        <station name="勝川" code="06" />
+        <station name="春日井" code="07" />
+        <station name="神領" code="08" />
+        <station name="高蔵寺" code="09" />
+        <station name="定光寺" code="10" />
+        <station name="古虎渓" code="11" />
+        <station name="多治見" code="12" />
+        <station name="土岐市" code="13" />
+        <station name="瑞浪" code="14" />
+        <station name="釜戸" code="15" />
+        <station name="武並" code="16" />
+        <station name="恵那" code="17" />
+        <station name="美乃坂本" code="18" />
+        <station name="中津川" code="19" />
+        <station name="南木曽" code="23" />
+        <station name="上松" code="29" />
+        <station name="木曽福島" code="30" />
+    </route>
+
+    <route name="中央本線" key="中央本線2">
+        <section line="中央線快速" direction="+" />
+        <section line="中央本線（新宿〜金山）" direction="+" from="高尾" to="塩尻" />
+        <section line="中央本線（JR東海）" direction="-" />
+    </route>
 </data>
