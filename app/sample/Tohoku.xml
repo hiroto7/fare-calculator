@@ -121,7 +121,7 @@
         <station name="赤羽" distance="13.4" />
     </official>
 
-    <route name="宇都宮・高崎線" code="JU" hide-via="" hidden="">
+    <route name="宇都宮・高崎線" code="JU" hides-via="" hidden="">
         <section line="東北本線" direction="+" from="東京" to="日暮里" />
         <section line="東北本線（尾久支線）" direction="+" />
         <section line="東北本線" direction="+" from="赤羽" to="大宮" />

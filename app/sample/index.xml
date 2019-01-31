@@ -10,8 +10,10 @@
     <import src="./Joban.xml" />
     <!-- 上野東京ライン -->
     <import src="./Ueno-Tokyo-Line.xml" />
+    <!-- 山手線 -->
+    <import src="./Yamanote.xml" />
 
-    <route name="京浜東北線" code="JK" hide-via="">
+    <route name="京浜東北線" code="JK" hides-via="">
         <section line="東北本線" direction="-" from="大宮" to="東京" />
         <section line="東海道本線" direction="+" from="東京" to="横浜" />
     </route>

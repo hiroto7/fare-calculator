@@ -83,7 +83,7 @@
         <station name="岩沼" distance="343.7" />
     </official>
 
-    <route name="常磐線快速" code="JJ" hide-via="" hidden="">
+    <route name="常磐線快速" code="JJ" hides-via="" hidden="">
         <section line="東北本線" direction="+" from="上野" to="日暮里" />
         <section line="常磐線" direction="+" from="日暮里" to="取手" />
         <station name="上野" code="01" />
@@ -98,7 +98,7 @@
         <station name="取手" code="10" />
     </route>
 
-    <route name="常磐線" key="常磐線2" hide-via="" hidden="">
+    <route name="常磐線" key="常磐線2" hides-via="" hidden="">
         <section line="常磐線" direction="+" from="取手" to="岩沼" />
         <section line="東北本線" direction="+" from="岩沼" to="仙台" />
     </route>
