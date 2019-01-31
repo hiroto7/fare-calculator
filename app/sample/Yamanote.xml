@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="山手線">
+        <station name="品川" distance="-27.7" />
+        <station name="大崎" distance="-25.7" />
+        <station name="五反田" distance="-24.8" />
+        <station name="目黒" distance="-23.6" />
+        <station name="恵比寿" distance="-22.1" />
+        <station name="渋谷" distance="-20.5" />
+        <station name="原宿" distance="-19.3" />
+        <station name="代々木" distance="-17.8" />
+        <station name="新宿" distance="-17.1" />
+        <station name="新大久保" distance="-15.8" />
+        <station name="高田馬場" distance="-14.4" />
+        <station name="目白" distance="-13.5" />
+        <station name="池袋" distance="-12.3" />
+        <station name="大塚" distance="-10.5" />
+        <station name="巣鴨" distance="-9.4" />
+        <station name="駒込" distance="-8.7" />
+        <station name="田端" distance="-7.1" />
+    </official>
+
+    <!-- 東北本線 -->
+    <import src="./Tohoku.xml" />
+    <!-- 東海道本線 -->
+    <import src="./Tokaido.xml" />
+    <route name="山手線1" code="JY" hides-via="">
+        <section line="東北本線" direction="+" from="東京" to="田端" />
+        <section line="山手線" direction="-" />
+        <section line="東海道本線" direction="-" from="品川" to="東京" />
+
+        <station name="東京" code="01" />
+        <station name="神田" code="02" />
+        <station name="秋葉原" code="03" />
+        <station name="御徒町" code="04" />
+        <station name="上野" code="05" />
+        <station name="鶯谷" code="06" />
+        <station name="日暮里" code="07" />
+        <station name="西日暮里" code="08" />
+        <station name="田端" code="09" />
+        <station name="駒込" code="10" />
+        <station name="巣鴨" code="11" />
+        <station name="大塚" code="12" />
+        <station name="池袋" code="13" />
+        <station name="目白" code="14" />
+        <station name="高田馬場" code="15" />
+        <station name="新大久保" code="16" />
+        <station name="新宿" code="17" />
+        <station name="代々木" code="18" />
+        <station name="原宿" code="19" />
+        <station name="渋谷" code="20" />
+        <station name="恵比寿" code="21" />
+        <station name="目黒" code="22" />
+        <station name="五反田" code="23" />
+        <station name="大崎" code="24" />
+        <station name="品川" code="25" />
+        <station name="田町" code="27" />
+        <station name="浜松町" code="28" />
+        <station name="新橋" code="29" />
+        <station name="有楽町" code="30" />
+    </route>
+</data>
