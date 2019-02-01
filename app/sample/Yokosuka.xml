@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="横須賀線" code="JO">
+        <station name="大船" code="09" distance="0" />
+        <station name="北鎌倉" code="08" distance="2.3" />
+        <station name="鎌倉" code="07" distance="4.5" />
+        <station name="逗子" code="06" distance="8.4" />
+        <station name="東逗子" code="05" distance="10.4" />
+        <station name="田浦" code="04" distance="13.8" />
+        <station name="横須賀" code="03" distance="15.9" />
+        <station name="衣笠" code="02" distance="19.3" />
+        <station name="久里浜" code="01" distance="23.9" />
+    </official>
+
+    <official name="品鶴線">
+        <station name="品川" distance="0" />
+        <station name="西大井" distance="3.6" />
+        <station name="武蔵小杉" distance="10" />
+        <station name="新川崎" distance="12.7" />
+        <station name="鶴見" distance="17.8" />
+    </official>
+
+    <route name="横須賀線" key="横須賀線1" code="JO" hides-via="">
+        <section line="東海道本線" direction="+" from="東京" to="品川" />
+        <section line="品鶴線" direction="+" />
+        <section line="東海道本線" direction="+" from="鶴見" to="大船" />
+        <section line="横須賀線" direction="+" />
+
+        <station name="東京" code="19" />
+        <station name="新橋" code="18" />
+        <station name="品川" code="17" />
+        <station name="西大井" code="16" />
+        <station name="武蔵小杉" code="15" />
+        <station name="新川崎" code="14" />
+        <station name="横浜" code="13" />
+        <station name="保土ケ谷" code="12" />
+        <station name="東戸塚" code="11" />
+        <station name="戸塚" code="10" />
+        <station name="大船" code="09" />
+    </route>
+</data>
