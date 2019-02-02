@@ -106,7 +106,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
     }
 
     *codesOf(station: Station): IterableIterator<string> {
-        const stationOnLine = station.on(this);
+        const stationOnLine = this.onLineOf(station);
         if (stationOnLine === null) throw new Error();
         const code = this.codeOf(stationOnLine);
         if (code === undefined) {
