@@ -20,7 +20,7 @@ export interface StationSubstance extends Station {
 
 export interface StationOnLine extends Station {
     line(): Line;
-    code(): string | null;
+    codes(): IterableIterator<string>;
     distanceFromStart(): number | null;
 }
 
