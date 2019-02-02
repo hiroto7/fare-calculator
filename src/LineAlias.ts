@@ -55,10 +55,6 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
 }
 
 class StationOnLineAlias implements StationOnLine {
-    static isStationOnLineAlias(station: any): station is StationOnLineAlias {
-        return StationOnLine.isStationOnLine(station) && 'station' in station;
-    }
-
     private rawLine: LineAlias;
     private rawOriginalStation: StationOnLine;
 
@@ -77,10 +73,6 @@ class StationOnLineAlias implements StationOnLine {
     *codes(): IterableIterator<string> { yield* this.originalStation().codes(); }
     distanceFromStart(): number | null { return this.originalStation().distanceFromStart(); }
     substance(): StationSubstance { return this.originalStation().substance(); }
-
-    *children(): IterableIterator<StationOnLine> {
-        yield this.originalStation();
-    }
 
     on(line: Line): StationOnLine | null {
         if (line === this.line())
