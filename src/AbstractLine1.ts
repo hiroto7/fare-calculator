@@ -17,6 +17,8 @@ export default abstract class AbstractLine1<SOL extends StationOnLine = StationO
     protected abstract readonly rawStations: ReadonlyArray<SOL>;
     protected abstract readonly stationsOnLineMap: ReadonlyMap<StationSubstance, SOL>;
 
+    protected abstract isSOL(station: Station): station is SOL;
+
     *stations(direction: Direction = outbound): IterableIterator<SOL> {
         if (direction === outbound) {
             for (let i = 0; i < this.rawStations.length; i++)
@@ -30,8 +32,8 @@ export default abstract class AbstractLine1<SOL extends StationOnLine = StationO
     from(): SOL { return this.rawStations[0]; }
     to(): SOL { return this.rawStations[this.rawStations.length - 1]; }
 
-    onLineOf(station: Station): StationOnLine | null {
-        if (StationOnLine.isStationOnLine(station) && station.line() === this) {
+    onLineOf(station: Station): SOL | null {
+        if (this.isSOL(station) && station.line() === this) {
             return station;
         } else {
             const station1 = this.stationsOnLineMap.get(station.substance());

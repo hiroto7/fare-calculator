@@ -14,6 +14,8 @@ export default class RouteLine extends AbstractLine1<StationOnLine10> {
     private readonly rawName: string;
     private readonly rawCode?: string | null;
 
+    protected isSOL(station: Station): station is StationOnLine10 { return station instanceof StationOnLine10; }
+
     constructor({ name, code, children, stationCodesMap = [] }: {
         name: string,
         code?: string | null;
@@ -96,7 +98,7 @@ export default class RouteLine extends AbstractLine1<StationOnLine10> {
             yield code;
         }
     }
-    
+
     codeOf(station: Station): string | null | undefined {
         const stationOnLine = station.on(this);
         if (stationOnLine === null) return null;

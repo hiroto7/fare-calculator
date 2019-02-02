@@ -9,6 +9,8 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
     protected readonly rawStations: ReadonlyArray<StationOnLineAlias>;
     protected readonly stationsOnLineMap: ReadonlyMap<StationSubstance, StationOnLineAlias>;
 
+    protected isSOL(station: Station): station is StationOnLineAlias { return station instanceof StationOnLineAlias; }
+
     constructor(line: Line) {
         super();
         this.rawOriginalLine = line;
@@ -32,15 +34,6 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
     length(): number { return this.originalLine().length(); }
     codeOf(station: Station): string | null | undefined { return this.originalLine().codeOf(station); }
     *codesOf(station: Station): IterableIterator<string> { yield* this.originalLine().codesOf(station); }
-
-    onLineOf(station: Station): StationOnLineAlias | null {
-        if (StationOnLineAlias.isStationOnLineAlias(station) && station.line() === this) {
-            return station;
-        } else {
-            const station1 = this.stationsOnLineMap.get(station.substance());
-            return station1 === undefined ? null : station1;
-        }
-    }
 
     distanceBetween(from: Station, to: Station, direction: Direction): number | null {
         const from1 = this.onLineOf(from);
