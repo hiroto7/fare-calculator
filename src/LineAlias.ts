@@ -52,12 +52,12 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
 
     has(station: Station): boolean { return this.onLineOf(station) !== null; }
 
-    *childrenBetween(from: Station, to: Station, direction: Direction): IterableIterator<Line> {
+    sectionBetween(from: Station, to: Station, direction: Direction): Line {
         const from1 = this.onLineOf(from);
         const to1 = this.onLineOf(to);
-        if (from1 === null || to1 === null) return null;
+        if (from1 === null || to1 === null) throw new Error();
 
-        yield* this.originalLine().childrenBetween(from1.originalStation(), to1.originalStation(), direction);
+        return this.originalLine().sectionBetween(from1.originalStation(), to1.originalStation(), direction);
     }
 }
 

@@ -3,7 +3,7 @@ import { Direction, outbound } from "./Direction";
 import Station, { StationOnLine, StationSubstance } from "./Station";
 import LineAlias from "./LineAlias";
 import AbstractLine1 from "./AbstractLine1";
-import Section from "./Section";
+import SectionOnRouteLine from "./SectionOnRouteLine";
 
 export default class RouteLine extends AbstractLine1<StationOnLine10> {
     protected readonly rawStations: ReadonlyArray<StationOnLine10>;
@@ -197,34 +197,35 @@ export default class RouteLine extends AbstractLine1<StationOnLine10> {
         if (fromLineIndex === toLineIndex) {
             const lineIndex = fromLineIndex;
             const child = this.rawChildren[lineIndex];
-            yield new Section({ line: child, from: fromChild, to: toChild, direction });
+            yield child.sectionBetween(fromChild, toChild, direction);
         } else {
             {
                 const child = this.rawChildren[fromLineIndex];
-                yield new Section({
-                    line: child,
-                    from: fromChild,
-                    to: direction === outbound ? child.to() : child.from(),
+                yield child.sectionBetween(
+                    fromChild,
+                    direction === outbound ? child.to() : child.from(),
                     direction
-                });
+                );
             }
             for (let i = fromLineIndex + direction; direction * i < direction * toLineIndex; direction++) {
                 const child = this.rawChildren[i];
                 yield direction === outbound ?
-                    new Section({ line: child, from: child.from(), to: child.to(), direction }) :
-                    new Section({ line: child, from: child.to(), to: child.from(), direction });
+                    child.sectionBetween(child.from(), child.to(), direction) :
+                    child.sectionBetween(child.to(), child.from(), direction);
             }
             {
                 const child = this.rawChildren[toLineIndex];
-                yield new Section({
-                    line: child,
-                    from: direction === outbound ? child.from() : child.to(),
-                    to: toChild,
+                yield child.sectionBetween(
+                    direction === outbound ? child.from() : child.to(),
+                    toChild,
                     direction
-                });
-
+                );
             }
         }
+    }
+
+    sectionBetween(from: StationOnLine, to: StationOnLine, direction: Direction): Line {
+        return new SectionOnRouteLine({ line: this, from, to, direction });
     }
 
     codeOf(station: Station): string | null | undefined {

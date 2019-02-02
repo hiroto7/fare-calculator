@@ -1,16 +1,16 @@
+
 import { Direction } from "./Direction";
-import Line from "./Line";
 import RouteLine from "./RouteLine";
 import Station from "./Station";
 
-export default class Section extends RouteLine {
-    private readonly line: Line;
+export default class SectionOnRouteLine extends RouteLine {
+    private readonly line: RouteLine;
 
     constructor({ name, code, line, from, to, direction, stationCodesMap }: {
         name?: string,
         code?: string | null,
         stationCodesMap?: Iterable<[Station, string | null]>
-        line: Line,
+        line: RouteLine,
         from: Station,
         to: Station,
         direction: Direction

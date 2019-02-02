@@ -2,7 +2,7 @@ import Line from "./Line";
 import { outbound, Direction } from "./Direction";
 import Station, { StationOnLine, StationSubstance } from "./Station";
 
-export default abstract class AbstractLine1<SOL extends StationOnLine> implements Line {
+export default abstract class AbstractLine1<SOL extends StationOnLine = StationOnLine> implements Line {
     abstract name(): string;
     // abstract color(): string | null;
     abstract code(): string | null | undefined;
@@ -11,7 +11,8 @@ export default abstract class AbstractLine1<SOL extends StationOnLine> implement
     abstract codeOf(station: Station): string | null | undefined;
     abstract codesOf(station: Station): IterableIterator<string>;
     abstract distanceBetween(from: Station, to: Station, direction: Direction): number | null;
-    abstract childrenBetween(from: Station, to: Station, direction: Direction): IterableIterator<Line>;
+    // abstract childrenBetween(from: Station, to: Station, direction: Direction): IterableIterator<Line>;
+    abstract sectionBetween(from: Station, to: Station, direction: Direction): Line;
 
     protected abstract readonly rawStations: ReadonlyArray<SOL>;
     protected abstract readonly stationsOnLineMap: ReadonlyMap<StationSubstance, SOL>;
