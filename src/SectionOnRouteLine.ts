@@ -1,4 +1,3 @@
-
 import { Direction } from "./Direction";
 import RouteLine from "./RouteLine";
 import Station from "./Station";
@@ -22,6 +21,14 @@ export default class SectionOnRouteLine extends RouteLine {
             stationCodesMap
         });
         this.line = line;
+    }
+
+    code(): string | null | undefined {
+        const code = super.code();
+        if (code === undefined)
+            return this.line.code();
+        else
+            return code;
     }
 
     codeOf(station: Station): string | null | undefined {

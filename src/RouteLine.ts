@@ -84,9 +84,34 @@ export default class RouteLine extends AbstractLine1<StationOnLine10> {
                         codes.add(code);
                 }
             } else {
-                for (let i = this.rawChildren.length; i > 0; i--)
+                for (let i = this.rawChildren.length; i > 0; i--) {
                     for (const code of this.rawChildren[i - 1].codes(direction))
                         codes.add(code);
+                }
+            }
+            yield* codes;
+        } else if (code === null) {
+            return;
+        } else {
+            yield code;
+        }
+    }
+    
+    codeOf(station: Station): string | null | undefined {
+        const stationOnLine = station.on(this);
+        if (stationOnLine === null) return null;
+        return this.stationCodesMap.get(stationOnLine);
+    }
+
+    *codesOf(station: Station): IterableIterator<string> {
+        const stationOnLine = station.on(this);
+        if (stationOnLine === null) throw new Error();
+        const code = this.codeOf(stationOnLine);
+        if (code === undefined) {
+            const codes: Set<string> = new Set();
+            for (const child of stationOnLine.children()) {
+                for (const code of child.codes())
+                    codes.add(code);
             }
             yield* codes;
         } else if (code === null) {
@@ -226,30 +251,6 @@ export default class RouteLine extends AbstractLine1<StationOnLine10> {
 
     sectionBetween(from: StationOnLine, to: StationOnLine, direction: Direction): Line {
         return new SectionOnRouteLine({ line: this, from, to, direction });
-    }
-
-    codeOf(station: Station): string | null | undefined {
-        const stationOnLine = station.on(this);
-        if (stationOnLine === null) return null;
-        return this.stationCodesMap.get(stationOnLine);
-    }
-
-    *codesOf(station: Station): IterableIterator<string> {
-        const stationOnLine = station.on(this);
-        if (stationOnLine === null) throw new Error();
-        const code = this.codeOf(stationOnLine);
-        if (code === undefined) {
-            const codes: Set<string> = new Set();
-            for (const child of stationOnLine.children()) {
-                for (const code of child.codes())
-                    codes.add(code);
-            }
-            yield* codes;
-        } else if (code === null) {
-            return;
-        } else {
-            yield code;
-        }
     }
 }
 
