@@ -26,7 +26,7 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
     originalLine(): Line { return this.rawOriginalLine; }
 
     name(): string { return this.originalLine().name(); }
-    color(): string | null { return this.originalLine().color(); }
+    // color(): string | null { return this.originalLine().color(); }
     *codes(direction?: Direction): IterableIterator<string> { yield* this.originalLine().codes(direction); }
     length(): number { return this.originalLine().length(); }
     *codeOf(station: Station): IterableIterator<string> { yield* this.originalLine().codeOf(station); }
@@ -40,12 +40,12 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
         }
     }
 
-    distanceBetween(from: Station, to: Station): number | null {
+    distanceBetween(from: Station, to: Station, direction: Direction): number | null {
         const from1 = this.onLineOf(from);
         const to1 = this.onLineOf(to);
         if (from1 === null || to1 === null) return null;
 
-        return this.originalLine().distanceBetween(from1.originalStation(), to1.originalStation());
+        return this.originalLine().distanceBetween(from1.originalStation(), to1.originalStation(), direction);
     }
 
     has(station: Station): boolean { return this.onLineOf(station) !== null; }

@@ -3,14 +3,16 @@ import Station, { StationOnLine } from "./Station";
 
 export default interface Line {
     name(): string;
-    code(): string | null;
-    color(): string | null;
-    length(): number;
+    // color(): string | null;
+    codes(direction?: Direction): IterableIterator<string>;
     stations(direction?: Direction): IterableIterator<StationOnLine>;
-    stationsBetween(from: Station, to: Station, direction?: Direction): IterableIterator<StationOnLine> | null;
+    // stationsBetween(from: Station, to: Station, direction: Direction): IterableIterator<StationOnLine>;
+    length(): number;
+    distanceBetween(from: Station, to: Station, direction: Direction): number | null;
     from(): StationOnLine;
     to(): StationOnLine;
     onLineOf(station: Station): StationOnLine | null;
-    distanceBetween(from: Station, to: Station): number | null;
-    has(station: Station): boolean;
+    codeOf(station: Station): IterableIterator<string>;
+    // has(station: Station): boolean;
+    childrenBetween(from: Station, to: Station, direction: Direction): IterableIterator<Line>;
 }
