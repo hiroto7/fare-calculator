@@ -5,16 +5,16 @@ import LineAlias from "./LineAlias";
 import AbstractLine1 from "./AbstractLine1";
 import SectionOnRouteLine from "./SectionOnRouteLine";
 
-export default class RouteLine extends AbstractLine1<StationOnLine10> {
-    protected readonly rawStations: ReadonlyArray<StationOnLine10>;
-    protected readonly stationsOnLineMap: ReadonlyMap<StationSubstance, StationOnLine10>;
+export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
+    protected readonly rawStations: ReadonlyArray<StationOnRouteLine>;
+    protected readonly stationsOnLineMap: ReadonlyMap<StationSubstance, StationOnRouteLine>;
 
     private readonly rawChildren: ReadonlyArray<Line>;
     private readonly stationCodesMap: ReadonlyMap<StationOnLine, string | null>;
     private readonly rawName: string;
     private readonly rawCode?: string | null;
 
-    protected isSOL(station: Station): station is StationOnLine10 { return station instanceof StationOnLine10; }
+    protected isSOL(station: Station): station is StationOnRouteLine { return station instanceof StationOnRouteLine; }
 
     constructor({ name, code, children, stationCodesMap = [] }: {
         name: string,
@@ -26,8 +26,8 @@ export default class RouteLine extends AbstractLine1<StationOnLine10> {
         this.rawName = name;
         this.rawCode = code;
         const rawChildren: Set<Line> = new Set();
-        const stations: Set<StationOnLine10> = new Set();
-        const stationsOnLineMap: Map<StationSubstance, StationOnLine10> = new Map();
+        const stations: Set<StationOnRouteLine> = new Set();
+        const stationsOnLineMap: Map<StationSubstance, StationOnRouteLine> = new Map();
         let lastSubstance: StationSubstance | null = null;
         let stationChildren: Set<StationOnLine> | null = null;
 
@@ -43,7 +43,7 @@ export default class RouteLine extends AbstractLine1<StationOnLine10> {
                     stationChildren.add(stationChild);
                 } else {
                     if (stationChildren !== null) {
-                        const station = new StationOnLine10({ line: this, children: stationChildren });
+                        const station = new StationOnRouteLine({ line: this, children: stationChildren });
                         stations.add(station);
                         if (lastSubstance === null) throw new Error();
                         stationsOnLineMap.set(lastSubstance, station);
@@ -256,7 +256,7 @@ export default class RouteLine extends AbstractLine1<StationOnLine10> {
     }
 }
 
-class StationOnLine10 implements StationOnLine {
+class StationOnRouteLine implements StationOnLine {
     private readonly rawLine: RouteLine;
     private readonly rawChildren: ReadonlyArray<StationOnLine> = [];
 
