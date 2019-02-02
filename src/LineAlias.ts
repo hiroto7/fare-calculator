@@ -1,6 +1,6 @@
 import Line from "./Line";
 import Station, { StationSubstance, StationOnLine } from "./Station";
-import { Direction, outbound } from "./Direction";
+import { Direction } from "./Direction";
 import AbstractLine1 from "./AbstractLine1";
 
 export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
@@ -30,10 +30,6 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
     *codes(direction?: Direction): IterableIterator<string> { yield* this.originalLine().codes(direction); }
     length(): number { return this.originalLine().length(); }
     *codeOf(station: Station): IterableIterator<string> { yield* this.originalLine().codeOf(station); }
-
-    *stations(direction: Direction = outbound): IterableIterator<StationOnLineAlias> { yield* super.stations(direction); }
-    from(): StationOnLineAlias { return super.from(); }
-    to(): StationOnLineAlias { return this.rawStations[this.rawStations.length - 1]; }
 
     onLineOf(station: Station): StationOnLineAlias | null {
         if (StationOnLineAlias.isStationOnLineAlias(station) && station.line() === this) {
