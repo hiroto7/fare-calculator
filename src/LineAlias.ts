@@ -29,7 +29,8 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
     // color(): string | null { return this.originalLine().color(); }
     *codes(direction?: Direction): IterableIterator<string> { yield* this.originalLine().codes(direction); }
     length(): number { return this.originalLine().length(); }
-    *codeOf(station: Station): IterableIterator<string> { yield* this.originalLine().codeOf(station); }
+    codeOf(station: Station): string | null | undefined { return this.originalLine().codeOf(station); }
+    *codesOf(station: Station): IterableIterator<string> { yield* this.originalLine().codesOf(station); }
 
     onLineOf(station: Station): StationOnLineAlias | null {
         if (StationOnLineAlias.isStationOnLineAlias(station) && station.line() === this) {

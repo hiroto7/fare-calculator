@@ -12,7 +12,8 @@ export default interface Line {
     from(): StationOnLine;
     to(): StationOnLine;
     onLineOf(station: Station): StationOnLine | null;
-    codeOf(station: Station): IterableIterator<string>;
+    codeOf(station: Station): string | null | undefined;
+    codesOf(station: Station): IterableIterator<string>;
     // has(station: Station): boolean;
     childrenBetween(from: Station, to: Station, direction: Direction): IterableIterator<Line>;
 }

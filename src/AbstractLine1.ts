@@ -7,7 +7,8 @@ export default abstract class AbstractLine1<SOL extends StationOnLine> implement
     // abstract color(): string | null;
     abstract codes(direction?: Direction): IterableIterator<string>;
     abstract length(): number;
-    abstract codeOf(station: Station): IterableIterator<string>;
+    abstract codeOf(station: Station): string | null | undefined;
+    abstract codesOf(station: Station): IterableIterator<string>;
     abstract distanceBetween(from: Station, to: Station, direction: Direction): number | null;
     abstract childrenBetween(from: Station, to: Station, direction: Direction): IterableIterator<Line>;
 

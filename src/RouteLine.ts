@@ -183,34 +183,46 @@ export default class RouteLine extends AbstractLine1<StationOnLine10> {
         if (fromLineIndex === toLineIndex) {
             const lineIndex = fromLineIndex;
             const child = this.rawChildren[lineIndex];
-            yield new Section(child, fromChild, toChild, direction);
+            yield new Section({ line: child, from: fromChild, to: toChild, direction });
         } else {
             {
                 const child = this.rawChildren[fromLineIndex];
-                yield new Section(child,
-                    fromChild, direction === outbound ? child.to() : child.from(),
-                    direction);
+                yield new Section({
+                    line: child,
+                    from: fromChild,
+                    to: direction === outbound ? child.to() : child.from(),
+                    direction
+                });
             }
             for (let i = fromLineIndex + direction; direction * i < direction * toLineIndex; direction++) {
                 const child = this.rawChildren[i];
                 yield direction === outbound ?
-                    new Section(child, child.from(), child.to(), direction) :
-                    new Section(child, child.to(), child.from(), direction);
+                    new Section({ line: child, from: child.from(), to: child.to(), direction }) :
+                    new Section({ line: child, from: child.to(), to: child.from(), direction });
             }
             {
                 const child = this.rawChildren[toLineIndex];
-                yield new Section(child,
-                    direction === outbound ? child.from() : child.to(), toChild,
-                    direction);
+                yield new Section({
+                    line: child,
+                    from: direction === outbound ? child.from() : child.to(),
+                    to: toChild,
+                    direction
+                });
 
             }
         }
     }
 
-    *codeOf(station: Station): IterableIterator<string> {
+    codeOf(station: Station): string | null | undefined {
+        const stationOnLine = station.on(this);
+        if (stationOnLine === null) return null;
+        return this.stationCodesMap.get(stationOnLine);
+    }
+
+    *codesOf(station: Station): IterableIterator<string> {
         const stationOnLine = station.on(this);
         if (stationOnLine === null) throw new Error();
-        const code = this.stationCodesMap.get(stationOnLine);
+        const code = this.codeOf(stationOnLine);
         if (code === undefined) {
             const codes: Set<string> = new Set();
             for (const child of stationOnLine.children()) {
@@ -246,7 +258,7 @@ class StationOnLine10 implements StationOnLine {
     }
 
     *codes(): IterableIterator<string> {
-        yield* this.line().codeOf(this);
+        yield* this.line().codesOf(this);
     }
 
     on(line: Line): StationOnLine | null {
