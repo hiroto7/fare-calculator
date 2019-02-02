@@ -5,6 +5,7 @@ import Station, { StationOnLine, StationSubstance } from "./Station";
 export default abstract class AbstractLine1<SOL extends StationOnLine> implements Line {
     abstract name(): string;
     // abstract color(): string | null;
+    abstract code(): string | null | undefined;
     abstract codes(direction?: Direction): IterableIterator<string>;
     abstract length(): number;
     abstract codeOf(station: Station): string | null | undefined;

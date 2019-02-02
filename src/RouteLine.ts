@@ -12,14 +12,17 @@ export default class RouteLine extends AbstractLine1<StationOnLine10> {
     private readonly rawChildren: ReadonlyArray<Line>;
     private readonly stationCodesMap: ReadonlyMap<StationOnLine, string | null>;
     private readonly rawName: string;
+    private readonly rawCode?: string | null;
 
-    constructor({ name, children, stationCodesMap = [] }: {
+    constructor({ name, code, children, stationCodesMap = [] }: {
         name: string,
+        code?: string | null;
         children: Iterable<Line>,
         stationCodesMap?: Iterable<[Station, string | null]>
     }) {
         super();
         this.rawName = name;
+        this.rawCode = code;
         const rawChildren: Set<Line> = new Set();
         const stations: Set<StationOnLine10> = new Set();
         const stationsOnLineMap: Map<StationSubstance, StationOnLine10> = new Map();
@@ -67,19 +70,30 @@ export default class RouteLine extends AbstractLine1<StationOnLine10> {
 
     // color(): string | null { }
 
+    code(): string | null | undefined {
+        return this.rawCode;
+    }
+
     *codes(direction?: Direction): IterableIterator<string> {
-        const codes: Set<string> = new Set();
-        if (direction === outbound) {
-            for (let i = 0; i < this.rawChildren.length; i++) {
-                for (const code of this.rawChildren[i].codes(direction))
-                    codes.add(code);
+        const code = this.code();
+        if (code === undefined) {
+            const codes: Set<string> = new Set();
+            if (direction === outbound) {
+                for (let i = 0; i < this.rawChildren.length; i++) {
+                    for (const code of this.rawChildren[i].codes(direction))
+                        codes.add(code);
+                }
+            } else {
+                for (let i = this.rawChildren.length; i > 0; i--)
+                    for (const code of this.rawChildren[i - 1].codes(direction))
+                        codes.add(code);
             }
+            yield* codes;
+        } else if (code === null) {
+            return;
         } else {
-            for (let i = this.rawChildren.length; i > 0; i--)
-                for (const code of this.rawChildren[i - 1].codes(direction))
-                    codes.add(code);
+            yield code;
         }
-        yield* codes;
     }
 
     length(): number {

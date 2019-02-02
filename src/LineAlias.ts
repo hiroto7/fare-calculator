@@ -27,6 +27,7 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
 
     name(): string { return this.originalLine().name(); }
     // color(): string | null { return this.originalLine().color(); }
+    code(): string | null | undefined { return this.originalLine().code(); }
     *codes(direction?: Direction): IterableIterator<string> { yield* this.originalLine().codes(direction); }
     length(): number { return this.originalLine().length(); }
     codeOf(station: Station): string | null | undefined { return this.originalLine().codeOf(station); }

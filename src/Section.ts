@@ -6,8 +6,9 @@ import Station from "./Station";
 export default class Section extends RouteLine {
     private readonly line: Line;
 
-    constructor({ name, line, from, to, direction, stationCodesMap }: {
+    constructor({ name, code, line, from, to, direction, stationCodesMap }: {
         name?: string,
+        code?: string | null,
         stationCodesMap?: Iterable<[Station, string | null]>
         line: Line,
         from: Station,
@@ -16,6 +17,7 @@ export default class Section extends RouteLine {
     }) {
         super({
             name: name === undefined ? line.name() : name,
+            code: code === undefined ? line.code() : code,
             children: line.childrenBetween(from, to, direction),
             stationCodesMap
         });

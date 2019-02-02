@@ -4,6 +4,7 @@ import Station, { StationOnLine } from "./Station";
 export default interface Line {
     name(): string;
     // color(): string | null;
+    code(): string | null | undefined;
     codes(direction?: Direction): IterableIterator<string>;
     stations(direction?: Direction): IterableIterator<StationOnLine>;
     // stationsBetween(from: Station, to: Station, direction: Direction): IterableIterator<StationOnLine>;
