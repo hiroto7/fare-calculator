@@ -62,38 +62,3 @@ export class Station1 implements StationSubstance, WritableStation {
             this.rawIsSeasonal = isSeasonal;
     }
 }
-
-export class StationOnLine1 implements StationOnLine {
-    private readonly rawSubstance: StationSubstance;
-    private readonly rawCode: string | null;
-    protected readonly rawLine: Line;
-
-    constructor({ line, substance, code = null }: {
-        line: Line,
-        substance: StationSubstance,
-        code?: string | null
-    }) {
-        this.rawLine = line;
-        this.rawSubstance = substance;
-        this.rawCode = code;
-    }
-
-    name(): string { return this.substance().name(); }
-    lines(): IterableIterator<Line> { return this.substance().lines(); }
-    isSeasonal(): boolean { return this.substance().isSeasonal(); }
-
-    substance(): StationSubstance { return this.rawSubstance; }
-    code(): string | null { return this.rawCode; }
-    line(): Line { return this.rawLine; }
-
-    on(line: Line): StationOnLine | null {
-        if (line === this.line())
-            return this;
-        else
-            return this.substance().on(line);
-    }
-
-    distanceFromStart(): number | null {
-        return this.line().distanceBetween(this.line().from(), this);
-    }
-}
