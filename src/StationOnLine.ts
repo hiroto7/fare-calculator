@@ -32,6 +32,8 @@ export abstract class AbstractStationOnLine1<L extends Line = Line> implements S
         else
             return this.substance().on(line);
     }
+
+    toString() { return `${this.name()}@${this.line().name()}` }
 }
 
 export abstract class AbstractStationOnLine2<L extends Line = Line> extends AbstractStationOnLine1<L> {
