@@ -68,19 +68,19 @@ export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
     }
 
     length(): number {
-        const length = this.distanceBetween(this.from(), this.to());
+        const length = this.distanceBetween(this.from(), this.to(), outbound);
         if (length === null) throw new Error();
         return length;
     }
 
-    distanceBetween(from: Station, to: Station): number | null {
+    distanceBetween(from: Station, to: Station, direction: Direction): number | null {
         const from1 = this.onLineOf(from);
         const to1 = this.onLineOf(to);
         if (from1 === null || to1 === null) return null;
 
         const d1 = from1.distanceFromStart();
         const d2 = to1.distanceFromStart();
-        return d1 === null || d2 === null ? null : d2 - d1;
+        return d1 === null || d2 === null ? null : direction * (d2 - d1);
     }
 
     sectionBetween(from: Station, to: Station, direction: Direction): Line {
