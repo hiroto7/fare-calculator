@@ -1,8 +1,8 @@
 import Line from "./Line";
-import Station, { StationSubstance, StationOnLine } from "./Station";
+import Station, { StationSubstance } from "./Station";
 import { Direction } from "./Direction";
 import AbstractLine1 from "./AbstractLine1";
-import AbstractStationOnLine1 from "./AbstractStationOnLine1";
+import { AbstractStationOnLine1, StationOnLine } from "./StationOnLine";
 
 export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
     private readonly rawOriginalLine: Line;

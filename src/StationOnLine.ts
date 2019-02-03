@@ -1,5 +1,6 @@
 import Station, { StationSubstance } from "./Station";
 import Line from "./Line";
+import { outbound } from "./Direction";
 
 export interface StationOnLine extends Station {
     line(): Line;
