@@ -1,9 +1,10 @@
 import Line from "./Line";
 import { Direction, outbound } from "./Direction";
-import Station, { StationOnLine, StationSubstance } from "./Station";
+import Station, {  StationSubstance } from "./Station";
 import LineAlias from "./LineAlias";
 import AbstractLine1 from "./AbstractLine1";
 import SectionOnRouteLine from "./SectionOnRouteLine";
+import { StationOnLine, AbstractStationOnLine2 } from "./StationOnLine";
 
 export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
     protected readonly rawStations: ReadonlyArray<StationOnRouteLine>;
@@ -256,38 +257,16 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
     }
 }
 
-class StationOnRouteLine implements StationOnLine {
-    private readonly rawLine: RouteLine;
+class StationOnRouteLine extends AbstractStationOnLine2 {
     private readonly rawChildren: ReadonlyArray<StationOnLine> = [];
 
     constructor({ line, children }: { line: RouteLine, children: Iterable<StationOnLine> }) {
-        this.rawLine = line;
+        super(line);
         this.rawChildren = [...children];
     }
 
-    name(): string { return this.substance().name(); }
-    *lines(): IterableIterator<Line> { yield* this.substance().lines(); }
-    isSeasonal(): boolean { return this.substance().isSeasonal(); }
-
-    line(): Line { return this.rawLine; }
-
     substance(): StationSubstance {
         return this.rawChildren[0].substance();
-    }
-
-    *codes(): IterableIterator<string> {
-        yield* this.line().codesOf(this);
-    }
-
-    on(line: Line): StationOnLine | null {
-        if (line === this.line())
-            return this;
-        else
-            return this.substance().on(line);
-    }
-
-    distanceFromStart(): number | null {
-        return this.line().distanceBetween(this.line().from(), this, outbound);
     }
 
     *children(): IterableIterator<StationOnLine> {

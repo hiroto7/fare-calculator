@@ -1,4 +1,5 @@
 import Line from "./Line";
+import { StationOnLine } from "./StationOnLine";
 
 export default interface Station {
     name(): string;
@@ -16,12 +17,6 @@ export interface WritableStation extends Station {
 export interface StationSubstance extends Station {
     readonly isSubstance: true;
     substance(): this;
-}
-
-export interface StationOnLine extends Station {
-    line(): Line;
-    codes(): IterableIterator<string>;
-    distanceFromStart(): number | null;
 }
 
 export class Station1 implements StationSubstance, WritableStation {

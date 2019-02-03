@@ -2,6 +2,7 @@ import Line from "./Line";
 import Station, { StationSubstance, StationOnLine } from "./Station";
 import { Direction } from "./Direction";
 import AbstractLine1 from "./AbstractLine1";
+import AbstractStationOnLine1 from "./AbstractStationOnLine1";
 
 export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
     private readonly rawOriginalLine: Line;
@@ -54,30 +55,17 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
     }
 }
 
-class StationOnLineAlias implements StationOnLine {
-    private rawLine: LineAlias;
+class StationOnLineAlias extends AbstractStationOnLine1 {
     private rawOriginalStation: StationOnLine;
 
     constructor({ line, station }: { line: LineAlias, station: StationOnLine }) {
-        this.rawLine = line;
+        super(line);
         this.rawOriginalStation = station;
     }
 
     originalStation(): StationOnLine { return this.rawOriginalStation; }
-    line(): LineAlias { return this.rawLine; }
-
-    name(): string { return this.substance().name(); }
-    *lines(): IterableIterator<Line> { yield* this.substance().lines(); }
-    isSeasonal(): boolean { return this.substance().isSeasonal(); }
 
     *codes(): IterableIterator<string> { yield* this.originalStation().codes(); }
     distanceFromStart(): number | null { return this.originalStation().distanceFromStart(); }
     substance(): StationSubstance { return this.originalStation().substance(); }
-
-    on(line: Line): StationOnLine | null {
-        if (line === this.line())
-            return this;
-        else
-            return this.substance().on(line);
-    }
 }

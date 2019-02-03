@@ -1,6 +1,7 @@
 import Line from "./Line";
 import { outbound, Direction } from "./Direction";
-import Station, { StationOnLine, StationSubstance } from "./Station";
+import Station, {  StationSubstance } from "./Station";
+import { StationOnLine } from "./StationOnLine";
 
 export default abstract class AbstractLine1<SOL extends StationOnLine = StationOnLine> implements Line {
     abstract name(): string;
