@@ -1,5 +1,6 @@
 import { Direction } from "./Direction";
-import Station, { StationOnLine } from "./Station";
+import Station from "./Station";
+import { StationOnLine } from "./StationOnLine";
 
 export default interface Line {
     name(): string;
@@ -17,5 +18,5 @@ export default interface Line {
     codesOf(station: Station): IterableIterator<string>;
     // has(station: Station): boolean;
     // childrenBetween(from: Station, to: Station, direction: Direction): IterableIterator<Line>;
-    sectionBetween(from: StationOnLine, to: StationOnLine, direction: Direction): Line;
+    sectionBetween(from: Station, to: Station, direction: Direction): Line;
 }

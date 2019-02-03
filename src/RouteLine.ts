@@ -252,7 +252,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         }
     }
 
-    sectionBetween(from: StationOnLine, to: StationOnLine, direction: Direction): Line {
+    sectionBetween(from: Station, to: Station, direction: Direction): Line {
         return new SectionOnRouteLine({ line: this, from, to, direction });
     }
 }
