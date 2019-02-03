@@ -1,9 +1,13 @@
-import { Direction } from "./Direction";
+import { Direction, outbound } from "./Direction";
 import Line from "./Line";
 import OfficialLine from "./OfficialLine";
-import Section from "./Section";
-import { Station1, StationSubstance, WritableStation } from "./Station";
+import SectionOnRouteLine from "./SectionOnRouteLine";
+import { Station1, StationSubstance } from "./Station";
+import RouteLine from "./RouteLine";
+import DB from "./DB";
+import SectionOnOfficialLine from "./SectionOnOfficialLine";
 
+/*
 class StationsDB {
     private readonly map: Map<string, StationSubstance & WritableStation> = new Map();
 
@@ -20,11 +24,15 @@ class StationsDB {
         }
     }
 }
+*/
 
 class XMLHandler {
     private visited: Set<string> = new Set();
-    linesDB = new Map<string, Line>();
-    stationsDB = new StationsDB();
+    readonly linesDB = new Map<string, Line>();
+    readonly stationsDB = new DB((key: string, name?: string) => {
+        name = name || key;
+        return new Station1(name);
+    });
 
     handleStation(e: Element): StationSubstance {
         if (e.tagName !== 'station') throw new Error();
@@ -34,7 +42,7 @@ class XMLHandler {
         const key = e.getAttribute('key') || name;
 
         const isSeasonal = e.hasAttribute('seasonal');
-        const station = this.stationsDB.get(key);
+        const station = this.stationsDB.get1(key, name);
         station.setOptions({ isSeasonal });
         return station;
     }
@@ -48,7 +56,7 @@ class XMLHandler {
         const directionString = e.getAttribute('direction');
         if (directionString === null) throw new Error();
         if (directionString !== '+' && directionString !== '-') throw new Error();
-        const direction: Direction = directionString === '+' ? Direction.outbound : Direction.inbound;
+        const direction: Direction = directionString === '+' ? outbound : Direction.inbound;
 
         const line: Line | undefined = this.linesDB.get(lineKey);
         if (line === undefined) throw new Error();
@@ -56,8 +64,12 @@ class XMLHandler {
         const fromKey = e.getAttribute('from');
         const toKey = e.getAttribute('to');
 
-        const from = fromKey === null ? undefined : this.stationsDB.get(fromKey);
-        const to = toKey === null ? undefined : this.stationsDB.get(toKey);
+        const from = fromKey === null ?
+            direction === outbound ? line.from() : line.to() :
+            this.stationsDB.get1(fromKey);
+        const to = toKey === null ?
+            direction === outbound ? line.to() : line.from() :
+            this.stationsDB.get1(toKey);
 
         const name1: string | null = e.getAttribute('name');
         const name: string | undefined = name1 === null ? undefined : name1;
@@ -65,22 +77,25 @@ class XMLHandler {
         const lineCode1: string | null = e.getAttribute('code');
         const lineCode: string | undefined = lineCode1 === null ? undefined : lineCode1;
 
-        const stations: {
-            substance: StationSubstance,
-            code?: string | null
-        }[] = [];
+        const stationCodesMap: Map<StationSubstance, string | null> = new Map();
         for (const stationXML of Array.from(e.children)) {
             if (stationXML.tagName !== 'station') continue;
 
             const substance = this.handleStation(stationXML);
-            const stationCode1 = stationXML.getAttribute('code');
-            const stationCode = stationCode1 === null ? undefined :
-                lineCode === null ? stationCode1 : lineCode + stationCode1;
+            const stationCode = stationXML.getAttribute('code');
 
-            stations.push({ substance, code: stationCode });
+            if (stationCode === null)
+                stationCodesMap.set(substance, lineCode === undefined ? stationCode : lineCode + stationCode);
         }
 
-        const section: Section = new Section({ name, code: lineCode, line, direction, from, to, stations });
+        let section;
+
+        if (line instanceof RouteLine)
+            section = new SectionOnRouteLine({ name, code: lineCode, line, direction, from, to, stationCodesMap });
+        else if (line instanceof OfficialLine)
+            section = new SectionOnOfficialLine({ name, code: lineCode, line, direction, from, to, stationCodesMap });
+        else
+            section = line.sectionBetween(from, to, direction);
 
         if (name !== undefined) {
             const key: string = e.getAttribute('key') || name;
@@ -90,9 +105,39 @@ class XMLHandler {
         return section;
     }
 
-    handleRouteLine(e: Element): Line {
-        e;
-        return <Line><unknown>null;
+    handleRouteLine(e: Element): RouteLine {
+        if (e.tagName !== 'route') throw new Error();
+
+        const name = e.getAttribute('name');
+        if (name === null) throw new Error();
+
+        const lineCode1: string | null = e.getAttribute('code');
+        const lineCode: string | undefined = lineCode1 === null ? undefined : lineCode1;
+
+        const stationCodesMap: Map<StationSubstance, string | null> = new Map();
+        const sections: Line[] = [];
+        for (const child of Array.from(e.children)) {
+            switch (child.tagName) {
+                case 'section':
+                    const section = this.handleSection(child);
+                    sections.push(section);
+                    break;
+
+                case 'station':
+                    const substance = this.handleStation(child);
+                    const stationCode = child.getAttribute('code');
+
+                    if (stationCode === null)
+                        stationCodesMap.set(substance, lineCode === undefined ? stationCode : lineCode + stationCode);
+
+                    break;
+            }
+        }
+
+        const key: string = e.getAttribute('key') || name;
+        const line = new RouteLine({ name, code: lineCode, children: sections, stationCodesMap });
+        this.linesDB.set(key, line);
+        return line;
     }
 
     handleOfficialLine(e: Element): Line {
@@ -103,9 +148,6 @@ class XMLHandler {
         const lineCode: string | null = e.getAttribute('code');
 
         const key: string = e.getAttribute('key') || name;
-
-        const line = new OfficialLine(name, { code: lineCode });
-        this.linesDB.set(key, line);
 
         const stations: {
             substance: StationSubstance,
@@ -125,7 +167,10 @@ class XMLHandler {
 
             stations.push({ substance, distanceFromStart, code: stationCode });
         }
-        line.setStations(stations);
+
+        const line = new OfficialLine({ name, code: lineCode, stations });
+        this.linesDB.set(key, line);
+
         return line;
     }
 
@@ -171,7 +216,7 @@ class XMLHandler {
                     break;
 
                 case 'route':
-                    // this.handleRouteLine(child);
+                    this.handleRouteLine(child);
                     break;
 
                 case 'section':
@@ -188,16 +233,17 @@ const a = (line: Line): HTMLElement => {
     section.innerHTML = `<h1>${line.name()}</h1>
     <p>区間 : ${line.from().name()} - ${line.to().name()}</p>
     <p>営業キロ : ${line.length()}</p>
-    <p>路線記号 : ${line.code()}</p>
+    <p>路線記号 : ${[...line.codes()]}</p>
     `;
 
     const table = document.createElement('table');
     for (const station of line.stations()) {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${station.code() ? station.code() : ''}</td>
+        tr.innerHTML = `<td>${[...station.codes()]}</td>
         <td>${station.name()}</td>
-        <td>${station.distanceFromStart()}</td>
-        <td>${station.isSeasonal() ? '臨時駅' : ''}</td>`
+        <td>${Math.floor(station.distanceFromStart()! * 10) / 10}</td>
+        <td>${station.isSeasonal() ? '臨時駅' : ''}</td>
+        <td>${[...station.lines()].toString()}</td>`
         table.appendChild(tr);
     }
     section.appendChild(table);
