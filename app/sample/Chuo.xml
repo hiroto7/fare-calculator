@@ -133,7 +133,7 @@
         <section line="東北本線" direction="+" from="東京" to="神田" />
         <section line="中央本線（神田〜代々木）" direction="+" from="神田" to="代々木" />
         <section line="山手線" direction="+" from="代々木" to="新宿" />
-        <section line="中央本線（代々木〜金山）" direction="+" from="新宿" to="高尾" />
+        <section line="中央本線（新宿〜金山）" direction="+" from="新宿" to="高尾" />
 
         <station name="東京" code="01" />
         <station name="神田" code="02" />
@@ -165,7 +165,7 @@
     <import src="./Tokaido.xml" />
     <route name="中央本線" key="中央本線（JR東海）" code="CF" hides-via="" hidden="">
         <section line="東海道本線" direction="-" from="名古屋" to="金山" />
-        <section line="中央本線" direction="-" from="金山" to="塩尻" />
+        <section line="中央本線（新宿〜金山）" direction="-" from="金山" to="塩尻" />
 
         <station name="名古屋" code="00" />
         <station name="金山" code="01" />

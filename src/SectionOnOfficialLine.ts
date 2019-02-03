@@ -99,7 +99,7 @@ export default class SectionOnOfficialLine extends AbstractLine1<StationOnSectio
         const to1 = this.onLineOf(to);
 
         if (from1 === null || to1 === null) return null;
-        return this.line.distanceBetween(from1.original(), to1.original(), direction);
+        return this.line.distanceBetween(from1.original(), to1.original(), direction * this.direction);
     }
 
     sectionBetween(from: Station, to: Station, direction: Direction): Line {
@@ -107,7 +107,7 @@ export default class SectionOnOfficialLine extends AbstractLine1<StationOnSectio
         const to1 = this.onLineOf(to);
         if (from1 === null) throw new Error();
         if (to1 === null) throw new Error();
-        return this.line.sectionBetween(from1.original(), to1.original(), direction);
+        return this.line.sectionBetween(from1.original(), to1.original(), direction * this.direction);
     }
 }
 

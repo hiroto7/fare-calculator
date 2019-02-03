@@ -1,6 +1,6 @@
 import Line from "./Line";
 import { Direction, outbound } from "./Direction";
-import Station, {  StationSubstance } from "./Station";
+import Station, { StationSubstance } from "./Station";
 import LineAlias from "./LineAlias";
 import AbstractLine1 from "./AbstractLine1";
 import SectionOnRouteLine from "./SectionOnRouteLine";
@@ -29,9 +29,13 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         const rawChildren: Set<Line> = new Set();
         const stations: Set<StationOnRouteLine> = new Set();
         const stationsOnLineMap: Map<StationSubstance, StationOnRouteLine> = new Map();
-        let lastSubstance: StationSubstance | null = null;
-        let stationChildren: Set<StationOnLine> | null = null;
+        let lastSubstance: StationSubstance | null;
+        let stationChildren: Set<StationOnLine> | null;
 
+        {
+            lastSubstance = null;
+            stationChildren = null;
+        }
         for (const child of children) {
             const child1 = rawChildren.has(child) ? new LineAlias(child) : child;
             rawChildren.add(child1);
@@ -56,6 +60,14 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
                 lastSubstance = stationChild.substance();
             }
         }
+        {
+            if (stationChildren === null) throw new Error();
+            const station = new StationOnRouteLine({ line: this, children: stationChildren });
+            stations.add(station);
+            if (lastSubstance === null) throw new Error();
+            stationsOnLineMap.set(lastSubstance, station);
+        }
+
         this.rawChildren = [...rawChildren];
         this.rawStations = [...stations];
         this.stationsOnLineMap = stationsOnLineMap;
@@ -172,7 +184,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
                 if (childDistance === null) return null;
                 distance += childDistance;
             }
-            for (let i = fromLineIndex + direction; direction * i < direction * toLineIndex; direction++) {
+            for (let i = fromLineIndex + direction; direction * i < direction * toLineIndex; i += direction) {
                 const child = this.rawChildren[i];
                 const childDistance = direction === outbound ?
                     child.distanceBetween(child.from(), child.to(), direction) :
@@ -235,7 +247,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
                     direction
                 );
             }
-            for (let i = fromLineIndex + direction; direction * i < direction * toLineIndex; direction++) {
+            for (let i = fromLineIndex + direction; direction * i < direction * toLineIndex; i += direction) {
                 const child = this.rawChildren[i];
                 yield direction === outbound ?
                     child.sectionBetween(child.from(), child.to(), direction) :

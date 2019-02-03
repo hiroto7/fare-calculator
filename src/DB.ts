@@ -1,12 +1,11 @@
-export default class DB<K, V, TS extends any[]> {
-    private readonly map: Map<K, V> = new Map();
-    constructor(private readonly c: (key: K, ...args: TS) => V) { }
+export default class DB<K, V, TS extends any[]> extends Map<K, V> {
+    constructor(private readonly c: (key: K, ...args: TS) => V) { super(); }
 
-    get(key: K, ...args: TS): V {
-        const value: V | undefined = this.map.get(key);
-        if (value === undefined && !this.map.has(key)) {
+    get1(key: K, ...args: TS): V {
+        const value: V | undefined = this.get(key);
+        if (value === undefined && !this.has(key)) {
             const value = this.c(key, ...args);
-            this.map.set(key, value);
+            this.set(key, value);
             return value;
         } else {
             return value!;
