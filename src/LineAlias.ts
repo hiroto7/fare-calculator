@@ -26,22 +26,22 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
         this.stationsOnLineMap = stationsOnLineMap;
     }
 
-    originalLine(): Line { return this.rawOriginalLine; }
+    original(): Line { return this.rawOriginalLine; }
 
-    name(): string { return this.originalLine().name(); }
+    name(): string { return this.original().name(); }
     // color(): string | null { return this.originalLine().color(); }
-    code(): string | null | undefined { return this.originalLine().code(); }
-    *codes(direction?: Direction): IterableIterator<string> { yield* this.originalLine().codes(direction); }
-    length(): number { return this.originalLine().length(); }
-    codeOf(station: Station): string | null | undefined { return this.originalLine().codeOf(station); }
-    *codesOf(station: Station): IterableIterator<string> { yield* this.originalLine().codesOf(station); }
+    code(): string | null | undefined { return this.original().code(); }
+    *codes(direction?: Direction): IterableIterator<string> { yield* this.original().codes(direction); }
+    length(): number { return this.original().length(); }
+    codeOf(station: Station): string | null | undefined { return this.original().codeOf(station); }
+    *codesOf(station: Station): IterableIterator<string> { yield* this.original().codesOf(station); }
 
     distanceBetween(from: Station, to: Station, direction: Direction): number | null {
         const from1 = this.onLineOf(from);
         const to1 = this.onLineOf(to);
         if (from1 === null || to1 === null) return null;
 
-        return this.originalLine().distanceBetween(from1.originalStation(), to1.originalStation(), direction);
+        return this.original().distanceBetween(from1.original(), to1.original(), direction);
     }
 
     has(station: Station): boolean { return this.onLineOf(station) !== null; }
@@ -51,7 +51,7 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
         const to1 = this.onLineOf(to);
         if (from1 === null || to1 === null) throw new Error();
 
-        return this.originalLine().sectionBetween(from1.originalStation(), to1.originalStation(), direction);
+        return this.original().sectionBetween(from1.original(), to1.original(), direction);
     }
 }
 
@@ -63,9 +63,9 @@ class StationOnLineAlias extends AbstractStationOnLine1 {
         this.rawOriginalStation = station;
     }
 
-    originalStation(): StationOnLine { return this.rawOriginalStation; }
+    original(): StationOnLine { return this.rawOriginalStation; }
 
-    *codes(): IterableIterator<string> { yield* this.originalStation().codes(); }
-    distanceFromStart(): number | null { return this.originalStation().distanceFromStart(); }
-    substance(): StationSubstance { return this.originalStation().substance(); }
+    *codes(): IterableIterator<string> { yield* this.original().codes(); }
+    distanceFromStart(): number | null { return this.original().distanceFromStart(); }
+    substance(): StationSubstance { return this.original().substance(); }
 }
