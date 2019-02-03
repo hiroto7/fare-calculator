@@ -1,6 +1,6 @@
 import Line from "./Line";
 import { outbound, Direction } from "./Direction";
-import Station, {  StationSubstance } from "./Station";
+import Station, { StationSubstance } from "./Station";
 import { StationOnLine } from "./StationOnLine";
 
 export default abstract class AbstractLine1<SOL extends StationOnLine = StationOnLine> implements Line {
@@ -41,4 +41,6 @@ export default abstract class AbstractLine1<SOL extends StationOnLine = StationO
             return station1 === undefined ? null : station1;
         }
     }
+
+    toString() { return this.name(); }
 }

@@ -100,7 +100,7 @@ export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
             this.rawStations.lastIndexOf(to1, fromIndex);
         if (toIndex < 0) throw new Error();
 
-        for (let i = fromIndex; direction * i <= direction * toIndex; direction++) {
+        for (let i = fromIndex; direction * i <= direction * toIndex; i += direction) {
             yield this.rawStations[i];
         }
     }

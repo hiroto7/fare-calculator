@@ -30,24 +30,14 @@ export class Station1 implements StationSubstance, WritableStation {
         this.rawName = name;
     }
 
-    name(): string {
-        return this.rawName;
-    }
+    substance(): this { return this; }
 
-    lines(): IterableIterator<Line> {
-        return this.rawLines[Symbol.iterator]();
-    }
-
-    isSeasonal(): boolean {
-        return this.rawIsSeasonal;
-    }
+    name(): string { return this.rawName; }
+    *lines(): IterableIterator<Line> { yield* this.rawLines; }
+    isSeasonal(): boolean { return this.rawIsSeasonal; }
 
     on(line: Line): StationOnLine | null {
         return line.onLineOf(this);
-    }
-
-    substance(): this {
-        return this;
     }
 
     add(line: Line, onLine: StationOnLine) {
@@ -61,4 +51,6 @@ export class Station1 implements StationSubstance, WritableStation {
         if (isSeasonal !== undefined)
             this.rawIsSeasonal = isSeasonal;
     }
+
+    toString() { return this.name(); }
 }
