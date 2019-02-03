@@ -172,7 +172,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
                 if (childDistance === null) return null;
                 distance += childDistance;
             }
-            for (let i = fromLineIndex + direction; direction * i < direction * toLineIndex; direction++) {
+            for (let i = fromLineIndex + direction; direction * i < direction * toLineIndex; i += direction) {
                 const child = this.rawChildren[i];
                 const childDistance = direction === outbound ?
                     child.distanceBetween(child.from(), child.to(), direction) :
@@ -235,7 +235,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
                     direction
                 );
             }
-            for (let i = fromLineIndex + direction; direction * i < direction * toLineIndex; direction++) {
+            for (let i = fromLineIndex + direction; direction * i < direction * toLineIndex; i += direction) {
                 const child = this.rawChildren[i];
                 yield direction === outbound ?
                     child.sectionBetween(child.from(), child.to(), direction) :
