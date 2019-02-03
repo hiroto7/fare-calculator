@@ -1,35 +1,38 @@
-import { Direction } from "./Direction";
+import { Direction, outbound } from "./Direction";
 import Line from "./Line";
-import ReverseIterator from "./ReverseIterator";
-import Station, { StationOnLine1, StationSubstance } from "./Station";
+import Station, { StationSubstance } from "./Station";
+import AbstractLine1 from "./AbstractLine1";
+import SectionOnOfficialLine from "./SectionOnOfficialLine";
+import { AbstractStationOnLine1 } from "./StationOnLine";
 
-export default class OfficialLine implements Line {
+export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
     private readonly rawName: string;
     private readonly rawCode: string | null;
-    private readonly rawColor: string | null;
-    private rawStations?: ReadonlyArray<StationOnOfficialLine>;
-    private stationsOnLineMap?: ReadonlyMap<StationSubstance, StationOnOfficialLine>;
 
-    constructor(name: string, { code = null, color = null }: {
-        code?: string | null;
-        color?: string | null;
-    } = {}) {
+    protected rawStations: ReadonlyArray<StationOnOfficialLine>;
+    protected stationsOnLineMap: ReadonlyMap<StationSubstance, StationOnOfficialLine>;
+
+    protected isSOL(station: Station): station is StationOnOfficialLine { return station instanceof StationOnOfficialLine; }
+
+    constructor({ name, code, stations }: {
+        name: string,
+        code?: string | null,
+        stations: Iterable<{
+            substance: StationSubstance,
+            distanceFromStart: number | null,
+            code?: string | null
+        }>
+    }) {
+        super();
         this.rawName = name;
-        this.rawCode = code;
-        this.rawColor = color;
-    }
+        this.rawCode = code === undefined ? null : code;
 
-    setStations(stations: Iterable<{
-        substance: StationSubstance;
-        distanceFromStart: number | null;
-        code?: string | null;
-    }>) {
         const rawStations: StationOnOfficialLine[] = [];
         const stationsOnLineMap: Map<StationSubstance, StationOnOfficialLine> = new Map();
-        for (const station of stations) {
-            const stationOnLine = new StationOnOfficialLine({ line: this, ...station });
-            rawStations.push(stationOnLine);
-            stationsOnLineMap.set(station.substance, stationOnLine);
+        for (const stationParameter of stations) {
+            const station = new StationOnOfficialLine({ line: this, ...stationParameter });
+            rawStations.push(station);
+            stationsOnLineMap.set(station.substance(), station);
         }
         this.rawStations = rawStations;
         this.stationsOnLineMap = stationsOnLineMap;
@@ -43,90 +46,25 @@ export default class OfficialLine implements Line {
         return this.rawCode;
     }
 
-    color(): string | null {
-        return this.rawColor;
+    *codes(): IterableIterator<string> {
+        const code = this.code();
+        if (code !== null)
+            yield code;
     }
 
-    stations(direction: Direction = Direction.outbound): IterableIterator<StationOnOfficialLine> {
-        if (this.rawStations === undefined) throw new Error();
-
-        if (direction === Direction.outbound)
-            return this.rawStations[Symbol.iterator]();
+    codeOf(station: Station): string | null | undefined {
+        const codes = this.codesOf(station);
+        const result = codes.next();
+        if (result.done)
+            return null;
         else
-            return new ReverseIterator(this.rawStations);
+            result.value;
     }
 
-    stationsBetween(from: Station, to: Station, direction: Direction = Direction.outbound): IterableIterator<StationOnOfficialLine> | null {
-
-        if (this.rawStations === undefined) throw new Error();
-
-        if (from === undefined) {
-            if (direction === Direction.outbound)
-                from = this.from();
-            else
-                from = this.to();
-        }
-        if (to === undefined) {
-            if (direction === Direction.outbound)
-                to = this.to();
-            else
-                to = this.from();
-        }
-
-        let array: ReadonlyArray<StationOnOfficialLine>;
-        if (direction === Direction.outbound && from === this.from() && to === this.to() ||
-            direction === Direction.inbound && from === this.to() && to === this.from()) {
-
-            array = this.rawStations;
-        } else {
-            let fromIndex: number;
-            let toIndex: number;
-
-            if (direction === Direction.outbound && from === this.from()) {
-                fromIndex = 0;
-            } else if (direction === Direction.inbound && from === this.to()) {
-                fromIndex = this.rawStations.length - 1;
-            } else {
-                const fromOnLine = this.onLineOf(from);
-                if (fromOnLine === null) return null;
-                fromIndex = this.rawStations.indexOf(fromOnLine);
-            }
-
-            if (direction === Direction.outbound && to === this.to()) {
-                toIndex = this.rawStations.length - 1;
-            } else if (direction === Direction.inbound && to === this.from()) {
-                toIndex = 0;
-            } else {
-                const toOnLine = this.onLineOf(to);
-                if (toOnLine === null) return null;
-                toIndex = this.rawStations.indexOf(toOnLine);
-            }
-
-            if (fromIndex < 0) throw new Error();
-            if (toIndex < 0) throw new Error();
-
-            if (direction * fromIndex > direction * toIndex) return null;
-
-            if (direction === Direction.outbound)
-                array = this.rawStations.slice(fromIndex, toIndex + 1);
-            else
-                array = this.rawStations.slice(toIndex, fromIndex + 1);
-        }
-
-        if (direction === Direction.outbound)
-            return array[Symbol.iterator]();
-        else
-            return new ReverseIterator(array);
-    }
-
-    from(): StationOnOfficialLine {
-        if (this.rawStations === undefined) throw new Error();
-        return this.rawStations[0];
-    }
-
-    to(): StationOnOfficialLine {
-        if (this.rawStations === undefined) throw new Error();
-        return this.rawStations[this.rawStations.length - 1];
+    *codesOf(station: Station): IterableIterator<string> {
+        const stationOnLine = this.onLineOf(station);
+        if (stationOnLine === null) throw new Error();
+        yield* stationOnLine.codes();
     }
 
     length(): number {
@@ -135,29 +73,43 @@ export default class OfficialLine implements Line {
         return length;
     }
 
-    onLineOf(station: Station): StationOnOfficialLine | null {
-        if (this.stationsOnLineMap === undefined) throw new Error();
-        return this.stationsOnLineMap.get(station.substance()) || null;
-    }
-
     distanceBetween(from: Station, to: Station): number | null {
-        const station1OnLine = this.onLineOf(from);
-        const station2OnLine = this.onLineOf(to);
-        if (station1OnLine === null || station2OnLine === null) return null;
+        const from1 = this.onLineOf(from);
+        const to1 = this.onLineOf(to);
+        if (from1 === null || to1 === null) return null;
 
-        const d1 = station1OnLine.distanceFromStart();
-        const d2 = station2OnLine.distanceFromStart();
+        const d1 = from1.distanceFromStart();
+        const d2 = to1.distanceFromStart();
         return d1 === null || d2 === null ? null : d2 - d1;
     }
 
-    has(station: Station): boolean {
-        return this.onLineOf(station) !== null;
+    sectionBetween(from: Station, to: Station, direction: Direction): Line {
+        return new SectionOnOfficialLine({ line: this, from, to, direction });
+    }
+
+    *stationsBetween(from: Station, to: Station, direction: Direction): IterableIterator<StationOnOfficialLine> {
+        const from1 = this.onLineOf(from);
+        const to1 = this.onLineOf(to);
+        if (from1 === null) throw new Error();
+        if (to1 === null) throw new Error();
+
+        const fromIndex = this.rawStations.indexOf(from1);
+        if (fromIndex < 0) throw new Error();
+        const toIndex = direction === outbound ?
+            this.rawStations.indexOf(to1, fromIndex) :
+            this.rawStations.lastIndexOf(to1, fromIndex);
+        if (toIndex < 0) throw new Error();
+
+        for (let i = fromIndex; direction * i <= direction * toIndex; direction++) {
+            yield this.rawStations[i];
+        }
     }
 }
 
-class StationOnOfficialLine extends StationOnLine1 {
+class StationOnOfficialLine extends AbstractStationOnLine1<OfficialLine> {
+    private readonly rawSubstance: StationSubstance;
     private readonly rawDistanceFromStart: number | null;
-    protected readonly rawLine: OfficialLine;
+    private readonly rawCode: string | null;
 
     constructor({ line, substance, distanceFromStart, code = null }: {
         line: OfficialLine,
@@ -165,13 +117,17 @@ class StationOnOfficialLine extends StationOnLine1 {
         distanceFromStart: number | null,
         code?: string | null
     }) {
-        super({ line, substance, code });
+        super(line);
+        this.rawSubstance = substance;
         this.rawDistanceFromStart = distanceFromStart;
-        this.rawLine = line;
+        this.rawCode = code;
     }
 
-    line(): OfficialLine {
-        return this.rawLine;
+    substance(): StationSubstance { return this.rawSubstance; }
+
+    *codes(): IterableIterator<string> {
+        if (this.rawCode !== null)
+            yield this.rawCode;
     }
 
     distanceFromStart(): number | null {
