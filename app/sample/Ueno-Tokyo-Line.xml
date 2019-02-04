@@ -7,8 +7,7 @@
     <!-- 常磐線 -->
     <import src="./Joban.xml" />
 
-    <!-- <section name="上野東京ライン" line="宇都宮・高崎線" direction="+" from="東京" to="上野" hidden="" /> -->
-    <section name="上野東京ライン" line="東北本線" direction="+" from="東京" to="上野" hides-via="" hidden="" />
+    <section name="上野東京ライン" line="宇都宮・高崎線" direction="+" from="東京" to="上野" hidden="" />
 
     <route name="上野東京ライン" key="上野東京ライン（黒磯〜沼津）">
         <section line="宇都宮線" direction="-" from="黒磯" to="上野" />

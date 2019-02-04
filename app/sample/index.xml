@@ -12,6 +12,8 @@
     <import src="./Ueno-Tokyo-Line.xml" />
     <!-- 山手線 -->
     <import src="./Yamanote.xml" />
+    <!-- 湘南新宿ライン -->
+    <import src="./Shonan-Shinjuku-Line.xml" />
 
     <route name="京浜東北線" code="JK" hides-via="">
         <section line="東北本線" direction="-" from="大宮" to="東京" />
