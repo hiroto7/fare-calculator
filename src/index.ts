@@ -6,25 +6,6 @@ import RouteLine from "./RouteLine";
 import DB from "./DB";
 import Section from "./Section";
 
-/*
-class StationsDB {
-    private readonly map: Map<string, StationSubstance & WritableStation> = new Map();
-
-    get(name: string, key?: string): StationSubstance & WritableStation {
-        key = key || name;
-
-        const station = this.map.get(key);
-        if (station === undefined) {
-            const station = new Station1(name);
-            this.map.set(key, station);
-            return station;
-        } else {
-            return station;
-        }
-    }
-}
-*/
-
 class XMLHandler {
     private visited: Set<string> = new Set();
     readonly linesDB = new Map<string, Line>();
