@@ -3,7 +3,6 @@ import { Direction, outbound } from "./Direction";
 import Station, { StationSubstance } from "./Station";
 import LineAlias from "./LineAlias";
 import AbstractLine1 from "./AbstractLine1";
-import SectionOnRouteLine from "./SectionOnRouteLine";
 import { StationOnLine, AbstractStationOnLine2 } from "./StationOnLine";
 
 export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
@@ -75,7 +74,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         const stationCodesMap1: Map<StationOnLine, string | null> = new Map();
         for (const [station, code] of stationCodesMap) {
             const stationOnLine = this.onLineOf(station);
-            if (stationOnLine === null) throw new Error();
+            if (stationOnLine === null) continue;
             stationCodesMap1.set(stationOnLine, code);
         }
         this.stationCodesMap = stationCodesMap1;
@@ -89,7 +88,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         return this.rawCode;
     }
 
-    *codes(direction?: Direction): IterableIterator<string> {
+    *codes(direction: Direction = outbound): IterableIterator<string> {
         const code = this.code();
         if (code === undefined) {
             const codes: Set<string> = new Set();
@@ -265,7 +264,13 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
     }
 
     sectionBetween(from: Station, to: Station, direction: Direction): Line {
-        return new SectionOnRouteLine({ line: this, from, to, direction });
+        // return new SectionOnRouteLine({ line: this, from, to, direction });
+        return new RouteLine({
+            name: this.name(),
+            code: this.code(),
+            children: this.childrenBetween(from, to, direction),
+            stationCodesMap: this.stationCodesMap
+        });
     }
 }
 

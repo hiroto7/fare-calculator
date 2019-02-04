@@ -47,3 +47,18 @@ export abstract class AbstractStationOnLine2<L extends Line = Line> extends Abst
         return this.line().distanceBetween(this.line().from(), this, outbound);
     }
 }
+
+export class StationOnSection extends AbstractStationOnLine2 {
+    private rawOriginal: StationOnLine;
+
+    constructor({ line, station }: {
+        line: Line,
+        station: StationOnLine
+    }) {
+        super(line);
+        this.rawOriginal = station;
+    }
+
+    original(): StationOnLine { return this.rawOriginal; }
+    substance(): StationSubstance { return this.original().substance(); }
+}

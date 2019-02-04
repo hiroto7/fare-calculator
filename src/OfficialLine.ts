@@ -84,7 +84,7 @@ export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
     }
 
     sectionBetween(from: Station, to: Station, direction: Direction): Line {
-        return new SectionOnOfficialLine({ line: this, from, to, direction });
+        return new SectionOnOfficialLine(this, from, to, direction);
     }
 
     *stationsBetween(from: Station, to: Station, direction: Direction): IterableIterator<StationOnOfficialLine> {

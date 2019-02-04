@@ -1,11 +1,10 @@
 import { Direction, outbound } from "./Direction";
 import Line from "./Line";
 import OfficialLine from "./OfficialLine";
-import SectionOnRouteLine from "./SectionOnRouteLine";
 import { Station1, StationSubstance } from "./Station";
 import RouteLine from "./RouteLine";
 import DB from "./DB";
-import SectionOnOfficialLine from "./SectionOnOfficialLine";
+import Section from "./Section";
 
 /*
 class StationsDB {
@@ -84,18 +83,11 @@ class XMLHandler {
             const substance = this.handleStation(stationXML);
             const stationCode = stationXML.getAttribute('code');
 
-            if (stationCode === null)
+            if (stationCode !== null)
                 stationCodesMap.set(substance, lineCode === undefined ? stationCode : lineCode + stationCode);
         }
 
-        let section;
-
-        if (line instanceof RouteLine)
-            section = new SectionOnRouteLine({ name, code: lineCode, line, direction, from, to, stationCodesMap });
-        else if (line instanceof OfficialLine)
-            section = new SectionOnOfficialLine({ name, code: lineCode, line, direction, from, to, stationCodesMap });
-        else
-            section = line.sectionBetween(from, to, direction);
+        const section = new Section({ name, code: lineCode, line, direction, from, to, stationCodesMap });
 
         if (name !== undefined) {
             const key: string = e.getAttribute('key') || name;
@@ -127,7 +119,7 @@ class XMLHandler {
                     const substance = this.handleStation(child);
                     const stationCode = child.getAttribute('code');
 
-                    if (stationCode === null)
+                    if (stationCode !== null)
                         stationCodesMap.set(substance, lineCode === undefined ? stationCode : lineCode + stationCode);
 
                     break;
