@@ -235,4 +235,6 @@ const a = (line: Line): HTMLElement => {
     for (const line of linesDB.values()) {
         document.body.appendChild(a(line));
     }
+
+    document.getElementById('loading')!.style.display = 'none';
 })();
