@@ -2,7 +2,7 @@ import Line from "./Line";
 import Station, { StationSubstance } from "./Station";
 import { Direction, outbound } from "./Direction";
 import AbstractLine1 from "./AbstractLine1";
-import { StationOnSection, StationOnLine } from "./StationOnLine";
+import { StationOnSection } from "./StationOnLine";
 
 export default class Section extends AbstractLine1<StationOnSection> {
     protected rawStations: ReadonlyArray<StationOnSection>;
@@ -10,7 +10,7 @@ export default class Section extends AbstractLine1<StationOnSection> {
     protected isSOL(station: Station): station is StationOnSection { return station instanceof StationOnSection; }
 
     private readonly line: Line;
-    private readonly stationCodesMap: ReadonlyMap<StationOnLine, string | null>;
+    private readonly stationCodesMap: ReadonlyMap<StationSubstance, string | null>;
     private readonly rawName?: string;
     private readonly rawCode?: string | null;
 
@@ -38,11 +38,10 @@ export default class Section extends AbstractLine1<StationOnSection> {
         this.rawName = name;
         this.rawCode = code;
 
-        const stationCodesMap1: Map<StationOnLine, string | null> = new Map();
+        const stationCodesMap1: Map<StationSubstance, string | null> = new Map();
         for (const [station, code] of stationCodesMap) {
-            const stationOnLine = this.onLineOf(station);
-            if (stationOnLine === null) continue;
-            stationCodesMap1.set(stationOnLine, code);
+            const substance = station.substance();
+            stationCodesMap1.set(substance, code);
         }
         this.stationCodesMap = stationCodesMap1;
     }
@@ -72,13 +71,15 @@ export default class Section extends AbstractLine1<StationOnSection> {
     }
 
     codeOf(station: Station): string | null | undefined {
-        const stationOnLine = this.onLineOf(station);
-        if (stationOnLine === null) return null;
-        const code = this.stationCodesMap.get(stationOnLine);
-        if (code === undefined)
+        const substance = station.substance();
+        const code = this.stationCodesMap.get(substance);
+        if (code === undefined) {
+            const stationOnLine = this.onLineOf(station);
+            if (stationOnLine === null) return null;
             return this.line.codeOf(stationOnLine.original());
-        else
+        } else {
             return code;
+        }
     }
 
     *codesOf(station: Station): IterableIterator<string> {

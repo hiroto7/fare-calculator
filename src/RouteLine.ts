@@ -10,7 +10,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
     protected readonly stationsOnLineMap: ReadonlyMap<StationSubstance, StationOnRouteLine>;
 
     private readonly rawChildren: ReadonlyArray<Line>;
-    private readonly stationCodesMap: ReadonlyMap<StationOnLine, string | null>;
+    private readonly stationCodesMap: ReadonlyMap<StationSubstance, string | null>;
     private readonly rawName: string;
     private readonly rawCode?: string | null;
 
@@ -71,11 +71,10 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         this.rawStations = [...stations];
         this.stationsOnLineMap = stationsOnLineMap;
 
-        const stationCodesMap1: Map<StationOnLine, string | null> = new Map();
+        const stationCodesMap1: Map<StationSubstance, string | null> = new Map();
         for (const [station, code] of stationCodesMap) {
-            const stationOnLine = this.onLineOf(station);
-            if (stationOnLine === null) continue;
-            stationCodesMap1.set(stationOnLine, code);
+            const substance = station.substance();
+            stationCodesMap1.set(substance, code);
         }
         this.stationCodesMap = stationCodesMap1;
     }
@@ -112,9 +111,8 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
     }
 
     codeOf(station: Station): string | null | undefined {
-        const stationOnLine = station.on(this);
-        if (stationOnLine === null) return null;
-        return this.stationCodesMap.get(stationOnLine);
+        const substance = station.substance();
+        return this.stationCodesMap.get(substance);
     }
 
     *codesOf(station: Station): IterableIterator<string> {
