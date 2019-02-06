@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="両毛線">
+        <station name="小山" distance="0" />
+        <station name="思川" distance="5.4" />
+        <station name="栃木" distance="10.8" />
+        <station name="大平下" distance="15.2" />
+        <station name="岩舟" distance="19.3" />
+        <station name="佐野" distance="26.6" />
+        <station name="富田" distance="31.1" />
+        <station name="あしかがフラワーパーク" distance="32" />
+        <station name="足利" distance="38.2" />
+        <station name="山前" distance="42.7" />
+        <station name="小俣" distance="47.3" />
+        <station name="桐生" distance="52.9" />
+        <station name="岩宿" distance="56.9" />
+        <station name="国定" distance="63.3" />
+        <station name="伊勢崎" distance="69.1" />
+        <station name="駒形" distance="74.9" />
+        <station name="前橋大島" distance="78.1" />
+        <station name="前橋" distance="81.9" />
+        <station name="新前橋" distance="84.4" />
+    </official>
+
+    <!-- 上越線 -->
+    <import src="./Joetsu.xml" />
+    <route name="両毛線" key="両毛線1">
+        <section line="両毛線" direction="+" />
+        <section line="上越線" direction="-" from="新前橋" to="高崎" />
+    </route>
+</data>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="高崎線">
+        <station name="大宮" distance="0" />
+        <station name="宮原" distance="4" />
+        <station name="上尾" distance="8.2" />
+        <station name="北上尾" distance="9.9" />
+        <station name="桶川" distance="11.8" />
+        <station name="北本" distance="16.4" />
+        <station name="鴻巣" distance="20" />
+        <station name="北鴻巣" distance="24.3" />
+        <station name="吹上" distance="27.3" />
+        <station name="行田" distance="29.6" />
+        <station name="熊谷" distance="34.4" />
+        <station name="籠原" distance="41" />
+        <station name="深谷" distance="45.8" />
+        <station name="岡部" distance="50.1" />
+        <station name="本庄" distance="55.7" />
+        <station name="神保原" distance="59.7" />
+        <station name="新町" distance="64.2" />
+        <station name="倉賀野" distance="70.3" />
+        <station name="高崎" distance="74.7" />
+    </official>
+
+    <!-- 東北本線 -->
+    <import src="./Tohoku.xml" />
+    <route name="高崎線" key="高崎線1" hidden="">
+        <section line="宇都宮・高崎線" direction="+" />
+        <section line="高崎線" direction="+" />
+    </route>
+
+    <!-- 上越線 -->
+    <import src="./Joetsu.xml" />
+    <route name="高崎・上越線">
+        <section line="高崎線1" direction="+" />
+        <section line="上越線" direction="+" from="高崎" to="新前橋" />
+    </route>
+
+    <!-- 両毛線 -->
+    <import src="./Ryomo.xml" />
+    <route name="高崎・両毛線">
+        <section line="高崎線1" direction="+" />
+        <section line="両毛線1" direction="-" from="高崎" to="前橋" />
+    </route>
+</data>

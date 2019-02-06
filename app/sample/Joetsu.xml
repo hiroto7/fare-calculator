@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="上越線">
+        <station name="高崎" distance="0" />
+        <station name="高崎問屋町" distance="2.8" />
+        <station name="井野" distance="4" />
+        <station name="新前橋" distance="7.3" />
+        <station name="群馬総社" distance="12.1" />
+        <station name="八木原" distance="17.7" />
+        <station name="渋川" distance="21.1" />
+        <station name="敷島" distance="27.5" />
+        <station name="津久田" distance="30.5" />
+        <station name="岩本" distance="36.3" />
+        <station name="沼田" distance="41.4" />
+        <station name="後閑" distance="46.6" />
+        <station name="上牧" distance="53.7" />
+        <station name="水上" distance="59.1" />
+        <station name="湯檜曽" distance="62.7" />
+        <station name="土合" distance="69.3" />
+        <station name="土樽" distance="80.1" />
+        <station name="越後中里" distance="87.4" />
+        <station name="岩原スキー場前" distance="91.1" />
+        <station name="越後湯沢" distance="94.2" />
+        <station name="石打" distance="100.6" />
+        <station name="大沢" distance="104.6" />
+        <station name="上越国際スキー場前" distance="105.6" />
+        <station name="塩沢" distance="107.9" />
+        <station name="六日町" distance="111.8" />
+        <station name="五日町" distance="118.4" />
+        <station name="浦佐" distance="123.9" />
+        <station name="八色" distance="127" />
+        <station name="小出" distance="132.2" />
+        <station name="越後堀之内" distance="134.7" />
+        <station name="北堀之内" distance="138.1" />
+        <station name="越後川口" distance="142.8" />
+        <station name="小千谷" distance="149.4" />
+        <station name="越後滝谷" distance="156.6" />
+        <station name="宮内" distance="162.6" />
+    </official>
+</data>

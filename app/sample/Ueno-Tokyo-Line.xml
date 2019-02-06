@@ -6,6 +6,8 @@
     <import src="./Tokaido.xml" />
     <!-- 常磐線 -->
     <import src="./Joban.xml" />
+    <!-- 高崎線 -->
+    <import src="./Takasaki.xml" />
 
     <section name="上野東京ライン" line="宇都宮・高崎線" direction="+" from="東京" to="上野" hidden="" />
 
@@ -22,15 +24,13 @@
     </route>
 
     <route name="上野東京ライン" key="上野東京ライン（前橋〜沼津）">
-        <!-- <section line="両毛線1" direction="+" from="前橋" to="高崎" /> -->
-        <!-- <section line="高崎線1" direction="-" from="高崎" to="上野" /> -->
+        <!-- <section line="高崎線・両毛線" direction="-" from="前橋" to="上野" /> -->
         <section line="上野東京ライン" direction="-" />
         <section line="東海道線（東京〜沼津）" direction="+" />
     </route>
 
     <route name="上野東京ライン" key="上野東京ライン（前橋〜伊東）">
-        <!-- <section line="両毛線1" direction="+" from="前橋" to="高崎" /> -->
-        <!-- <section line="高崎線1" direction="-" from="高崎" to="上野" /> -->
+        <!-- <section line="高崎線・両毛線" direction="-" from="前橋" to="上野" /> -->
         <section line="上野東京ライン" direction="-" />
         <section line="東海道・伊東線" direction="+" />
     </route>

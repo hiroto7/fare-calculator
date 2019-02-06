@@ -8,6 +8,8 @@
     <import src="./Yokosuka.xml" />
     <!-- 東海道本線 -->
     <import src="./Tokaido.xml" />
+    <!-- 高崎線 -->
+    <import src="./Takasaki.xml" />
 
     <route name="湘南新宿ライン" code="JS" hides-via="">
         <section line="東北本線" direction="-" from="大宮" to="田端" />
@@ -43,8 +45,7 @@
     </route>
 
     <route name="湘南新宿ライン" key="湘南新宿ライン（前橋〜小田原）">
-        <!-- <section line="両毛線1" direction="+" from="前橋" to="高崎" /> -->
-        <!-- <section line="高崎線" direction="-" from="高崎" to="大宮" /> -->
+        <section line="高崎・両毛線" direction="-" from="前橋" to="大宮" />
         <section line="湘南新宿ライン" direction="+" from="大宮" to="大船" />
         <section line="東海道線" direction="+" from="大船" to="小田原" />
     </route>
