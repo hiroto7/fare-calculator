@@ -4,10 +4,11 @@ import Station, { StationSubstance } from "./Station";
 import LineAlias from "./LineAlias";
 import AbstractLine1 from "./AbstractLine1";
 import { StationOnLine, AbstractStationOnLine2 } from "./StationOnLine";
+import DB, { ReadonlyDB } from "./DB";
 
 export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
     protected readonly rawStations: ReadonlyArray<StationOnRouteLine>;
-    protected readonly stationsOnLineMap: ReadonlyMap<StationSubstance, StationOnRouteLine>;
+    protected readonly stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnRouteLine>>;
 
     private readonly rawChildren: ReadonlyArray<Line>;
     private readonly stationCodesMap: ReadonlyMap<StationSubstance, string | null>;
@@ -27,7 +28,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         this.rawCode = code;
         const rawChildren: Set<Line> = new Set();
         const stations: Set<StationOnRouteLine> = new Set();
-        const stationsOnLineMap: Map<StationSubstance, StationOnRouteLine> = new Map();
+        const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnRouteLine>, []> = new DB(_ => new Set());
         let lastSubstance: StationSubstance | null;
         let stationChildren: Set<StationOnLine> | null;
 
@@ -50,7 +51,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
                         const station = new StationOnRouteLine({ line: this, children: stationChildren });
                         stations.add(station);
                         if (lastSubstance === null) throw new Error();
-                        stationsOnLineMap.set(lastSubstance, station);
+                        stationsOnLineMap.get1(lastSubstance).add(station);
                     }
 
                     stationChildren = new Set();
@@ -64,12 +65,12 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
             const station = new StationOnRouteLine({ line: this, children: stationChildren });
             stations.add(station);
             if (lastSubstance === null) throw new Error();
-            stationsOnLineMap.set(lastSubstance, station);
+            stationsOnLineMap.get1(lastSubstance).add(station);
         }
 
         this.rawChildren = [...rawChildren];
         this.rawStations = [...stations];
-        this.stationsOnLineMap = stationsOnLineMap;
+        this.stationsOnLineDB = stationsOnLineMap;
 
         const stationCodesMap1: Map<StationSubstance, string | null> = new Map();
         for (const [station, code] of stationCodesMap) {

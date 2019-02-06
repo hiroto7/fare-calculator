@@ -1,7 +1,8 @@
 import Line from "./Line";
-import { outbound, Direction } from "./Direction";
+import { outbound, Direction, inbound } from "./Direction";
 import Station, { StationSubstance } from "./Station";
 import { StationOnLine } from "./StationOnLine";
+import { ReadonlyDB } from "./DB";
 
 export default abstract class AbstractLine1<SOL extends StationOnLine = StationOnLine> implements Line {
     abstract name(): string;
@@ -16,7 +17,7 @@ export default abstract class AbstractLine1<SOL extends StationOnLine = StationO
     abstract sectionBetween(from: Station, to: Station, direction: Direction): Line;
 
     protected abstract readonly rawStations: ReadonlyArray<SOL>;
-    protected abstract readonly stationsOnLineMap: ReadonlyMap<StationSubstance, SOL>;
+    protected abstract readonly stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<SOL>>;
 
     protected abstract isSOL(station: Station): station is SOL;
 
@@ -37,8 +38,21 @@ export default abstract class AbstractLine1<SOL extends StationOnLine = StationO
         if (this.isSOL(station) && station.line() === this) {
             return station;
         } else {
-            const station1 = this.stationsOnLineMap.get(station.substance());
-            return station1 === undefined ? null : station1;
+            const stationsOnLine = this.stationsOnLineDB.get(station.substance());
+            if (stationsOnLine === undefined) return null;
+            const result = stationsOnLine[Symbol.iterator]().next();
+            return result.done ? null : result.value;
+        }
+    }
+
+    *sectionsFrom(station: Station): IterableIterator<Line> {
+        const stationsOnLine = this.stationsOnLineDB.get(station.substance());
+        if (stationsOnLine === undefined) return;
+        for (const stationOnLine of stationsOnLine) {
+            if (stationOnLine !== this.from())
+                yield this.sectionBetween(stationOnLine, this.from(), inbound);
+            if (stationOnLine !== this.to())
+                yield this.sectionBetween(stationOnLine, this.to(), outbound);
         }
     }
 

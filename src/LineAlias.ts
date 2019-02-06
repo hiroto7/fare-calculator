@@ -3,12 +3,13 @@ import Station, { StationSubstance } from "./Station";
 import { Direction } from "./Direction";
 import AbstractLine1 from "./AbstractLine1";
 import { AbstractStationOnLine1, StationOnLine } from "./StationOnLine";
+import DB, { ReadonlyDB } from "./DB";
 
 export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
     private readonly rawOriginalLine: Line;
 
     protected readonly rawStations: ReadonlyArray<StationOnLineAlias>;
-    protected readonly stationsOnLineMap: ReadonlyMap<StationSubstance, StationOnLineAlias>;
+    protected readonly stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnLineAlias>>;
 
     protected isSOL(station: Station): station is StationOnLineAlias { return station instanceof StationOnLineAlias; }
 
@@ -16,14 +17,14 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
         super();
         this.rawOriginalLine = line;
         const stations: StationOnLineAlias[] = [];
-        const stationsOnLineMap: Map<StationSubstance, StationOnLineAlias> = new Map();
+        const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnLineAlias>, []> = new DB(_ => new Set);
         for (const station of line.stations()) {
             const stationAlias = new StationOnLineAlias({ line: this, station })
             stations.push(stationAlias);
-            stationsOnLineMap.set(station.substance(), stationAlias);
+            stationsOnLineMap.get1(station.substance()).add(stationAlias);
         }
         this.rawStations = stations;
-        this.stationsOnLineMap = stationsOnLineMap;
+        this.stationsOnLineDB = stationsOnLineMap;
     }
 
     original(): Line { return this.rawOriginalLine; }

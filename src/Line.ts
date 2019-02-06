@@ -19,4 +19,5 @@ export default interface Line {
     // has(station: Station): boolean;
     // childrenBetween(from: Station, to: Station, direction: Direction): IterableIterator<Line>;
     sectionBetween(from: Station, to: Station, direction: Direction): Line;
+    sectionsFrom(station: Station): IterableIterator<Line>;
 }

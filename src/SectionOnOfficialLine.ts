@@ -4,10 +4,11 @@ import OfficialLine from "./OfficialLine";
 import { Direction } from "./Direction";
 import { StationOnSection } from "./StationOnLine";
 import Line from "./Line";
+import DB, { ReadonlyDB } from "./DB";
 
 export default class SectionOnOfficialLine extends AbstractLine1<StationOnSection> {
     protected rawStations: ReadonlyArray<StationOnSection>;
-    protected stationsOnLineMap: ReadonlyMap<StationSubstance, StationOnSection>;
+    protected stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnSection>>;
     protected isSOL(station: Station): station is StationOnSection { return station instanceof StationOnSection; }
 
     private line: OfficialLine;
@@ -16,14 +17,14 @@ export default class SectionOnOfficialLine extends AbstractLine1<StationOnSectio
     constructor(line: OfficialLine, from: Station, to: Station, direction: Direction) {
         super();
         const stations: StationOnSection[] = [];
-        const stationsOnLineMap: Map<StationSubstance, StationOnSection> = new Map();
+        const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnSection>> = new DB(_ => new Set);
         for (const originalStation of line.stationsBetween(from, to, direction)) {
             const station = new StationOnSection({ line: this, station: originalStation });
             stations.push(station);
-            stationsOnLineMap.set(station.substance(), station);
+            stationsOnLineMap.get1(station.substance()).add(station);
         }
         this.rawStations = stations;
-        this.stationsOnLineMap = stationsOnLineMap;
+        this.stationsOnLineDB = stationsOnLineMap;
 
         this.line = line;
         this.direction = direction;

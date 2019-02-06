@@ -3,10 +3,11 @@ import Station, { StationSubstance } from "./Station";
 import { Direction, outbound } from "./Direction";
 import AbstractLine1 from "./AbstractLine1";
 import { StationOnSection } from "./StationOnLine";
+import DB, { ReadonlyDB } from "./DB";
 
 export default class Section extends AbstractLine1<StationOnSection> {
     protected rawStations: ReadonlyArray<StationOnSection>;
-    protected stationsOnLineMap: ReadonlyMap<StationSubstance, StationOnSection>;
+    protected stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnSection>>;
     protected isSOL(station: Station): station is StationOnSection { return station instanceof StationOnSection; }
 
     private readonly line: Line;
@@ -26,14 +27,14 @@ export default class Section extends AbstractLine1<StationOnSection> {
         super();
         const section = line.sectionBetween(from, to, direction);
         const stations: StationOnSection[] = [];
-        const stationsOnLineMap: Map<StationSubstance, StationOnSection> = new Map();
+        const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnSection>> = new DB(_ => new Set);
         for (const original of section.stations()) {
             const station = new StationOnSection({ line: this, station: original });
             stations.push(station);
-            stationsOnLineMap.set(station.substance(), station);
+            stationsOnLineMap.get1(station.substance()).add(station);
         }
         this.rawStations = stations;
-        this.stationsOnLineMap = stationsOnLineMap;
+        this.stationsOnLineDB = stationsOnLineMap;
         this.line = section;
         this.rawName = name;
         this.rawCode = code;
