@@ -203,10 +203,8 @@ class XMLHandler {
 const a = (line: Line): HTMLElement => {
     const section: HTMLElement = document.createElement('section');
 
-    section.innerHTML = `<h1>${line.name}</h1>
-    <p>区間 : ${line.from.name} - ${line.to.name}</p>
+    section.innerHTML = `<h1>${[...line.codes()].map(v => `[${v}] `).join(``)}${line.name} [${line.from.name} - ${line.to.name}]</h1>
     <p>営業キロ : ${line.length()}</p>
-    <p>路線記号 : ${[...line.codes()]}</p>
     `;
 
     const table = document.createElement('table');
