@@ -2,11 +2,11 @@ import Line from "./Line";
 import { StationOnLine } from "./StationOnLine";
 
 export default interface Station {
-    name(): string;
+    readonly name: string;
+    readonly isSeasonal: boolean;
+    readonly substance: StationSubstance;
     lines(): IterableIterator<Line>;
-    isSeasonal(): boolean;
     on(line: Line): StationOnLine | null;
-    substance(): StationSubstance;
 }
 
 export interface WritableStation extends Station {
@@ -16,25 +16,23 @@ export interface WritableStation extends Station {
 
 export interface StationSubstance extends Station {
     readonly isSubstance: true;
-    substance(): this;
+    readonly substance: this;
 }
 
 export class Station1 implements StationSubstance, WritableStation {
     readonly isSubstance: true = true;
-    private readonly rawName: string;
-    private rawIsSeasonal: boolean = false;
     private readonly rawLines: Set<Line> = new Set();
     private readonly stationsOnLines: Map<Line, StationOnLine> = new Map();
 
+    readonly substance: this = this;
+    readonly name: string;
+    isSeasonal: boolean = false;
+
     constructor(name: string) {
-        this.rawName = name;
+        this.name = name;
     }
 
-    substance(): this { return this; }
-
-    name(): string { return this.rawName; }
     *lines(): IterableIterator<Line> { yield* this.rawLines; }
-    isSeasonal(): boolean { return this.rawIsSeasonal; }
 
     on(line: Line): StationOnLine | null {
         return line.onLineOf(this);
@@ -49,8 +47,8 @@ export class Station1 implements StationSubstance, WritableStation {
         isSeasonal?: boolean
     }) {
         if (isSeasonal !== undefined)
-            this.rawIsSeasonal = isSeasonal;
+            this.isSeasonal = isSeasonal;
     }
 
-    toString() { return this.name(); }
+    toString() { return this.name; }
 }

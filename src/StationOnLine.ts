@@ -3,62 +3,60 @@ import Line from "./Line";
 import { outbound } from "./Direction";
 
 export interface StationOnLine extends Station {
-    line(): Line;
+    line: Line;
     codes(): IterableIterator<string>;
     distanceFromStart(): number | null;
     // children(): IterableIterator<StationOnLine>;
 }
 
 export abstract class AbstractStationOnLine1<L extends Line = Line> implements StationOnLine {
-    abstract substance(): StationSubstance;
+    abstract readonly substance: StationSubstance;
     abstract codes(): IterableIterator<string>;
     abstract distanceFromStart(): number | null;
 
-    private readonly rawLine: L;
+    readonly line: L;
 
     constructor(line: L) {
-        this.rawLine = line;
+        this.line = line;
     }
 
-    line(): L { return this.rawLine; }
+    get name(): string { return this.substance.name; }
+    get isSeasonal(): boolean { return this.substance.isSeasonal; }
 
-    name(): string { return this.substance().name(); }
-    *lines(): IterableIterator<Line> { yield* this.substance().lines(); }
-    isSeasonal(): boolean { return this.substance().isSeasonal(); }
+    *lines(): IterableIterator<Line> { yield* this.substance.lines(); }
 
     on(line: Line): StationOnLine | null {
-        if (line === this.line())
+        if (line === this.line)
             return this;
         else
-            return this.substance().on(line);
+            return this.substance.on(line);
     }
 
-    toString() { return `${this.name()}@${this.line().name()}` }
+    toString() { return `${this.name}@${this.line.name}` }
 }
 
 export abstract class AbstractStationOnLine2<L extends Line = Line> extends AbstractStationOnLine1<L> {
-    abstract substance(): StationSubstance;
+    abstract readonly substance: StationSubstance;
 
     *codes(): IterableIterator<string> {
-        yield* this.line().codesOf(this);
+        yield* this.line.codesOf(this);
     }
 
     distanceFromStart(): number | null {
-        return this.line().distanceBetween(this.line().from(), this, outbound);
+        return this.line.distanceBetween(this.line.from, this, outbound);
     }
 }
 
 export class StationOnSection extends AbstractStationOnLine2 {
-    private rawOriginal: StationOnLine;
+    readonly original: StationOnLine;
 
     constructor({ line, station }: {
         line: Line,
         station: StationOnLine
     }) {
         super(line);
-        this.rawOriginal = station;
+        this.original = station;
     }
 
-    original(): StationOnLine { return this.rawOriginal; }
-    substance(): StationSubstance { return this.original().substance(); }
+    get substance(): StationSubstance { return this.original.substance; }
 }

@@ -5,9 +5,9 @@ import { StationOnLine } from "./StationOnLine";
 import { ReadonlyDB } from "./DB";
 
 export default abstract class AbstractLine1<SOL extends StationOnLine = StationOnLine> implements Line {
-    abstract name(): string;
+    abstract readonly name: string;
     // abstract color(): string | null;
-    abstract code(): string | null | undefined;
+    abstract readonly code: string | null | undefined;
     abstract codes(direction?: Direction): IterableIterator<string>;
     abstract length(): number;
     abstract codeOf(station: Station): string | null | undefined;
@@ -21,6 +21,9 @@ export default abstract class AbstractLine1<SOL extends StationOnLine = StationO
 
     protected abstract isSOL(station: Station): station is SOL;
 
+    get from(): SOL { return this.rawStations[0]; }
+    get to(): SOL { return this.rawStations[this.rawStations.length - 1]; }
+
     *stations(direction: Direction = outbound): IterableIterator<SOL> {
         if (direction === outbound) {
             for (let i = 0; i < this.rawStations.length; i++)
@@ -31,14 +34,11 @@ export default abstract class AbstractLine1<SOL extends StationOnLine = StationO
         }
     }
 
-    from(): SOL { return this.rawStations[0]; }
-    to(): SOL { return this.rawStations[this.rawStations.length - 1]; }
-
     onLineOf(station: Station): SOL | null {
-        if (this.isSOL(station) && station.line() === this) {
+        if (this.isSOL(station) && station.line === this) {
             return station;
         } else {
-            const stationsOnLine = this.stationsOnLineDB.get(station.substance());
+            const stationsOnLine = this.stationsOnLineDB.get(station.substance);
             if (stationsOnLine === undefined) return null;
             const result = stationsOnLine[Symbol.iterator]().next();
             return result.done ? null : result.value;
@@ -46,15 +46,15 @@ export default abstract class AbstractLine1<SOL extends StationOnLine = StationO
     }
 
     *sectionsFrom(station: Station): IterableIterator<Line> {
-        const stationsOnLine = this.stationsOnLineDB.get(station.substance());
+        const stationsOnLine = this.stationsOnLineDB.get(station.substance);
         if (stationsOnLine === undefined) return;
         for (const stationOnLine of stationsOnLine) {
-            if (stationOnLine !== this.from())
-                yield this.sectionBetween(stationOnLine, this.from(), inbound);
-            if (stationOnLine !== this.to())
-                yield this.sectionBetween(stationOnLine, this.to(), outbound);
+            if (stationOnLine !== this.from)
+                yield this.sectionBetween(stationOnLine, this.from, inbound);
+            if (stationOnLine !== this.to)
+                yield this.sectionBetween(stationOnLine, this.to, outbound);
         }
     }
 
-    toString() { return this.name(); }
+    toString() { return this.name; }
 }

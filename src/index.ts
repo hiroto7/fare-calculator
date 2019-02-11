@@ -39,16 +39,16 @@ class XMLHandler {
         const direction: Direction = directionString === '+' ? outbound : Direction.inbound;
 
         const line: Line | undefined = this.linesDB.get(lineKey);
-        if (line === undefined) throw new Error();
+        if (line === undefined) throw new Error(e.outerHTML);
 
         const fromKey = e.getAttribute('from');
         const toKey = e.getAttribute('to');
 
         const from = fromKey === null ?
-            direction === outbound ? line.from() : line.to() :
+            direction === outbound ? line.from : line.to :
             this.stationsDB.get1(fromKey);
         const to = toKey === null ?
-            direction === outbound ? line.to() : line.from() :
+            direction === outbound ? line.to : line.from :
             this.stationsDB.get1(toKey);
 
         const name1: string | null = e.getAttribute('name');
@@ -203,8 +203,8 @@ class XMLHandler {
 const a = (line: Line): HTMLElement => {
     const section: HTMLElement = document.createElement('section');
 
-    section.innerHTML = `<h1>${line.name()}</h1>
-    <p>区間 : ${line.from().name()} - ${line.to().name()}</p>
+    section.innerHTML = `<h1>${line.name}</h1>
+    <p>区間 : ${line.from.name} - ${line.to.name}</p>
     <p>営業キロ : ${line.length()}</p>
     <p>路線記号 : ${[...line.codes()]}</p>
     `;
@@ -213,9 +213,9 @@ const a = (line: Line): HTMLElement => {
     for (const station of line.stations()) {
         const tr = document.createElement('tr');
         tr.innerHTML = `<td>${[...station.codes()]}</td>
-        <td>${station.name()}</td>
+        <td>${station.name}</td>
         <td>${Math.floor(station.distanceFromStart()! * 10) / 10}</td>
-        <td>${station.isSeasonal() ? '臨時駅' : ''}</td>
+        <td>${station.isSeasonal ? '臨時駅' : ''}</td>
         <td>${[...station.lines()].toString()}</td>`
         table.appendChild(tr);
     }

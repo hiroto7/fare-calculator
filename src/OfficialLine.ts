@@ -7,13 +7,13 @@ import { AbstractStationOnLine1 } from "./StationOnLine";
 import DB, { ReadonlyDB } from "./DB";
 
 export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
-    private readonly rawName: string;
-    private readonly rawCode: string | null;
-
     protected rawStations: ReadonlyArray<StationOnOfficialLine>;
     protected stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnOfficialLine>>;
 
     protected isSOL(station: Station): station is StationOnOfficialLine { return station instanceof StationOnOfficialLine; }
+
+    readonly name: string;
+    readonly code: string | null;
 
     constructor({ name, code, stations }: {
         name: string,
@@ -25,30 +25,22 @@ export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
         }>
     }) {
         super();
-        this.rawName = name;
-        this.rawCode = code === undefined ? null : code;
+        this.name = name;
+        this.code = code === undefined ? null : code;
 
         const rawStations: StationOnOfficialLine[] = [];
         const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnOfficialLine>, []> = new DB(_ => new Set());
         for (const stationParameter of stations) {
             const station = new StationOnOfficialLine({ line: this, ...stationParameter });
             rawStations.push(station);
-            stationsOnLineMap.get1(station.substance()).add(station);
+            stationsOnLineMap.get1(station.substance).add(station);
         }
         this.rawStations = rawStations;
         this.stationsOnLineDB = stationsOnLineMap;
     }
 
-    name(): string {
-        return this.rawName;
-    }
-
-    code(): string | null {
-        return this.rawCode;
-    }
-
     *codes(): IterableIterator<string> {
-        const code = this.code();
+        const code = this.code;
         if (code !== null)
             yield code;
     }
@@ -69,7 +61,7 @@ export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
     }
 
     length(): number {
-        const length = this.distanceBetween(this.from(), this.to(), outbound);
+        const length = this.distanceBetween(this.from, this.to, outbound);
         if (length === null) throw new Error();
         return length;
     }
@@ -91,8 +83,8 @@ export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
     *stationsBetween(from: Station, to: Station, direction: Direction): IterableIterator<StationOnOfficialLine> {
         const from1 = this.onLineOf(from);
         const to1 = this.onLineOf(to);
-        if (from1 === null) throw new Error();
-        if (to1 === null) throw new Error();
+        if (from1 === null) throw new Error(`${this}, ${from}, ${to}, ${direction}`);
+        if (to1 === null) throw new Error(`${this}, ${from}, ${to}, ${direction}`);
 
         const fromIndex = this.rawStations.indexOf(from1);
         if (fromIndex < 0) throw new Error();
@@ -108,9 +100,10 @@ export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
 }
 
 class StationOnOfficialLine extends AbstractStationOnLine1<OfficialLine> {
-    private readonly rawSubstance: StationSubstance;
     private readonly rawDistanceFromStart: number | null;
     private readonly rawCode: string | null;
+
+    readonly substance: StationSubstance;
 
     constructor({ line, substance, distanceFromStart, code = null }: {
         line: OfficialLine,
@@ -119,12 +112,10 @@ class StationOnOfficialLine extends AbstractStationOnLine1<OfficialLine> {
         code?: string | null
     }) {
         super(line);
-        this.rawSubstance = substance;
+        this.substance = substance;
         this.rawDistanceFromStart = distanceFromStart;
         this.rawCode = code;
     }
-
-    substance(): StationSubstance { return this.rawSubstance; }
 
     *codes(): IterableIterator<string> {
         if (this.rawCode !== null)
@@ -132,11 +123,11 @@ class StationOnOfficialLine extends AbstractStationOnLine1<OfficialLine> {
     }
 
     distanceFromStart(): number | null {
-        if (this === this.line().from()) {
+        if (this === this.line.from) {
             if (this.rawDistanceFromStart === null) throw new Error();
             return 0;
         } else {
-            const distanceOfStart = this.line().from().rawDistanceFromStart;
+            const distanceOfStart = this.line.from.rawDistanceFromStart;
             if (distanceOfStart === null) throw new Error();
             if (this.rawDistanceFromStart === null) return null;
             return this.rawDistanceFromStart - distanceOfStart;

@@ -12,10 +12,11 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
 
     private readonly rawChildren: ReadonlyArray<Line>;
     private readonly stationCodesMap: ReadonlyMap<StationSubstance, string | null>;
-    private readonly rawName: string;
-    private readonly rawCode?: string | null;
 
     protected isSOL(station: Station): station is StationOnRouteLine { return station instanceof StationOnRouteLine; }
+
+    readonly name: string;
+    readonly code: string | null | undefined;
 
     constructor({ name, code, children, stationCodesMap = [] }: {
         name: string,
@@ -24,8 +25,8 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         stationCodesMap?: Iterable<[Station, string | null]>
     }) {
         super();
-        this.rawName = name;
-        this.rawCode = code;
+        this.name = name;
+        this.code = code;
         const rawChildren: Set<Line> = new Set();
         const stations: Set<StationOnRouteLine> = new Set();
         const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnRouteLine>, []> = new DB(_ => new Set());
@@ -40,10 +41,10 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
             const child1 = rawChildren.has(child) ? new LineAlias(child) : child;
             rawChildren.add(child1);
 
-            if (lastSubstance !== null && child1.from().substance() !== lastSubstance) throw new Error();
+            if (lastSubstance !== null && child1.from.substance !== lastSubstance) throw new Error();
 
             for (const stationChild of child1.stations()) {
-                if (stationChild.substance() === lastSubstance) {
+                if (stationChild.substance === lastSubstance) {
                     if (stationChildren === null) throw new Error();
                     stationChildren.add(stationChild);
                 } else {
@@ -57,7 +58,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
                     stationChildren = new Set();
                     stationChildren.add(stationChild);
                 }
-                lastSubstance = stationChild.substance();
+                lastSubstance = stationChild.substance;
             }
         }
         {
@@ -73,24 +74,16 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         this.stationsOnLineDB = stationsOnLineMap;
 
         const stationCodesMap1: Map<StationSubstance, string | null> = new Map();
-        for (const [station, code] of stationCodesMap) {
-            const substance = station.substance();
-            stationCodesMap1.set(substance, code);
-        }
+        for (const [station, code] of stationCodesMap)
+            stationCodesMap1.set(station.substance, code);
+
         this.stationCodesMap = stationCodesMap1;
     }
 
-    name(): string { return this.rawName; }
-
     // color(): string | null { }
 
-    code(): string | null | undefined {
-        return this.rawCode;
-    }
-
     *codes(direction: Direction = outbound): IterableIterator<string> {
-        const code = this.code();
-        if (code === undefined) {
+        if (this.code === undefined) {
             const codes: Set<string> = new Set();
             if (direction === outbound) {
                 for (let i = 0; i < this.rawChildren.length; i++) {
@@ -104,17 +97,14 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
                 }
             }
             yield* codes;
-        } else if (code === null) {
+        } else if (this.code === null) {
             return;
         } else {
-            yield code;
+            yield this.code;
         }
     }
 
-    codeOf(station: Station): string | null | undefined {
-        const substance = station.substance();
-        return this.stationCodesMap.get(substance);
-    }
+    codeOf(station: Station): string | null | undefined { return this.stationCodesMap.get(station.substance); }
 
     *codesOf(station: Station): IterableIterator<string> {
         const stationOnLine = this.onLineOf(station);
@@ -157,12 +147,12 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
             direction === outbound ? 0 : toChildren.length - 1
         ];
 
-        const fromLineIndex = this.rawChildren.indexOf(fromChild.line());
+        const fromLineIndex = this.rawChildren.indexOf(fromChild.line);
         if (fromLineIndex < 0) throw new Error();
 
         const toLineIndex = direction === outbound ?
-            this.rawChildren.indexOf(toChild.line(), fromLineIndex) :
-            this.rawChildren.lastIndexOf(toChild.line(), fromLineIndex);
+            this.rawChildren.indexOf(toChild.line, fromLineIndex) :
+            this.rawChildren.lastIndexOf(toChild.line, fromLineIndex);
         if (toLineIndex < 0) throw new Error();
 
         if (direction * fromLineIndex > direction * toLineIndex) return null;
@@ -176,7 +166,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
             {
                 const child = this.rawChildren[fromLineIndex];
                 const childDistance = child.distanceBetween(
-                    fromChild, direction === outbound ? child.to() : child.from(),
+                    fromChild, direction === outbound ? child.to : child.from,
                     direction);
 
                 if (childDistance === null) return null;
@@ -185,8 +175,8 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
             for (let i = fromLineIndex + direction; direction * i < direction * toLineIndex; i += direction) {
                 const child = this.rawChildren[i];
                 const childDistance = direction === outbound ?
-                    child.distanceBetween(child.from(), child.to(), direction) :
-                    child.distanceBetween(child.to(), child.from(), direction);
+                    child.distanceBetween(child.from, child.to, direction) :
+                    child.distanceBetween(child.to, child.from, direction);
 
                 if (childDistance === null) return null;
                 distance += childDistance;
@@ -194,7 +184,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
             {
                 const child = this.rawChildren[toLineIndex];
                 const childDistance = child.distanceBetween(
-                    direction === outbound ? child.from() : child.to(), toChild,
+                    direction === outbound ? child.from : child.to, toChild,
                     direction);
 
                 if (childDistance === null) return null;
@@ -222,12 +212,12 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
             direction === outbound ? 0 : toChildren.length - 1
         ];
 
-        const fromLineIndex = this.rawChildren.indexOf(fromChild.line());
+        const fromLineIndex = this.rawChildren.indexOf(fromChild.line);
         if (fromLineIndex < 0) throw new Error();
 
         const toLineIndex = direction === outbound ?
-            this.rawChildren.indexOf(toChild.line(), fromLineIndex) :
-            this.rawChildren.lastIndexOf(toChild.line(), fromLineIndex);
+            this.rawChildren.indexOf(toChild.line, fromLineIndex) :
+            this.rawChildren.lastIndexOf(toChild.line, fromLineIndex);
         if (toLineIndex < 0) throw new Error();
 
         if (direction * fromLineIndex > direction * toLineIndex) throw new Error();
@@ -241,20 +231,20 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
                 const child = this.rawChildren[fromLineIndex];
                 yield child.sectionBetween(
                     fromChild,
-                    direction === outbound ? child.to() : child.from(),
+                    direction === outbound ? child.to : child.from,
                     direction
                 );
             }
             for (let i = fromLineIndex + direction; direction * i < direction * toLineIndex; i += direction) {
                 const child = this.rawChildren[i];
                 yield direction === outbound ?
-                    child.sectionBetween(child.from(), child.to(), direction) :
-                    child.sectionBetween(child.to(), child.from(), direction);
+                    child.sectionBetween(child.from, child.to, direction) :
+                    child.sectionBetween(child.to, child.from, direction);
             }
             {
                 const child = this.rawChildren[toLineIndex];
                 yield child.sectionBetween(
-                    direction === outbound ? child.from() : child.to(),
+                    direction === outbound ? child.from : child.to,
                     toChild,
                     direction
                 );
@@ -265,8 +255,8 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
     sectionBetween(from: Station, to: Station, direction: Direction): Line {
         // return new SectionOnRouteLine({ line: this, from, to, direction });
         return new RouteLine({
-            name: this.name(),
-            code: this.code(),
+            name: this.name,
+            code: this.code,
             children: this.childrenBetween(from, to, direction),
             stationCodesMap: this.stationCodesMap
         });
@@ -281,11 +271,7 @@ class StationOnRouteLine extends AbstractStationOnLine2 {
         this.rawChildren = [...children];
     }
 
-    substance(): StationSubstance {
-        return this.rawChildren[0].substance();
-    }
+    get substance(): StationSubstance { return this.rawChildren[0].substance; }
 
-    *children(): IterableIterator<StationOnLine> {
-        yield* this.rawChildren;
-    }
+    *children(): IterableIterator<StationOnLine> { yield* this.rawChildren; }
 }

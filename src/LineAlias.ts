@@ -21,17 +21,19 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
         for (const station of line.stations()) {
             const stationAlias = new StationOnLineAlias({ line: this, station })
             stations.push(stationAlias);
-            stationsOnLineMap.get1(station.substance()).add(stationAlias);
+            stationsOnLineMap.get1(station.substance).add(stationAlias);
         }
         this.rawStations = stations;
         this.stationsOnLineDB = stationsOnLineMap;
     }
 
+
+    get name(): string { return this.original().name; }
+    // color(): string | null { return this.originalLine().color(); }
+    get code(): string | null | undefined { return this.original().code; }
+
     original(): Line { return this.rawOriginalLine; }
 
-    name(): string { return this.original().name(); }
-    // color(): string | null { return this.originalLine().color(); }
-    code(): string | null | undefined { return this.original().code(); }
     *codes(direction?: Direction): IterableIterator<string> { yield* this.original().codes(direction); }
     length(): number { return this.original().length(); }
     codeOf(station: Station): string | null | undefined { return this.original().codeOf(station); }
@@ -42,7 +44,7 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
         const to1 = this.onLineOf(to);
         if (from1 === null || to1 === null) return null;
 
-        return this.original().distanceBetween(from1.original(), to1.original(), direction);
+        return this.original().distanceBetween(from1.original, to1.original, direction);
     }
 
     has(station: Station): boolean { return this.onLineOf(station) !== null; }
@@ -52,21 +54,20 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
         const to1 = this.onLineOf(to);
         if (from1 === null || to1 === null) throw new Error();
 
-        return this.original().sectionBetween(from1.original(), to1.original(), direction);
+        return this.original().sectionBetween(from1.original, to1.original, direction);
     }
 }
 
 class StationOnLineAlias extends AbstractStationOnLine1 {
-    private rawOriginalStation: StationOnLine;
+    readonly original: StationOnLine;
 
     constructor({ line, station }: { line: LineAlias, station: StationOnLine }) {
         super(line);
-        this.rawOriginalStation = station;
+        this.original = station;
     }
 
-    original(): StationOnLine { return this.rawOriginalStation; }
+    get substance(): StationSubstance { return this.original.substance; }
 
-    *codes(): IterableIterator<string> { yield* this.original().codes(); }
-    distanceFromStart(): number | null { return this.original().distanceFromStart(); }
-    substance(): StationSubstance { return this.original().substance(); }
+    *codes(): IterableIterator<string> { yield* this.original.codes(); }
+    distanceFromStart(): number | null { return this.original.distanceFromStart(); }
 }
