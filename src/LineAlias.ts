@@ -6,16 +6,16 @@ import { AbstractStationOnLine1, StationOnLine } from "./StationOnLine";
 import DB, { ReadonlyDB } from "./DB";
 
 export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
-    private readonly rawOriginalLine: Line;
-
     protected readonly rawStations: ReadonlyArray<StationOnLineAlias>;
     protected readonly stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnLineAlias>>;
 
     protected isSOL(station: Station): station is StationOnLineAlias { return station instanceof StationOnLineAlias; }
 
+    readonly original: Line;
+
     constructor(line: Line) {
         super();
-        this.rawOriginalLine = line;
+        this.original = line;
         const stations: StationOnLineAlias[] = [];
         const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnLineAlias>, []> = new DB(_ => new Set);
         for (const station of line.stations()) {
@@ -28,23 +28,21 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
     }
 
 
-    get name(): string { return this.original().name; }
+    get name(): string { return this.original.name; }
     // color(): string | null { return this.originalLine().color(); }
-    get code(): string | null | undefined { return this.original().code; }
+    get code(): string | null | undefined { return this.original.code; }
 
-    original(): Line { return this.rawOriginalLine; }
-
-    *codes(direction?: Direction): IterableIterator<string> { yield* this.original().codes(direction); }
-    length(): number { return this.original().length(); }
-    codeOf(station: Station): string | null | undefined { return this.original().codeOf(station); }
-    *codesOf(station: Station): IterableIterator<string> { yield* this.original().codesOf(station); }
+    *codes(direction?: Direction): IterableIterator<string> { yield* this.original.codes(direction); }
+    length(): number { return this.original.length(); }
+    codeOf(station: Station): string | null | undefined { return this.original.codeOf(station); }
+    *codesOf(station: Station): IterableIterator<string> { yield* this.original.codesOf(station); }
 
     distanceBetween(from: Station, to: Station, direction: Direction): number | null {
         const from1 = this.onLineOf(from);
         const to1 = this.onLineOf(to);
         if (from1 === null || to1 === null) return null;
 
-        return this.original().distanceBetween(from1.original, to1.original, direction);
+        return this.original.distanceBetween(from1.original, to1.original, direction);
     }
 
     has(station: Station): boolean { return this.onLineOf(station) !== null; }
@@ -54,7 +52,7 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
         const to1 = this.onLineOf(to);
         if (from1 === null || to1 === null) throw new Error();
 
-        return this.original().sectionBetween(from1.original, to1.original, direction);
+        return this.original.sectionBetween(from1.original, to1.original, direction);
     }
 }
 
