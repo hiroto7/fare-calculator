@@ -9,5 +9,86 @@
 
 <h1>fare-calculator</h1>
 <p><a href="https://github.com/hiroto7/fare-calculator">hiroto7/fare-calculator</a></p>
+
+
+<template id="x-button1-template">
+    <style>
+        :host {
+            display: flex;
+            height: 64px;
+            width: 256px;
+        }
+
+        :host(:active) {
+            filter: brightness(0.75);
+        }
+
+        .symbols {
+            --space: 4px;
+            background-color: gray;
+            display: flex;
+            flex-grow: 0;
+            height: calc(64px - 2 * var(--space));
+            padding: var(--space);
+        }
+
+        .symbols ::slotted(img) {
+            width: calc(64px - 2 * var(--space));
+        }
+
+        .symbols ::slotted(img):not(:first-of-type) {
+            margin-left: var(--space);
+        }
+
+        .details {
+            background-color: var(--color);
+            color: white;
+            flex-grow: 1;
+            flex-direction: column;
+            display: flex;
+            justify-content: center;
+            padding: 4px;
+        }
+
+        .details ::slotted(p) {
+            margin: 0;
+        }
+    </style>
+    <div class="symbols">
+        <slot name="symbol"></slot>
+    </div>
+    <div class="details">
+        <slot name="detail"></slot>
+    </div>
+</template>
+
+<script>
+    customElements.define('x-button1',
+        class extends HTMLElement {
+            constructor() {
+                super();
+                const template = document
+                    .getElementById('x-button1-template')
+                    .content;
+                const shadowRoot = this.attachShadow({ mode: 'open' })
+                    .appendChild(template.cloneNode(true));
+            }
+        })
+</script>
+
+<x-button1 style="--color: orange">
+    <img src="./sample/JT.svg" slot="symbol">
+    <p slot="detail">東海道線</p>
+    <p slot="detail">東京 - 熱海</p>
+</x-button1>
+
+<hr>
+
+<x-button1 style="--color: skyblue">
+    <img src="./sample/JK.svg" slot="symbol">
+    <p slot="detail">京浜東北線</p>
+    <p slot="detail">大宮 - 横浜</p>
+</x-button1>
+
 <p id="loading">Loading ...</p>
 <script src="bundle.js"></script>
