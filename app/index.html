@@ -3,6 +3,7 @@
 <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
 <style>
     body {
+        background-color: snow;
         font-family: "M PLUS Rounded 1c";
     }
 </style>
@@ -10,13 +11,13 @@
 <h1>fare-calculator</h1>
 <p><a href="https://github.com/hiroto7/fare-calculator">hiroto7/fare-calculator</a></p>
 
-
-<template id="x-button1-template">
+<template id="x-line-button-template">
     <style>
         :host {
-            display: flex;
-            height: 64px;
+            display: inline-flex;
+            min-height: 48px;
             width: 256px;
+            user-select: none;
         }
 
         :host(:active) {
@@ -25,22 +26,23 @@
 
         .symbols {
             --space: 4px;
-            background-color: gray;
-            display: flex;
+            align-content: center;
+            background-color: black;
+            display: grid;
             flex-grow: 0;
-            height: calc(64px - 2 * var(--space));
+            grid-gap: var(--space);
             padding: var(--space);
         }
 
         .symbols ::slotted(img) {
-            width: calc(64px - 2 * var(--space));
+            width: calc(48px - 2 * var(--space));
         }
 
         .symbols ::slotted(img):not(:first-of-type) {
             margin-left: var(--space);
         }
 
-        .details {
+        .summary {
             background-color: var(--color);
             color: white;
             flex-grow: 1;
@@ -50,45 +52,171 @@
             padding: 4px;
         }
 
-        .details ::slotted(p) {
+        .summary ::slotted(*) {
             margin: 0;
+        }
+
+        .summary ::slotted(h1) {
+            font-size: 16px;
+        }
+
+        .summary ::slotted(p) {
+            font-size: 12px;
         }
     </style>
     <div class="symbols">
         <slot name="symbol"></slot>
     </div>
-    <div class="details">
-        <slot name="detail"></slot>
+    <div class="summary">
+        <slot name="summary"></slot>
     </div>
 </template>
 
+
+<template id="x-direction-list-template">
+    <style>
+        :host {
+            background-color: black;
+            display: inline-block;
+        }
+
+        .summary {
+            color: white;
+            padding: 4px;
+        }
+
+        .summary ::slotted(*) {
+            margin: 0;
+        }
+
+        .summary ::slotted(h1) {
+            font-size: 16px;
+        }
+
+        .summary ::slotted(p) {
+            font-size: 12px;
+        }
+
+        .directions {
+            display: grid;
+            grid-gap: 1px;
+        }
+    </style>
+    <div class="summary">
+        <slot name="summary"></slot>
+    </div>
+    <div class="directions">
+        <slot name="direction"></slot>
+    </div>
+</template>
+
+<template id="x-line-list-template">
+    <style>
+        :host {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, 256px);
+            grid-gap: 8px;
+        }
+    </style>
+    <slot name="line"></slot>
+</template>
+
 <script>
-    customElements.define('x-button1',
+    customElements.define('x-line-button',
         class extends HTMLElement {
             constructor() {
                 super();
                 const template = document
-                    .getElementById('x-button1-template')
+                    .getElementById('x-line-button-template')
                     .content;
                 const shadowRoot = this.attachShadow({ mode: 'open' })
                     .appendChild(template.cloneNode(true));
             }
-        })
+        });
+
+    customElements.define('x-direction-list',
+        class extends HTMLElement {
+            constructor() {
+                super();
+                const template = document
+                    .getElementById('x-direction-list-template')
+                    .content;
+                const shadowRoot = this.attachShadow({ mode: 'open' })
+                    .appendChild(template.cloneNode(true));
+            }
+        });
+
+
+    customElements.define('x-line-list',
+        class extends HTMLElement {
+            constructor() {
+                super();
+                const template = document
+                    .getElementById('x-line-list-template')
+                    .content;
+                const shadowRoot = this.attachShadow({ mode: 'open' })
+                    .appendChild(template.cloneNode(true));
+            }
+        });
 </script>
 
-<x-button1 style="--color: orange">
-    <img src="./sample/JT.svg" slot="symbol">
-    <p slot="detail">東海道線</p>
-    <p slot="detail">東京 - 熱海</p>
-</x-button1>
+<x-line-list>
+    <x-line-button style="--color: #f68b1e" slot="line">
+                <img src=" ./sample/JT.svg" slot="symbol">
+        <h1 slot="summary">東海道線</h1>
+        <p slot="summary">東京 - 熱海</p>
+    </x-line-button>
+
+    <x-line-button style="--color: #00b2e5" slot="line">
+        <img src="./sample/JK.svg" slot="symbol">
+        <h1 slot="summary">京浜東北線</h1>
+        <p slot="summary">大宮 - 横浜</p>
+    </x-line-button>
+
+    <x-line-button style="--color: #f68b1e" slot="line">
+        <img src="./sample/JU.svg" slot="symbol">
+        <img src="./sample/JT.svg" slot="symbol">
+        <h1 slot="summary">上野東京ライン</h1>
+        <p slot="summary">黒磯 - 伊東</p>
+    </x-line-button>
+
+</x-line-list>
 
 <hr>
 
-<x-button1 style="--color: skyblue">
-    <img src="./sample/JK.svg" slot="symbol">
-    <p slot="detail">京浜東北線</p>
-    <p slot="detail">大宮 - 横浜</p>
-</x-button1>
+<x-line-list>
+    <x-direction-list slot="line">
+        <h1 slot="summary">上野東京ライン</h1>
+
+        <x-line-button style="--color: #f68b1e" slot="direction">
+            <img src="./sample/JU.svg" slot="symbol">
+            <h1 slot="summary">上野, 黒磯 方面</h1>
+        </x-line-button>
+
+        <x-line-button style="--color: #f68b1e" slot="direction">
+            <img src="./sample/JT.svg" slot="symbol">
+            <p slot="summary">東海道線</p>
+            <h1 slot="summary">品川, 熱海, 伊東 方面</h1>
+        </x-line-button>
+    </x-direction-list>
+
+    <x-direction-list slot="line">
+        <h1 slot="summary">京浜東北・根岸線</h1>
+
+        <x-line-button style="--color: #00b2e5" slot="direction">
+            <img src="./sample/JK.svg" slot="symbol">
+            <p slot="summary">京浜東北線</p>
+            <h1 slot="summary">東神奈川, 大宮 方面</h1>
+        </x-line-button>
+
+        <x-line-button style="--color: #00b2e5" slot="direction">
+            <img src="./sample/JK.svg" slot="symbol">
+            <p slot="summary">根岸線</p>
+            <h1 slot="summary">桜木町, 大船 方面</h1>
+        </x-line-button>
+    </x-direction-list>
+
+</x-line-list>
 
 <p id="loading">Loading ...</p>
 <script src="bundle.js"></script>
