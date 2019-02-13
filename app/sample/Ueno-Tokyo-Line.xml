@@ -24,13 +24,13 @@
     </route>
 
     <route name="上野東京ライン" key="上野東京ライン（前橋〜沼津）">
-        <!-- <section line="高崎線・両毛線" direction="-" from="前橋" to="上野" /> -->
+        <section line="高崎・両毛線" direction="-" from="前橋" to="上野" />
         <section line="上野東京ライン" direction="-" />
         <section line="東海道線（東京〜沼津）" direction="+" />
     </route>
 
     <route name="上野東京ライン" key="上野東京ライン（前橋〜伊東）">
-        <!-- <section line="高崎線・両毛線" direction="-" from="前橋" to="上野" /> -->
+        <section line="高崎・両毛線" direction="-" from="前橋" to="上野" />
         <section line="上野東京ライン" direction="-" />
         <section line="東海道・伊東線" direction="+" />
     </route>
