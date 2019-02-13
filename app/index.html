@@ -98,24 +98,34 @@
 <template id="x-named-direction-list-template">
     <style>
         :host {
-            column-gap: 4px;
-            display: inline-grid;
-            grid-template-columns: repeat(var(--symbols-count), 48px) 1fr;
-            row-gap: 1px;
-            user-select: none;
+            display: inline-flex;
+            flex-direction: column;
         }
 
-        x-line-summary {
-            grid-column: -2;
+        ::slotted(*) {
+            margin: 0;
+        }
+
+        ::slotted(h1) {
+            font-size: 20px;
+        }
+
+        ::slotted(p) {
+            font-size: 15px;
+        }
+
+        .summary {
+            color: gray;
+            margin-bottom: 8px;
         }
 
         x-direction-list {
-            display: contents;
+            flex-grow: 1;
         }
     </style>
-    <x-line-summary style="--color: black">
-        <slot name="summary" slot="summary"></slot>
-    </x-line-summary>
+    <div class="summary">
+        <slot name="summary"></slot>
+    </div>
     <x-direction-list>
         <slot name="direction" slot="direction"></slot>
     </x-direction-list>
@@ -154,7 +164,7 @@
     }
 </script>
 
-<x-line-list>
+<x-line-list style="margin: 8px;">
     <x-line-button style="--color: #f68b1e; --symbols-count: 1" slot="line">
         <img src=" ./sample/JT.svg" slot="symbol">
         <h1 slot="summary">東海道線</h1>
@@ -178,16 +188,16 @@
 
 <hr>
 
-<x-line-list>
+<x-line-list style="margin: 8px;">
     <x-named-direction-list slot="line" style="--symbols-count: 1">
         <h1 slot="summary">上野東京ライン</h1>
 
-        <x-line-button style="--color: #800080" slot="direction">
+        <x-line-button style="--color: #800080;" slot="direction">
             <img src="./sample/JU.svg" slot="symbol">
             <h1 slot="summary">上野, 黒磯 方面</h1>
         </x-line-button>
 
-        <x-line-button style="--color: #f68b1e" slot="direction">
+        <x-line-button style="--color: #f68b1e;" slot="direction">
             <img src="./sample/JT.svg" slot="symbol">
             <p slot="summary">東海道線</p>
             <h1 slot="summary">品川, 熱海, 伊東 方面</h1>
@@ -197,13 +207,13 @@
     <x-named-direction-list slot="line" style="--symbols-count: 1">
         <h1 slot="summary">京浜東北・根岸線</h1>
 
-        <x-line-button style="--color: #00b2e5" slot="direction">
+        <x-line-button style="--color: #00b2e5;" slot="direction">
             <img src="./sample/JK.svg" slot="symbol">
             <p slot="summary">京浜東北線</p>
             <h1 slot="summary">東神奈川, 大宮 方面</h1>
         </x-line-button>
 
-        <x-line-button style="--color: #00b2e5" slot="direction">
+        <x-line-button style="--color: #00b2e5;" slot="direction">
             <img src="./sample/JK.svg" slot="symbol">
             <p slot="summary">根岸線</p>
             <h1 slot="summary">桜木町, 大船 方面</h1>
@@ -213,12 +223,12 @@
     <x-named-direction-list slot="line" style="--symbols-count: 1">
         <h1 slot="summary">湘南新宿ライン</h1>
 
-        <x-line-button style="--color: #e21f26" slot="direction">
+        <x-line-button style="--color: #e21f26;" slot="direction">
             <img src="./sample/JS.svg" slot="symbol">
             <h1 slot="summary">戸塚, 大宮, 前橋 方面</h1>
         </x-line-button>
 
-        <x-line-button style="--color: #f68b1e" slot="direction">
+        <x-line-button style="--color: #f68b1e;" slot="direction">
             <img src="./sample/JT.svg" slot="symbol">
             <p slot="summary">東海道線</p>
             <h1 slot="summary">藤沢, 小田原 方面</h1>
@@ -228,7 +238,7 @@
     <x-named-direction-list slot="line" style="--symbols-count: 1">
         <h1 slot="summary">東北本線</h1>
 
-        <x-line-button style="--color: #f68b1e" slot="direction">
+        <x-line-button style="--color: #f68b1e;" slot="direction">
             <img src="./sample/JU.svg" slot="symbol">
             <p slot="summary">宇都宮線</p>
             <h1 slot="summary">上野, 黒磯, 盛岡 方面</h1>
@@ -238,13 +248,13 @@
     <x-named-direction-list slot="line" style="--symbols-count: 1">
         <h1 slot="summary">東北本線</h1>
 
-        <x-line-button style="--color: #f68b1e" slot="direction">
+        <x-line-button style="--color: #f68b1e;" slot="direction">
             <img src="./sample/JU.svg" slot="symbol">
             <p slot="summary">宇都宮線</p>
             <h1 slot="summary">那須塩原, 東京 方面</h1>
         </x-line-button>
 
-        <x-line-button style="--color: #3cb371" slot="direction">
+        <x-line-button style="--color: #3cb371;" slot="direction">
             <h1 slot="summary">高久, 盛岡 方面</h1>
         </x-line-button>
     </x-named-direction-list>
@@ -252,11 +262,11 @@
     <x-named-direction-list slot="line" style="--symbols-count: 0">
         <h1 slot="summary">東北本線</h1>
 
-        <x-line-button style="--color: #3cb371" slot="direction">
+        <x-line-button style="--color: #3cb371;" slot="direction">
             <h1 slot="summary">長町, 東京 方面</h1>
         </x-line-button>
 
-        <x-line-button style="--color: #3cb371" slot="direction">
+        <x-line-button style="--color: #3cb371;" slot="direction">
             <h1 slot="summary">東仙台, 盛岡 方面</h1>
         </x-line-button>
     </x-named-direction-list>
