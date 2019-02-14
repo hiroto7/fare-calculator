@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="根岸線" code="JK">
+        <station name="横浜" distance="0" code="12" />
+        <station name="桜木町" distance="2" code="11" />
+        <station name="関内" distance="3" code="10" />
+        <station name="石川町" distance="3.8" code="09" />
+        <station name="山手" distance="5" code="08" />
+        <station name="根岸" distance="7.1" code="07" />
+        <station name="磯子" distance="9.5" code="06" />
+        <station name="新杉田" distance="11.1" code="05" />
+        <station name="洋光台" distance="14.1" code="04" />
+        <station name="港南台" distance="16" code="03" />
+        <station name="本郷台" distance="18.5" code="02" />
+        <station name="大船" distance="22.1" code="01" />
+    </official>
+
+    <route name="京浜東北線" code="JK" hides-via="" hidden="">
+        <section line="東北本線" direction="-" from="大宮" to="東京" />
+        <section line="東海道本線" direction="+" from="東京" to="横浜" />
+
+        <station name="大宮" code="47" />
+        <station name="さいたま新都心" code="46" />
+        <station name="与野" code="45" />
+        <station name="北浦和" code="44" />
+        <station name="浦和" code="43" />
+        <station name="南浦和" code="42" />
+        <station name="蕨" code="41" />
+        <station name="西川口" code="40" />
+        <station name="川口" code="39" />
+        <station name="赤羽" code="38" />
+        <station name="東十条" code="37" />
+        <station name="王子" code="36" />
+        <station name="上中里" code="35" />
+        <station name="田端" code="34" />
+        <station name="西日暮里" code="33" />
+        <station name="日暮里" code="32" />
+        <station name="鶯谷" code="31" />
+        <station name="上野" code="30" />
+        <station name="御徒町" code="29" />
+        <station name="秋葉原" code="28" />
+        <station name="神田" code="27" />
+        <station name="東京" code="26" />
+        <station name="有楽町" code="25" />
+        <station name="新橋" code="24" />
+        <station name="浜松町" code="23" />
+        <station name="田町" code="22" />
+        <station name="品川" code="20" />
+        <station name="大井町" code="19" />
+        <station name="大森" code="18" />
+        <station name="蒲田" code="17" />
+        <station name="川崎" code="16" />
+        <station name="鶴見" code="15" />
+        <station name="新子安" code="14" />
+        <station name="東神奈川" code="13" />
+        <station name="横浜" code="12" />
+    </route>
+
+    <route name="京浜東北・根岸線">
+        <section line="京浜東北線" direction="+" />
+        <section line="根岸線" direction="+" />
+    </route>
+</data>

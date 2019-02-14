@@ -16,9 +16,6 @@
     <import src="./Takasaki.xml" />
     <!-- 湘南新宿ライン -->
     <import src="./Shonan-Shinjuku-Line.xml" />
-
-    <route name="京浜東北線" code="JK" hides-via="">
-        <section line="東北本線" direction="-" from="大宮" to="東京" />
-        <section line="東海道本線" direction="+" from="東京" to="横浜" />
-    </route>
+    <!-- 根岸線 -->
+    <import src="./Negishi.xml" />
 </data>
