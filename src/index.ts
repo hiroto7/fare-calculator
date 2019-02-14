@@ -5,6 +5,7 @@ import { Station1, StationSubstance } from "./Station";
 import RouteLine from "./RouteLine";
 import DB from "./DB";
 import Section from "./Section";
+import { StationOnLine } from "./StationOnLine";
 
 class XMLHandler {
     private visited: Set<string> = new Set();
@@ -162,10 +163,9 @@ class XMLHandler {
         if (src === null) throw new Error();
 
         const url: URL = new URL(src, baseURL);
-        if (this.visited.has(url.toString())) {
-            console.warn(e);
+        if (this.visited.has(url.toString()))
             return;
-        }
+
 
         this.visited.add(url.toString());
         await this.import(url);
@@ -222,6 +222,46 @@ const a = (line: Line): HTMLElement => {
     return section;
 }
 
+const b = (line: Line, sections: Iterable<Line>): HTMLElement => {
+    const list: HTMLElement = document.createElement('x-named-direction-list');
+
+    const summary: HTMLHeadingElement = document.createElement('h1');
+    summary.appendChild(document.createTextNode(line.name));
+    summary.slot = 'summary';
+    list.appendChild(summary);
+
+    let maxSymbolCount = 0;
+    for (const section of sections) {
+        const button: HTMLElement = document.createElement('x-line-button');
+        let symbolCount = 0;
+        for (const code of section.codes()) {
+            const image: HTMLImageElement = document.createElement('img');
+            image.src = `./sample/${code}.svg`;
+            image.slot = 'symbol';
+            button.appendChild(image);
+            symbolCount += 1;
+        }
+        maxSymbolCount = Math.max(symbolCount, maxSymbolCount);
+
+        const h1: HTMLHeadingElement = document.createElement('h1');
+        const halfway: Set<StationSubstance> = new Set();
+        const stations: IterableIterator<StationOnLine> = section.stations();
+
+        halfway.add((stations.next(), stations.next()).value.substance);
+        halfway.add(section.to.substance);
+        h1.appendChild(document.createTextNode(`${[...halfway].join(', ')} 方面`));
+        h1.slot = 'summary';
+        button.appendChild(h1);
+
+        button.slot = 'direction';
+        list.appendChild(button);
+    }
+    list.style.setProperty('--symbols-count', '' + maxSymbolCount);
+    list.slot = 'line';
+
+    return list;
+}
+
 (async () => {
     const handler = new XMLHandler();
     const indexURL = new URL('./sample/index.xml', location.href);
@@ -229,6 +269,20 @@ const a = (line: Line): HTMLElement => {
     console.log(handler);
 
     const linesDB = handler.linesDB;
+    const stationsDB = handler.stationsDB;
+
+    document.getElementById('add-button')!.addEventListener('click', () => {
+        try {
+            const stationInput: HTMLInputElement = document.getElementById('station-input')! as HTMLInputElement;
+            const lineInput: HTMLInputElement = document.getElementById('line-input')! as HTMLInputElement;
+            const station: StationSubstance = stationsDB.get(stationInput.value)!;
+            const line: Line = linesDB.get(lineInput.value)!;
+
+            document.getElementById('list1')!.appendChild(b(line, line.sectionsFrom(station)));
+        } catch (e) {
+            console.error(e);
+        }
+    });
 
     for (const line of linesDB.values()) {
         document.body.appendChild(a(line));

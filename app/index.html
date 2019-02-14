@@ -15,7 +15,7 @@
 <template id="x-line-summary-template">
     <style>
         :host {
-            background-color: var(--color);
+            background-color: var(--color, gray);
             border-bottom-left-radius: var(--border-bottom-radius, 0);
             border-bottom-right-radius: var(--border-bottom-radius, 0);
             border-top-left-radius: var(--border-top-radius, 0);
@@ -176,6 +176,23 @@
     }
 </script>
 
+<form>
+    <table>
+        <tr>
+            <td>line</td>
+            <td><input id="line-input"></td>
+        </tr>
+        <tr>
+            <td>station</td>
+            <td><input id="station-input"></td>
+        </tr>
+    </table>
+    <input type="button" value="Add" id="add-button">
+</form>
+
+<x-line-list style="margin: 8px;" id="list1">
+</x-line-list>
+
 <x-line-list style="margin: 8px;">
     <x-line-button style="--color: #f68b1e; --symbols-count: 1" slot="line">
         <img src=" ./sample/JT.svg" slot="symbol">
@@ -197,8 +214,6 @@
     </x-line-button>
 
 </x-line-list>
-
-<hr>
 
 <x-line-list style="margin: 8px;">
     <x-named-direction-list slot="line" style="--symbols-count: 1">
