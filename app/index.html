@@ -16,6 +16,10 @@
     <style>
         :host {
             background-color: var(--color);
+            border-bottom-left-radius: var(--border-bottom-radius, 0);
+            border-bottom-right-radius: var(--border-bottom-radius, 0);
+            border-top-left-radius: var(--border-top-radius, 0);
+            border-top-right-radius: var(--border-top-radius, 0);
             color: white;
             display: inline-flex;
             flex-direction: column;
@@ -41,6 +45,8 @@
 <template id="x-line-button-template">
     <style>
         :host {
+            --border-bottom-radius: 4px;
+            --border-top-radius: 4px;
             column-gap: 4px;
             cursor: pointer;
             display: inline-grid;
@@ -84,12 +90,18 @@
             user-select: none;
         }
 
-        x-line-summary {
-            grid-column: -2;
+        ::slotted(x-line-button) {
+            --border-bottom-radius: 0;
+            --border-top-radius: 0;
+            display: contents;
         }
 
-        ::slotted(x-line-button) {
-            display: contents;
+        ::slotted(x-line-button:first-of-type) {
+            --border-top-radius: 4px;
+        }
+
+        ::slotted(x-line-button:last-of-type) {
+            --border-bottom-radius: 4px;
         }
     </style>
     <slot name="direction"></slot>
