@@ -25,13 +25,6 @@ export abstract class AbstractStationOnLine1<L extends Line = Line> implements S
 
     *lines(): IterableIterator<Line> { yield* this.substance.lines(); }
 
-    on(line: Line): StationOnLine | null {
-        if (line === this.line)
-            return this;
-        else
-            return this.substance.on(line);
-    }
-
     toString() { return `${this.name}@${this.line.name}` }
 }
 

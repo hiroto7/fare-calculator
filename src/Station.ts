@@ -6,7 +6,6 @@ export default interface Station {
     readonly isSeasonal: boolean;
     readonly substance: StationSubstance;
     lines(): IterableIterator<Line>;
-    on(line: Line): StationOnLine | null;
 }
 
 export interface WritableStation extends Station {
@@ -33,10 +32,6 @@ export class Station1 implements StationSubstance, WritableStation {
     }
 
     *lines(): IterableIterator<Line> { yield* this.rawLines; }
-
-    on(line: Line): StationOnLine | null {
-        return line.onLineOf(this);
-    }
 
     add(line: Line, onLine: StationOnLine) {
         this.rawLines.add(line);
