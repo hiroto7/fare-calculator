@@ -1,6 +1,6 @@
-import { Direction } from "./Direction";
-import Station from "./Station";
-import { StationOnLine } from "./StationOnLine";
+import { Direction } from "../Direction";
+import Station from "../Station";
+import { StationOnLine } from "../StationOnLine";
 
 export default interface Line {
     readonly name: string;

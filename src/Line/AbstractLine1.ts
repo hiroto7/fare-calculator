@@ -1,8 +1,8 @@
-import Line from "./Line";
-import { outbound, Direction, inbound } from "./Direction";
-import Station, { StationSubstance } from "./Station";
-import { StationOnLine } from "./StationOnLine";
-import { ReadonlyDB } from "./DB";
+import Line from ".";
+import { outbound, Direction, inbound } from "../Direction";
+import Station, { StationSubstance } from "../Station";
+import { StationOnLine } from "../StationOnLine";
+import { ReadonlyDB } from "../DB";
 
 export default abstract class AbstractLine1<SOL extends StationOnLine = StationOnLine> implements Line {
     abstract readonly name: string;

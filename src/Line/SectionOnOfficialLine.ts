@@ -1,10 +1,10 @@
 import AbstractLine1 from "./AbstractLine1";
-import Station, { StationSubstance } from "./Station";
+import Station, { StationSubstance } from "../Station";
 import OfficialLine from "./OfficialLine";
-import { Direction } from "./Direction";
-import { StationOnSection } from "./StationOnLine";
-import Line from "./Line";
-import DB, { ReadonlyDB } from "./DB";
+import { Direction } from "../Direction";
+import { StationOnSection } from "../StationOnLine";
+import Line from ".";
+import DB, { ReadonlyDB } from "../DB";
 
 export default class SectionOnOfficialLine extends AbstractLine1<StationOnSection> {
     protected rawStations: ReadonlyArray<StationOnSection>;

@@ -1,9 +1,9 @@
-import Line from "./Line";
-import Station, { StationSubstance } from "./Station";
-import { Direction } from "./Direction";
+import Line from ".";
+import Station, { StationSubstance } from "../Station";
+import { Direction } from "../Direction";
 import AbstractLine1 from "./AbstractLine1";
-import { AbstractStationOnLine1, StationOnLine } from "./StationOnLine";
-import DB, { ReadonlyDB } from "./DB";
+import { AbstractStationOnLine1, StationOnLine } from "../StationOnLine";
+import DB, { ReadonlyDB } from "../DB";
 
 export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
     protected readonly rawStations: ReadonlyArray<StationOnLineAlias>;

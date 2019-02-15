@@ -1,10 +1,7 @@
 import { Direction, outbound } from "./Direction";
-import Line from "./Line";
-import OfficialLine from "./OfficialLine";
+import Line, { Section, RouteLine, OfficialLine } from "./Line/";
 import { Station1, StationSubstance } from "./Station";
-import RouteLine from "./RouteLine";
 import DB from "./DB";
-import Section from "./Section";
 import { StationOnLine } from "./StationOnLine";
 
 class XMLHandler {

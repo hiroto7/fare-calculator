@@ -1,10 +1,10 @@
-import Line from "./Line";
-import { Direction, outbound } from "./Direction";
-import Station, { StationSubstance } from "./Station";
+import Line from ".";
+import { Direction, outbound } from "../Direction";
+import Station, { StationSubstance } from "../Station";
 import LineAlias from "./LineAlias";
 import AbstractLine1 from "./AbstractLine1";
-import { StationOnLine, AbstractStationOnLine2 } from "./StationOnLine";
-import DB, { ReadonlyDB } from "./DB";
+import { StationOnLine, AbstractStationOnLine2 } from "../StationOnLine";
+import DB, { ReadonlyDB } from "../DB";
 
 export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
     protected readonly rawStations: ReadonlyArray<StationOnRouteLine>;
