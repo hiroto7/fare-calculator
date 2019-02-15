@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="横須賀線" code="JO">
+    <official name="横須賀線" code="JO" color="#007ac0">
         <station name="大船" code="09" distance="0" />
         <station name="北鎌倉" code="08" distance="2.3" />
         <station name="鎌倉" code="07" distance="4.5" />
@@ -20,7 +20,7 @@
         <station name="鶴見" distance="17.8" />
     </official>
 
-    <route name="横須賀線" key="横須賀線1" code="JO" hides-via="">
+    <route name="横須賀線" key="横須賀線1" code="JO" color="#007ac0" hides-via="">
         <section line="東海道本線" direction="+" from="東京" to="品川" />
         <section line="品鶴線" direction="+" />
         <section line="東海道本線" direction="+" from="鶴見" to="大船" />

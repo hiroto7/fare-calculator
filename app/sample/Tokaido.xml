@@ -159,7 +159,7 @@
         <station name="大阪" distance="556.4" />
     </official>
 
-    <section name="東海道線" line="東海道本線" direction="+" code="JT" from="東京" to="熱海" hidden="" hides-via="">
+    <section name="東海道線" color="#F68B1E" line="東海道本線" direction="+" code="JT" from="東京" to="熱海" hidden="" hides-via="">
         <station name="東京" code="01" />
         <station name="新橋" code="02" />
         <station name="品川" code="03" />
@@ -183,7 +183,7 @@
         <station name="熱海" code="21" />
     </section>
 
-    <section name="東海道本線" key="東海道本線（JR東海）" line="東海道本線" direction="+" code="CA" from="熱海" to="米原" hidden="" hides-via="">
+    <section name="東海道本線" color="#f57615" key="東海道本線（JR東海）" line="東海道本線" direction="+" code="CA" from="熱海" to="米原" hidden="" hides-via="">
         <!-- Wikipedia:東海道線_(静岡地区)#駅一覧 -->
         <station name="熱海" code="00" />
         <station name="函南" code="01" />
@@ -278,7 +278,7 @@
 
     <!-- 北陸本線 -->
     <import src="./Hokuriku.xml" />
-    <route name="琵琶湖線" code="JR-A" hidden="" hides-via="">
+    <route name="琵琶湖線" code="JR-A" color="#0072bc" hidden="" hides-via="">
         <section line="北陸本線1" direction="-" from="長浜" to="米原" />
         <section line="東海道本線" direction="+" from="米原" to="京都" />
 
@@ -304,7 +304,7 @@
         <station name="京都" code="31" />
     </route>
 
-    <section name="JR京都線" code="JR-A" direction="+" line="東海道本線" from="京都" to="大阪" hidden="" hides-via="">
+    <section name="JR京都線" code="JR-A" color="#0072bc" direction="+" line="東海道本線" from="京都" to="大阪" hidden="" hides-via="">
         <station name="京都" code="31" />
         <station name="西大路" code="32" />
         <station name="桂川" code="33" />
@@ -332,7 +332,7 @@
         <!-- <section line="JR神戸線" direction="+" from="大阪" to="神戸" /> -->
     </route>
 
-    <official name="伊東線" code="JT">
+    <official name="伊東線" code="JT" color="#F68B1E">
         <station name="熱海" distance="0.0" code="21" />
         <station name="来宮" distance="1.2" code="22" />
         <station name="伊豆多賀" distance="6.0" code="23" />

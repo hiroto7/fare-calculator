@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="山手線" code="JY">
+    <official name="山手線" code="JY" color="#80c241">
         <station name="品川" distance="-27.7" code="25" />
         <station name="大崎" distance="-25.7" code="24" />
         <station name="五反田" distance="-24.8" code="23" />
@@ -24,7 +24,7 @@
     <import src="./Tohoku.xml" />
     <!-- 東海道本線 -->
     <import src="./Tokaido.xml" />
-    <route name="山手線" key="山手線1" code="JY" hides-via="">
+    <route name="山手線" key="山手線1" code="JY" color="#80c241" hides-via="">
         <section line="東北本線" direction="+" from="東京" to="田端" />
         <section line="山手線" direction="-" />
         <section line="東海道本線" direction="-" from="品川" to="東京" />

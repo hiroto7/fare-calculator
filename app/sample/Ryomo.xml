@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="両毛線">
+    <official name="両毛線" color="#ffd400">
         <station name="小山" distance="0" />
         <station name="思川" distance="5.4" />
         <station name="栃木" distance="10.8" />
@@ -24,7 +24,7 @@
 
     <!-- 上越線 -->
     <import src="./Joetsu.xml" />
-    <route name="両毛線" key="両毛線1">
+    <route name="両毛線" key="両毛線1" color="#ffd400" hides-via="">
         <section line="両毛線" direction="+" />
         <section line="上越線" direction="-" from="新前橋" to="高崎" />
     </route>

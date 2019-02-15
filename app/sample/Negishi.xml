@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="根岸線" code="JK">
+    <official name="根岸線" code="JK" color="#00B2E5">
         <station name="横浜" distance="0" code="12" />
         <station name="桜木町" distance="2" code="11" />
         <station name="関内" distance="3" code="10" />
@@ -15,7 +15,7 @@
         <station name="大船" distance="22.1" code="01" />
     </official>
 
-    <route name="京浜東北線" code="JK" hides-via="" hidden="">
+    <route name="京浜東北線" code="JK" color="#00B2E5" hides-via="" hidden="">
         <section line="東北本線" direction="-" from="大宮" to="東京" />
         <section line="東海道本線" direction="+" from="東京" to="横浜" />
 
