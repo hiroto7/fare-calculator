@@ -1,5 +1,4 @@
 import Line from "./Line";
-import { StationOnLine } from "./StationOnLine";
 
 export default interface Station {
     readonly name: string;
@@ -9,8 +8,9 @@ export default interface Station {
 }
 
 export interface WritableStation extends Station {
-    add(line: Line, onLine: StationOnLine): void;
-    setOptions({ isSeasonal }: { isSeasonal?: boolean }): void;
+    name: string;
+    isSubstance: true;
+    add(line: Line): void;
 }
 
 export interface StationSubstance extends Station {
@@ -19,12 +19,11 @@ export interface StationSubstance extends Station {
 }
 
 export class Station1 implements StationSubstance, WritableStation {
-    readonly isSubstance: true = true;
+    isSubstance: true = true;
     private readonly rawLines: Set<Line> = new Set();
-    private readonly stationsOnLines: Map<Line, StationOnLine> = new Map();
 
     readonly substance: this = this;
-    readonly name: string;
+    name: string;
     isSeasonal: boolean = false;
 
     constructor(name: string) {
@@ -32,18 +31,6 @@ export class Station1 implements StationSubstance, WritableStation {
     }
 
     *lines(): IterableIterator<Line> { yield* this.rawLines; }
-
-    add(line: Line, onLine: StationOnLine) {
-        this.rawLines.add(line);
-        this.stationsOnLines.set(line, onLine);
-    }
-
-    setOptions({ isSeasonal }: {
-        isSeasonal?: boolean
-    }) {
-        if (isSeasonal !== undefined)
-            this.isSeasonal = isSeasonal;
-    }
-
+    add(line: Line) { this.rawLines.add(line); }
     toString() { return this.name; }
 }

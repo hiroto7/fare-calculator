@@ -22,7 +22,8 @@ class XMLHandler {
 
         const isSeasonal = e.hasAttribute('seasonal');
         const station = this.stationsDB.get1(key, name);
-        station.setOptions({ isSeasonal });
+        if (isSeasonal !== null)
+            station.isSeasonal = isSeasonal;
         return station;
     }
 
