@@ -32,6 +32,7 @@ export default class SectionOnOfficialLine extends AbstractLine1<StationOnSectio
 
     get name(): string { return this.line.name; }
     get code(): string | null { return this.line.code; }
+
     *codes(): IterableIterator<string> { yield* this.line.codes(); }
 
     codeOf(station: Station): string | null | undefined {
@@ -69,4 +70,6 @@ export default class SectionOnOfficialLine extends AbstractLine1<StationOnSectio
         if (to1 === null) throw new Error();
         return this.line.sectionBetween(from1.original, to1.original, direction * this.direction);
     }
+
+    *grandchildren() { yield this; }
 }

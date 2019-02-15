@@ -22,4 +22,5 @@ export default interface Line {
     codesOf(station: Station): IterableIterator<string>;
     sectionBetween(from: Station, to: Station, direction: Direction): Line;
     sectionsFrom(station: Station): IterableIterator<Line>;
+    grandchildren(hidesVia?: boolean): IterableIterator<Line>;
 }

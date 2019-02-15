@@ -12,21 +12,24 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
 
     private readonly rawChildren: ReadonlyArray<Line>;
     private readonly stationCodesMap: ReadonlyMap<StationSubstance, string | null>;
+    private readonly hidesVia: boolean;
 
     protected isSOL(station: Station): station is StationOnRouteLine { return station instanceof StationOnRouteLine; }
 
     readonly name: string;
     readonly code: string | null | undefined;
 
-    constructor({ name, code, children, stationCodesMap = [] }: {
+    constructor({ name, code, children, stationCodesMap = [], hidesVia = false }: {
         name: string,
         code?: string | null;
         children: Iterable<Line>,
-        stationCodesMap?: Iterable<[Station, string | null]>
+        stationCodesMap?: Iterable<[Station, string | null]>,
+        hidesVia?: boolean
     }) {
         super();
         this.name = name;
         this.code = code;
+        this.hidesVia = hidesVia;
         const rawChildren: Set<Line> = new Set();
         const stations: Set<StationOnRouteLine> = new Set();
         const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnRouteLine>, []> = new DB(_ => new Set());
@@ -258,8 +261,20 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
             name: this.name,
             code: this.code,
             children: this.childrenBetween(from, to, direction),
-            stationCodesMap: this.stationCodesMap
+            stationCodesMap: this.stationCodesMap,
+            hidesVia: this.hidesVia
         });
+    }
+
+    *children(): IterableIterator<Line> { yield* this.rawChildren; }
+
+    *grandchildren(hidesVia: boolean = false): IterableIterator<Line> {
+        if (this.hidesVia && hidesVia) {
+            yield this;
+        } else {
+            for (const child of this.children())
+                yield* child.grandchildren(hidesVia);
+        }
     }
 }
 

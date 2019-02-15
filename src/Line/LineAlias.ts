@@ -54,6 +54,8 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
 
         return this.original.sectionBetween(from1.original, to1.original, direction);
     }
+
+    *grandchildren(hidesVia?: boolean): IterableIterator<Line> { yield* this.original.grandchildren(hidesVia); }
 }
 
 class StationOnLineAlias extends AbstractStationOnLine1 {

@@ -97,6 +97,8 @@ export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
             yield this.rawStations[i];
         }
     }
+
+    *grandchildren() { yield this; }
 }
 
 class StationOnOfficialLine extends AbstractStationOnLine1<OfficialLine> {

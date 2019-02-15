@@ -15,6 +15,7 @@ export default abstract class AbstractLine1<SOL extends StationOnLine = StationO
     abstract distanceBetween(from: Station, to: Station, direction: Direction): number | null;
     // abstract childrenBetween(from: Station, to: Station, direction: Direction): IterableIterator<Line>;
     abstract sectionBetween(from: Station, to: Station, direction: Direction): Line;
+    abstract grandchildren(hidesVia?: boolean): IterableIterator<Line>;
 
     protected abstract readonly rawStations: ReadonlyArray<SOL>;
     protected abstract readonly stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<SOL>>;

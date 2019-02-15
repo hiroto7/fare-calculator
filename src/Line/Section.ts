@@ -14,15 +14,17 @@ export default class Section extends AbstractLine1<StationOnSection> {
     private readonly stationCodesMap: ReadonlyMap<StationSubstance, string | null>;
     private readonly rawName?: string;
     private readonly rawCode?: string | null;
+    private readonly hidesVia: boolean;
 
-    constructor({ name, code, line, from, to, direction, stationCodesMap = [] }: {
+    constructor({ name, code, line, from, to, direction, stationCodesMap = [], hidesVia = false }: {
         name?: string,
         code?: string | null,
         stationCodesMap?: Iterable<[Station, string | null]>,
         line: Line,
         from: Station,
         to: Station,
-        direction: Direction
+        direction: Direction,
+        hidesVia?: boolean
     }) {
         super();
         const section = line.sectionBetween(from, to, direction);
@@ -38,6 +40,7 @@ export default class Section extends AbstractLine1<StationOnSection> {
         this.line = section;
         this.rawName = name;
         this.rawCode = code;
+        this.hidesVia = hidesVia;
 
         const stationCodesMap1: Map<StationSubstance, string | null> = new Map();
         for (const [station, code] of stationCodesMap) {
@@ -95,9 +98,7 @@ export default class Section extends AbstractLine1<StationOnSection> {
             yield code;
     }
 
-    length(): number {
-        return this.line.length();
-    }
+    length(): number { return this.line.length(); }
 
     distanceBetween(from: Station, to: Station, direction: Direction): number | null {
         const from1 = this.onLineOf(from);
@@ -119,7 +120,15 @@ export default class Section extends AbstractLine1<StationOnSection> {
             from: from1.original,
             to: to1.original,
             direction,
-            stationCodesMap: this.stationCodesMap
+            stationCodesMap: this.stationCodesMap,
+            hidesVia: this.hidesVia
         });
+    }
+
+    *grandchildren(hidesVia: boolean = false): IterableIterator<Line> {
+        if (this.hidesVia && hidesVia)
+            yield this;
+        else
+            yield* this.line.grandchildren(hidesVia);
     }
 }
