@@ -11,6 +11,7 @@ class XMLHandler {
         name = name || key;
         return new Station1(name);
     });
+    readonly parser = new DOMParser();
 
     handleStation(e: Element): StationSubstance {
         if (e.tagName !== 'station') throw new Error();
@@ -55,6 +56,8 @@ class XMLHandler {
         const lineCode1: string | null = e.getAttribute('code');
         const lineCode: string | undefined = lineCode1 === null ? undefined : lineCode1;
 
+        const hidesVia: boolean = e.hasAttribute('hides-via');
+
         const stationCodesMap: Map<StationSubstance, string | null> = new Map();
         for (const stationXML of Array.from(e.children)) {
             if (stationXML.tagName !== 'station') continue;
@@ -66,14 +69,7 @@ class XMLHandler {
                 stationCodesMap.set(substance, lineCode === undefined ? stationCode : lineCode + stationCode);
         }
 
-        const section = new Section({ name, code: lineCode, line, direction, from, to, stationCodesMap });
-
-        if (name !== undefined) {
-            const key: string = e.getAttribute('key') || name;
-            this.linesDB.set(key, section);
-        }
-
-        return section;
+        return new Section({ name, code: lineCode, line, direction, from, to, stationCodesMap, hidesVia });
     }
 
     handleRouteLine(e: Element): RouteLine {
@@ -84,6 +80,8 @@ class XMLHandler {
 
         const lineCode1: string | null = e.getAttribute('code');
         const lineCode: string | undefined = lineCode1 === null ? undefined : lineCode1;
+
+        const hidesVia: boolean = e.hasAttribute('hides-via');
 
         const stationCodesMap: Map<StationSubstance, string | null> = new Map();
         const sections: Line[] = [];
@@ -105,10 +103,7 @@ class XMLHandler {
             }
         }
 
-        const key: string = e.getAttribute('key') || name;
-        const line = new RouteLine({ name, code: lineCode, children: sections, stationCodesMap });
-        this.linesDB.set(key, line);
-        return line;
+        return new RouteLine({ name, code: lineCode, children: sections, stationCodesMap, hidesVia });
     }
 
     handleOfficialLine(e: Element): Line {
@@ -117,8 +112,6 @@ class XMLHandler {
         const name = e.getAttribute('name');
         if (name === null) throw new Error();
         const lineCode: string | null = e.getAttribute('code');
-
-        const key: string = e.getAttribute('key') || name;
 
         const stations: {
             substance: StationSubstance,
@@ -139,16 +132,12 @@ class XMLHandler {
             stations.push({ substance, distanceFromStart, code: stationCode });
         }
 
-        const line = new OfficialLine({ name, code: lineCode, stations });
-        this.linesDB.set(key, line);
-
-        return line;
+        return new OfficialLine({ name, code: lineCode, stations });
     }
 
     async import(url: URL) {
         const srcText = await (await fetch(url.toString())).text();
-        const parser = new DOMParser();
-        const srcXML = parser.parseFromString(srcText, 'text/xml');
+        const srcXML = this.parser.parseFromString(srcText, 'text/xml');
 
         await this.handleXMLData(srcXML.children[0], url);
     }
@@ -163,7 +152,6 @@ class XMLHandler {
         if (this.visited.has(url.toString()))
             return;
 
-
         this.visited.add(url.toString());
         await this.import(url);
     }
@@ -172,26 +160,21 @@ class XMLHandler {
         if (data.tagName !== 'data') throw new Error();
 
         for (const child of Array.from(data.children)) {
-            switch (child.tagName) {
-                case 'import':
-                    await this.handleImport(child, baseURL);
-                    break;
+            if (child.tagName === 'official' ||
+                child.tagName === 'route' ||
+                child.tagName === 'section') {
+                const line: Line = child.tagName === 'official' ?
+                    this.handleOfficialLine(child) :
+                    child.tagName === 'route' ?
+                        this.handleRouteLine(child) :
+                        this.handleSection(child);
 
-                case 'station':
-                    this.handleStation(child);
-                    break;
-
-                case 'official':
-                    this.handleOfficialLine(child);
-                    break;
-
-                case 'route':
-                    this.handleRouteLine(child);
-                    break;
-
-                case 'section':
-                    this.handleSection(child);
-                    break;
+                const key: string = child.getAttribute('key') || line.name;
+                this.linesDB.set(key, line);
+            } else if (child.tagName === 'station') {
+                this.handleStation(child);
+            } else if (child.tagName === 'import') {
+                await this.handleImport(child, baseURL);
             }
         }
     }
@@ -227,33 +210,46 @@ const b = (line: Line, sections: Iterable<Line>): HTMLElement => {
     summary.slot = 'summary';
     list.appendChild(summary);
 
-    let maxSymbolCount = 0;
+    let symbolCount = 0;
     for (const section of sections) {
         const button: HTMLElement = document.createElement('x-line-button');
-        let symbolCount = 0;
-        for (const code of section.codes()) {
-            const image: HTMLImageElement = document.createElement('img');
-            image.src = `./sample/${code}.svg`;
-            image.slot = 'symbol';
-            button.appendChild(image);
-            symbolCount += 1;
+        const grandchild = section.grandchildren(true).next().value;
+        {
+            const codes = grandchild.codes();
+            const result = codes.next();
+            if (!result.done) {
+                const code = result.value;
+                const image: HTMLImageElement = document.createElement('img');
+                image.src = `./sample/${code}.svg`;
+                image.slot = 'symbol';
+                button.appendChild(image);
+                symbolCount = 1;
+            }
         }
-        maxSymbolCount = Math.max(symbolCount, maxSymbolCount);
-
-        const h1: HTMLHeadingElement = document.createElement('h1');
-        const halfway: Set<StationSubstance> = new Set();
-        const stations: IterableIterator<StationOnLine> = section.stations();
-
-        halfway.add((stations.next(), stations.next()).value.substance);
-        halfway.add(section.to.substance);
-        h1.appendChild(document.createTextNode(`${[...halfway].join(', ')} 方面`));
-        h1.slot = 'summary';
-        button.appendChild(h1);
+        if (grandchild.name !== line.name) {
+            const p: HTMLParagraphElement = document.createElement('p');
+            p.appendChild(document.createTextNode(grandchild.name));
+            p.slot = 'summary';
+            button.appendChild(p);
+        }
+        {
+            const h1: HTMLHeadingElement = document.createElement('h1');
+            const halfway: Set<StationSubstance> = new Set();
+            {
+                const stations: IterableIterator<StationOnLine> = section.stations();
+                halfway.add((stations.next(), stations.next()).value.substance);
+            }
+            halfway.add(grandchild.to.substance);
+            halfway.add(section.to.substance);
+            h1.appendChild(document.createTextNode(`${[...halfway].join(', ')} 方面`));
+            h1.slot = 'summary';
+            button.appendChild(h1);
+        }
 
         button.slot = 'direction';
         list.appendChild(button);
     }
-    list.style.setProperty('--symbols-count', '' + maxSymbolCount);
+    list.style.setProperty('--symbols-count', '' + symbolCount);
     list.slot = 'line';
 
     return list;
