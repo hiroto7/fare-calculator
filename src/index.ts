@@ -1,117 +1,42 @@
 import { Direction, outbound } from "./Direction";
 import Line, { Section, RouteLine, OfficialLine } from "./Line/";
-import { Station1, StationSubstance } from "./Station";
-import DB from "./DB";
+import { Station1, StationSubstance, WritableStation } from "./Station";
+import DB, { ReadonlyDB } from "./DB";
 import { StationOnLine } from "./StationOnLine";
 
-class XMLHandler {
-    private visited: Set<string> = new Set();
-    readonly linesDB = new Map<string, Line>();
-    readonly stationsDB = new DB((key: string, name?: string) => {
-        name = name || key;
-        return new Station1(name);
-    });
-    readonly parser = new DOMParser();
+class StationXMLHandler {
+    constructor(private readonly stationsDB: ReadonlyDB<string, WritableStation & StationSubstance, [string?]>) { }
 
-    handleStation(e: Element): StationSubstance {
-        if (e.tagName !== 'station') throw new Error();
+    handle(e: Element): StationSubstance {
+        if (e.tagName !== 'station')
+            throw new Error('このメソッドの引数は <station> 要素である必要があります。');
 
         const name = e.getAttribute('name');
-        if (name === null) throw new Error();
+        if (name === null)
+            throw new Error('name 属性を省略することはできません。');
         const key = e.getAttribute('key') || name;
 
-        const isSeasonal = e.hasAttribute('seasonal');
+        const isSeasonal = e.hasAttribute('seasonal') || undefined;
         const station = this.stationsDB.get1(key, name);
-        if (isSeasonal !== null)
-            station.isSeasonal = isSeasonal;
+        station.setOptions({ isSeasonal });
         return station;
     }
+}
 
-    handleSection(e: Element): Line {
-        if (e.tagName !== 'section') throw new Error();
+class LineXMLHandler {
+    constructor(
+        private readonly linesDB: ReadonlyMap<string, Line>,
+        private readonly stationsDB: ReadonlyDB<string, StationSubstance>,
+        private readonly stationXMLHandler: StationXMLHandler) { }
 
-        const lineKey = e.getAttribute('line');
-        if (lineKey === null) throw new Error();
+    private handleO(e: Element, { name, code: lineCode, color }: {
+        name: string | undefined,
+        code: string | undefined,
+        color: string | undefined
+    }): OfficialLine {
 
-        const directionString = e.getAttribute('direction');
-        if (directionString === null) throw new Error();
-        if (directionString !== '+' && directionString !== '-') throw new Error();
-        const direction: Direction = directionString === '+' ? outbound : Direction.inbound;
-
-        const line: Line | undefined = this.linesDB.get(lineKey);
-        if (line === undefined) throw new Error(e.outerHTML);
-
-        const fromKey = e.getAttribute('from');
-        const toKey = e.getAttribute('to');
-
-        const from = fromKey === null ?
-            direction === outbound ? line.from : line.to :
-            this.stationsDB.get1(fromKey);
-        const to = toKey === null ?
-            direction === outbound ? line.to : line.from :
-            this.stationsDB.get1(toKey);
-
-        const name: string | undefined = e.getAttribute('name') || undefined;
-        const lineCode: string | undefined = e.getAttribute('code') || undefined;
-        const color: string | undefined = e.getAttribute('color') || undefined;
-
-        const hidesVia: boolean = e.hasAttribute('hides-via');
-
-        const stationCodesMap: Map<StationSubstance, string | null> = new Map();
-        for (const stationXML of Array.from(e.children)) {
-            if (stationXML.tagName !== 'station') continue;
-
-            const substance = this.handleStation(stationXML);
-            const stationCode = stationXML.getAttribute('code');
-
-            if (stationCode !== null)
-                stationCodesMap.set(substance, lineCode === undefined ? stationCode : lineCode + stationCode);
-        }
-
-        return new Section({ name, code: lineCode, color, line, direction, from, to, stationCodesMap, hidesVia });
-    }
-
-    handleRouteLine(e: Element): RouteLine {
-        if (e.tagName !== 'route') throw new Error();
-
-        const name = e.getAttribute('name');
-        if (name === null) throw new Error();
-
-        const lineCode: string | undefined = e.getAttribute('code') || undefined;
-        const color: string | undefined = e.getAttribute('color') || undefined;
-
-        const hidesVia: boolean = e.hasAttribute('hides-via');
-
-        const stationCodesMap: Map<StationSubstance, string | null> = new Map();
-        const sections: Line[] = [];
-        for (const child of Array.from(e.children)) {
-            switch (child.tagName) {
-                case 'section':
-                    const section = this.handleSection(child);
-                    sections.push(section);
-                    break;
-
-                case 'station':
-                    const substance = this.handleStation(child);
-                    const stationCode = child.getAttribute('code');
-
-                    if (stationCode !== null)
-                        stationCodesMap.set(substance, lineCode === undefined ? stationCode : lineCode + stationCode);
-
-                    break;
-            }
-        }
-
-        return new RouteLine({ name, code: lineCode, color, children: sections, stationCodesMap, hidesVia });
-    }
-
-    handleOfficialLine(e: Element): Line {
-        if (e.tagName !== 'official') throw new Error();
-
-        const name = e.getAttribute('name');
-        if (name === null) throw new Error();
-        const lineCode: string | null = e.getAttribute('code');
-        const color: string | null = e.getAttribute('color');
+        if (name === undefined)
+            throw new Error('name 属性を省略することはできません。');
 
         const stations: {
             substance: StationSubstance,
@@ -121,7 +46,7 @@ class XMLHandler {
         for (const stationXML of Array.from(e.children)) {
             if (stationXML.tagName !== 'station') continue;
 
-            const substance = this.handleStation(stationXML);
+            const substance = this.stationXMLHandler.handle(stationXML);
             const distanceFromStartString = stationXML.getAttribute('distance');
             const distanceFromStart = distanceFromStartString === null ? null : +distanceFromStartString;
 
@@ -133,6 +58,123 @@ class XMLHandler {
         }
 
         return new OfficialLine({ name, code: lineCode, color, stations });
+    }
+
+    private handleS(e: Element, { name, code: lineCode, color, hidesVia, stationCodesMap }: {
+        name: string | undefined,
+        code: string | undefined,
+        color: string | undefined,
+        hidesVia: boolean,
+        stationCodesMap: Iterable<[StationSubstance, string | null]>
+    }): Section {
+
+        const lineKey = e.getAttribute('line');
+        if (lineKey === null)
+            throw new Error('line 属性を省略することはできません。');
+
+        const directionString = e.getAttribute('direction');
+        if (directionString === null)
+            throw new Error('direction 属性を省略することはできません。');
+        if (directionString !== '+' && directionString !== '-')
+            throw new Error('direction 属性の値は "+" または "-" である必要があります。');
+        const direction: Direction = directionString === '+' ? outbound : Direction.inbound;
+
+        const line: Line | undefined = this.linesDB.get(lineKey);
+        if (line === undefined)
+            throw new Error(`${lineKey} が見つかりません。`);
+
+        const fromKey = e.getAttribute('from');
+        const toKey = e.getAttribute('to');
+
+        const from = fromKey === null ?
+            direction === outbound ? line.from : line.to :
+            this.stationsDB.get1(fromKey);
+        const to = toKey === null ?
+            direction === outbound ? line.to : line.from :
+            this.stationsDB.get1(toKey);
+
+        return new Section({ name, code: lineCode, color, line, direction, from, to, stationCodesMap, hidesVia });
+    }
+
+    private handleR(e: Element, { name, code: lineCode, color, hidesVia, stationCodesMap }: {
+        name: string | undefined,
+        code: string | undefined,
+        color: string | undefined,
+        hidesVia: boolean,
+        stationCodesMap: Iterable<[StationSubstance, string | null]>
+    }): RouteLine {
+
+        if (name === undefined)
+            throw new Error('name 属性を省略することはできません。');
+
+        const sections: Line[] = [];
+        for (const child of Array.from(e.children)) {
+            if (child.tagName !== 'official' && child.tagName !== 'route' && child.tagName !== 'section') continue;
+
+            const section = this.handle(child);
+            sections.push(section);
+        }
+
+        return new RouteLine({ name, code: lineCode, color, children: sections, stationCodesMap, hidesVia });
+    }
+
+    handle(e: Element): Line {
+        const name: string | undefined = e.getAttribute('name') || undefined;
+        const lineCode: string | undefined = e.getAttribute('code') || undefined;
+        const color: string | undefined = e.getAttribute('color') || undefined;
+        const hidesVia: boolean = e.hasAttribute('hides-via');
+
+        const params: {
+            name: string | undefined,
+            code: string | undefined,
+            color: string | undefined,
+            hidesVia: boolean,
+            stationCodesMap?: Iterable<[StationSubstance, string | null]>
+        } = { name, code: lineCode, color, hidesVia };
+
+        if (e.tagName === 'official') {
+            return this.handleO(e, params);
+        } else if (e.tagName === 'section' || e.tagName === 'route') {
+
+            const stationCodesMap: Map<StationSubstance, string | null> = new Map();
+            for (const stationXML of Array.from(e.children)) {
+                if (stationXML.tagName !== 'station') continue;
+
+                const substance = this.stationXMLHandler.handle(stationXML);
+                const stationCode = stationXML.getAttribute('code');
+
+                if (stationCode !== null)
+                    stationCodesMap.set(substance, lineCode === undefined ? stationCode : lineCode + stationCode);
+            }
+
+            if (e.tagName === 'section') {
+                return this.handleS(e, { ...params, stationCodesMap });
+            } else {
+                return this.handleR(e, { ...params, stationCodesMap });
+            }
+
+        } else {
+            throw new Error('このメソッドの引数は <official>, <section>, <route> のいずれかの要素である必要があります。');
+        }
+    }
+}
+
+class XMLHandler {
+    private visited: Set<string> = new Set();
+    private readonly parser = new DOMParser();
+    private readonly linesDB: Map<string, Line>;
+    private readonly stationsDB: Map<string, WritableStation & StationSubstance>;
+    private readonly stationXMLHandler: StationXMLHandler;
+    private readonly lineXMLHandler: LineXMLHandler;
+
+    constructor() {
+        const linesDB: ReadonlyMap<string, Line> = this.linesDB = new Map();
+        const stationsDB: ReadonlyDB<string, WritableStation & StationSubstance> = this.stationsDB = new DB((key: string, name?: string) => {
+            name = name || key;
+            return new Station1(name);
+        });
+        const stationXMLHandler = this.stationXMLHandler = new StationXMLHandler(stationsDB);
+        this.lineXMLHandler = new LineXMLHandler(linesDB, stationsDB, stationXMLHandler);
     }
 
     async import(url: URL) {
@@ -160,23 +202,26 @@ class XMLHandler {
         if (data.tagName !== 'data') throw new Error();
 
         for (const child of Array.from(data.children)) {
-            if (child.tagName === 'official' ||
-                child.tagName === 'route' ||
-                child.tagName === 'section') {
-                const line: Line = child.tagName === 'official' ?
-                    this.handleOfficialLine(child) :
-                    child.tagName === 'route' ?
-                        this.handleRouteLine(child) :
-                        this.handleSection(child);
-
+            if (child.tagName === 'official' || child.tagName === 'route' || child.tagName === 'section') {
+                const line: Line = this.lineXMLHandler.handle(child);
                 const key: string = child.getAttribute('key') || line.name;
                 this.linesDB.set(key, line);
+                // const hidden: boolean = child.hasAttribute('hidden');
             } else if (child.tagName === 'station') {
-                this.handleStation(child);
+                this.stationXMLHandler.handle(child);
             } else if (child.tagName === 'import') {
                 await this.handleImport(child, baseURL);
             }
         }
+    }
+
+    getDB(): {
+        readonly linesDB: ReadonlyMap<string, Line>,
+        readonly stationsDB: ReadonlyMap<string, StationSubstance>
+    } {
+        return {
+            linesDB: this.linesDB, stationsDB: this.stationsDB
+        };
     }
 }
 
@@ -269,8 +314,8 @@ const b = (line: Line, sections: Iterable<Line>): HTMLElement => {
     await handler.import(indexURL);
     console.log(handler);
 
-    const linesDB = handler.linesDB;
-    const stationsDB = handler.stationsDB;
+    const linesDB = handler.getDB().linesDB;
+    const stationsDB = handler.getDB().stationsDB;
 
     document.getElementById('add-button')!.addEventListener('click', () => {
         try {
