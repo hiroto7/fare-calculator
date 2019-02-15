@@ -8,7 +8,6 @@ export default interface Station {
 }
 
 export interface WritableStation extends Station {
-    name: string;
     isSubstance: true;
     add(line: Line): void;
 }
@@ -23,7 +22,7 @@ export class Station1 implements StationSubstance, WritableStation {
     private readonly rawLines: Set<Line> = new Set();
 
     readonly substance: this = this;
-    name: string;
+    readonly name: string;
     isSeasonal: boolean = false;
 
     constructor(name: string) {
