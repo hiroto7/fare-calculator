@@ -18,7 +18,8 @@ export default interface Line {
     stations(direction?: Direction): IterableIterator<StationOnLine>;
     length(): number;
     distanceBetween(from: Station, to: Station, direction: Direction): number | null;
-    onLineOf(station: Station): StationOnLine | null;
+    onLineVersionOf(station: Station): StationOnLine | null;
+    onLineVersionsOf(station: Station): IterableIterator<StationOnLine>;
     codeOf(station: Station): string | null | undefined;
     codesOf(station: Station): IterableIterator<string>;
     sectionBetween(from: Station, to: Station, direction: Direction): Line;

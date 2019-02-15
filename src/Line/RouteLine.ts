@@ -133,7 +133,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
     codeOf(station: Station): string | null | undefined { return this.stationCodesMap.get(station.substance); }
 
     *codesOf(station: Station): IterableIterator<string> {
-        const stationOnLine = this.onLineOf(station);
+        const stationOnLine = this.onLineVersionOf(station);
         if (stationOnLine === null) throw new Error();
         const code = this.codeOf(stationOnLine);
         if (code === undefined) {
@@ -159,8 +159,8 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
     }
 
     distanceBetween(from: Station, to: Station, direction: Direction): number | null {
-        const from1 = this.onLineOf(from);
-        const to1 = this.onLineOf(to);
+        const from1 = this.onLineVersionOf(from);
+        const to1 = this.onLineVersionOf(to);
 
         if (from1 === null || to1 === null) return null;
 
@@ -223,8 +223,8 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
     // has(station: Station): boolean { }
 
     *childrenBetween(from: Station, to: Station, direction: Direction): IterableIterator<Line> {
-        const from1 = this.onLineOf(from);
-        const to1 = this.onLineOf(to);
+        const from1 = this.onLineVersionOf(from);
+        const to1 = this.onLineVersionOf(to);
 
         if (from1 === null) throw new Error();
         if (to1 === null) throw new Error();
@@ -279,7 +279,6 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
     }
 
     sectionBetween(from: Station, to: Station, direction: Direction): Line {
-        // return new SectionOnRouteLine({ line: this, from, to, direction });
         return new RouteLine({
             name: this.name,
             code: this.code,

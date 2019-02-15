@@ -38,13 +38,13 @@ export default class SectionOnOfficialLine extends AbstractLine1<StationOnSectio
     *colors(): IterableIterator<string> { yield* this.line.colors(); }
 
     codeOf(station: Station): string | null | undefined {
-        const stationOnLine = this.onLineOf(station);
+        const stationOnLine = this.onLineVersionOf(station);
         if (stationOnLine === null) return null;
         return this.line.codeOf(stationOnLine.original);
     }
 
     *codesOf(station: Station): IterableIterator<string> {
-        const stationOnLine = this.onLineOf(station);
+        const stationOnLine = this.onLineVersionOf(station);
         if (stationOnLine === null) throw new Error();
         yield* this.line.codesOf(stationOnLine.original);
     }
@@ -58,16 +58,16 @@ export default class SectionOnOfficialLine extends AbstractLine1<StationOnSectio
     }
 
     distanceBetween(from: Station, to: Station, direction: Direction): number | null {
-        const from1 = this.onLineOf(from);
-        const to1 = this.onLineOf(to);
+        const from1 = this.onLineVersionOf(from);
+        const to1 = this.onLineVersionOf(to);
 
         if (from1 === null || to1 === null) return null;
         return this.line.distanceBetween(from1.original, to1.original, direction * this.direction);
     }
 
     sectionBetween(from: Station, to: Station, direction: Direction): Line {
-        const from1 = this.onLineOf(from);
-        const to1 = this.onLineOf(to);
+        const from1 = this.onLineVersionOf(from);
+        const to1 = this.onLineVersionOf(to);
         if (from1 === null) throw new Error();
         if (to1 === null) throw new Error();
         return this.line.sectionBetween(from1.original, to1.original, direction * this.direction);

@@ -96,7 +96,7 @@ export default class Section extends AbstractLine1<StationOnSection> {
         const substance = station.substance;
         const code = this.stationCodesMap.get(substance);
         if (code === undefined) {
-            const stationOnLine = this.onLineOf(station);
+            const stationOnLine = this.onLineVersionOf(station);
             if (stationOnLine === null) return null;
             return this.line.codeOf(stationOnLine.original);
         } else {
@@ -105,7 +105,7 @@ export default class Section extends AbstractLine1<StationOnSection> {
     }
 
     *codesOf(station: Station): IterableIterator<string> {
-        const stationOnLine = this.onLineOf(station);
+        const stationOnLine = this.onLineVersionOf(station);
         if (stationOnLine === null) throw new Error();
         const code = this.codeOf(stationOnLine);
         if (code === undefined)
@@ -119,16 +119,16 @@ export default class Section extends AbstractLine1<StationOnSection> {
     length(): number { return this.line.length(); }
 
     distanceBetween(from: Station, to: Station, direction: Direction): number | null {
-        const from1 = this.onLineOf(from);
-        const to1 = this.onLineOf(to);
+        const from1 = this.onLineVersionOf(from);
+        const to1 = this.onLineVersionOf(to);
 
         if (from1 === null || to1 === null) return null;
         return this.line.distanceBetween(from1.original, to1.original, direction);
     }
 
     sectionBetween(from: Station, to: Station, direction: Direction): Line {
-        const from1 = this.onLineOf(from);
-        const to1 = this.onLineOf(to);
+        const from1 = this.onLineVersionOf(from);
+        const to1 = this.onLineVersionOf(to);
         if (from1 === null) throw new Error();
         if (to1 === null) throw new Error();
         return new Section({

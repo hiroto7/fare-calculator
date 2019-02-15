@@ -36,15 +36,22 @@ export default abstract class AbstractLine1<SOL extends StationOnLine = StationO
         }
     }
 
-    onLineOf(station: Station): SOL | null {
+    onLineVersionOf(station: Station): SOL | null {
         if (this.isSOL(station) && station.line === this) {
             return station;
         } else {
-            const stationsOnLine = this.stationsOnLineDB.get(station.substance);
-            if (stationsOnLine === undefined) return null;
-            const result = stationsOnLine[Symbol.iterator]().next();
+            const stationsOnLine = this.onLineVersionsOf(station);
+            const result = stationsOnLine.next();
             return result.done ? null : result.value;
         }
+    }
+
+    *onLineVersionsOf(station: Station): IterableIterator<SOL> {
+        const stationsOnLine = this.stationsOnLineDB.get(station.substance);
+        if (stationsOnLine === undefined)
+            return;
+        else
+            yield* stationsOnLine;
     }
 
     *sectionsFrom(station: Station): IterableIterator<Line> {

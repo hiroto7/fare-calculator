@@ -64,7 +64,7 @@ export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
     }
 
     *codesOf(station: Station): IterableIterator<string> {
-        const stationOnLine = this.onLineOf(station);
+        const stationOnLine = this.onLineVersionOf(station);
         if (stationOnLine === null) throw new Error();
         yield* stationOnLine.codes();
     }
@@ -76,8 +76,8 @@ export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
     }
 
     distanceBetween(from: Station, to: Station, direction: Direction): number | null {
-        const from1 = this.onLineOf(from);
-        const to1 = this.onLineOf(to);
+        const from1 = this.onLineVersionOf(from);
+        const to1 = this.onLineVersionOf(to);
         if (from1 === null || to1 === null) return null;
 
         const d1 = from1.distanceFromStart();
@@ -90,8 +90,8 @@ export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
     }
 
     *stationsBetween(from: Station, to: Station, direction: Direction): IterableIterator<StationOnOfficialLine> {
-        const from1 = this.onLineOf(from);
-        const to1 = this.onLineOf(to);
+        const from1 = this.onLineVersionOf(from);
+        const to1 = this.onLineVersionOf(to);
         if (from1 === null) throw new Error(`${this}, ${from}, ${to}, ${direction}`);
         if (to1 === null) throw new Error(`${this}, ${from}, ${to}, ${direction}`);
 

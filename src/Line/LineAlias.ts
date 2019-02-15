@@ -39,18 +39,18 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
     *codesOf(station: Station): IterableIterator<string> { yield* this.original.codesOf(station); }
 
     distanceBetween(from: Station, to: Station, direction: Direction): number | null {
-        const from1 = this.onLineOf(from);
-        const to1 = this.onLineOf(to);
+        const from1 = this.onLineVersionOf(from);
+        const to1 = this.onLineVersionOf(to);
         if (from1 === null || to1 === null) return null;
 
         return this.original.distanceBetween(from1.original, to1.original, direction);
     }
 
-    has(station: Station): boolean { return this.onLineOf(station) !== null; }
+    has(station: Station): boolean { return this.onLineVersionOf(station) !== null; }
 
     sectionBetween(from: Station, to: Station, direction: Direction): Line {
-        const from1 = this.onLineOf(from);
-        const to1 = this.onLineOf(to);
+        const from1 = this.onLineVersionOf(from);
+        const to1 = this.onLineVersionOf(to);
         if (from1 === null || to1 === null) throw new Error();
 
         return this.original.sectionBetween(from1.original, to1.original, direction);
