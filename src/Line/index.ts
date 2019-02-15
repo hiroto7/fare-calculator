@@ -9,10 +9,11 @@ export { default as Section } from './Section';
 
 export default interface Line {
     readonly name: string;
-    // color(): string | null;
+    readonly color: string | null | undefined;
     readonly code: string | null | undefined;
     readonly from: StationOnLine;
     readonly to: StationOnLine;
+    colors(direction?: Direction): IterableIterator<string>;
     codes(direction?: Direction): IterableIterator<string>;
     stations(direction?: Direction): IterableIterator<StationOnLine>;
     length(): number;

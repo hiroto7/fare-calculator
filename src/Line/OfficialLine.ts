@@ -13,10 +13,12 @@ export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
     protected isSOL(station: Station): station is StationOnOfficialLine { return station instanceof StationOnOfficialLine; }
 
     readonly name: string;
+    readonly color: string | null;
     readonly code: string | null;
 
-    constructor({ name, code, stations }: {
+    constructor({ name, code = null, color = null, stations }: {
         name: string,
+        color?: string | null,
         code?: string | null,
         stations: Iterable<{
             substance: StationSubstance,
@@ -26,7 +28,8 @@ export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
     }) {
         super();
         this.name = name;
-        this.code = code === undefined ? null : code;
+        this.color = color;
+        this.code = code;
 
         const rawStations: StationOnOfficialLine[] = [];
         const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnOfficialLine>, []> = new DB(_ => new Set());
@@ -37,6 +40,12 @@ export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
         }
         this.rawStations = rawStations;
         this.stationsOnLineDB = stationsOnLineMap;
+    }
+
+    *colors(): IterableIterator<string> {
+        const color = this.color;
+        if (color !== null)
+            yield color;
     }
 
     *codes(): IterableIterator<string> {

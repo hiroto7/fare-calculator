@@ -18,10 +18,12 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
 
     readonly name: string;
     readonly code: string | null | undefined;
+    readonly color: string | null | undefined;
 
-    constructor({ name, code, children, stationCodesMap = [], hidesVia = false }: {
+    constructor({ name, code, color, children, stationCodesMap = [], hidesVia = false }: {
         name: string,
-        code?: string | null;
+        code?: string | null,
+        color?: string | null,
         children: Iterable<Line>,
         stationCodesMap?: Iterable<[Station, string | null]>,
         hidesVia?: boolean
@@ -29,6 +31,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         super();
         this.name = name;
         this.code = code;
+        this.color = color;
         this.hidesVia = hidesVia;
         const rawChildren: Set<Line> = new Set();
         const stations: Set<StationOnRouteLine> = new Set();
@@ -83,8 +86,6 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         this.stationCodesMap = stationCodesMap1;
     }
 
-    // color(): string | null { }
-
     *codes(direction: Direction = outbound): IterableIterator<string> {
         if (this.code === undefined) {
             const codes: Set<string> = new Set();
@@ -104,6 +105,28 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
             return;
         } else {
             yield this.code;
+        }
+    }
+
+    *colors(direction: Direction = outbound): IterableIterator<string> {
+        if (this.color === undefined) {
+            const colors: Set<string> = new Set();
+            if (direction === outbound) {
+                for (let i = 0; i < this.rawChildren.length; i++) {
+                    for (const color of this.rawChildren[i].colors(direction))
+                        colors.add(color);
+                }
+            } else {
+                for (let i = this.rawChildren.length; i > 0; i--) {
+                    for (const color of this.rawChildren[i - 1].colors(direction))
+                        colors.add(color);
+                }
+            }
+            yield* colors;
+        } else if (this.color === null) {
+            return;
+        } else {
+            yield this.color;
         }
     }
 
@@ -260,6 +283,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         return new RouteLine({
             name: this.name,
             code: this.code,
+            color: this.color,
             children: this.childrenBetween(from, to, direction),
             stationCodesMap: this.stationCodesMap,
             hidesVia: this.hidesVia

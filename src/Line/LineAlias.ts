@@ -29,10 +29,11 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
 
 
     get name(): string { return this.original.name; }
-    // color(): string | null { return this.originalLine().color(); }
+    get color(): string | null | undefined { return this.original.color; }
     get code(): string | null | undefined { return this.original.code; }
 
     *codes(direction?: Direction): IterableIterator<string> { yield* this.original.codes(direction); }
+    *colors(direction?: Direction): IterableIterator<string> { yield* this.original.colors(direction); }
     length(): number { return this.original.length(); }
     codeOf(station: Station): string | null | undefined { return this.original.codeOf(station); }
     *codesOf(station: Station): IterableIterator<string> { yield* this.original.codesOf(station); }

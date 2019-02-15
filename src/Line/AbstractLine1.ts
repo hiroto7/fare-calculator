@@ -6,8 +6,9 @@ import { ReadonlyDB } from "../DB";
 
 export default abstract class AbstractLine1<SOL extends StationOnLine = StationOnLine> implements Line {
     abstract readonly name: string;
-    // abstract color(): string | null;
+    abstract readonly color: string | null | undefined;
     abstract readonly code: string | null | undefined;
+    abstract colors(direction?: Direction): IterableIterator<string>;
     abstract codes(direction?: Direction): IterableIterator<string>;
     abstract length(): number;
     abstract codeOf(station: Station): string | null | undefined;

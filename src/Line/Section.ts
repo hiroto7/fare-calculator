@@ -12,13 +12,15 @@ export default class Section extends AbstractLine1<StationOnSection> {
 
     private readonly line: Line;
     private readonly stationCodesMap: ReadonlyMap<StationSubstance, string | null>;
-    private readonly rawName?: string;
-    private readonly rawCode?: string | null;
+    private readonly rawName: string | undefined;
+    private readonly rawCode: string | null | undefined;
+    private readonly rawColor: string | null | undefined;
     private readonly hidesVia: boolean;
 
-    constructor({ name, code, line, from, to, direction, stationCodesMap = [], hidesVia = false }: {
+    constructor({ name, code, color, line, from, to, direction, stationCodesMap = [], hidesVia = false }: {
         name?: string,
         code?: string | null,
+        color?: string | null,
         stationCodesMap?: Iterable<[Station, string | null]>,
         line: Line,
         from: Station,
@@ -40,6 +42,7 @@ export default class Section extends AbstractLine1<StationOnSection> {
         this.line = section;
         this.rawName = name;
         this.rawCode = code;
+        this.rawColor = color;
         this.hidesVia = hidesVia;
 
         const stationCodesMap1: Map<StationSubstance, string | null> = new Map();
@@ -64,14 +67,29 @@ export default class Section extends AbstractLine1<StationOnSection> {
             return this.rawCode;
     }
 
+    get color(): string | null | undefined {
+        if (this.rawColor === undefined)
+            return this.line.color;
+        else
+            return this.rawColor;
+    }
+
     *codes(direction: Direction = outbound): IterableIterator<string> {
-        const code = this.code;
-        if (code === undefined)
+        if (this.code === undefined)
             yield* this.line.codes(direction);
-        else if (code === null)
+        else if (this.code === null)
             return;
         else
-            yield code;
+            yield this.code;
+    }
+
+    *colors(direction: Direction = outbound): IterableIterator<string> {
+        if (this.color === undefined)
+            yield* this.line.colors(direction);
+        else if (this.color === null)
+            return;
+        else
+            yield this.color;
     }
 
     codeOf(station: Station): string | null | undefined {
@@ -116,6 +134,7 @@ export default class Section extends AbstractLine1<StationOnSection> {
         return new Section({
             name: this.name,
             code: this.code,
+            color: this.color,
             line: this.line,
             from: from1.original,
             to: to1.original,

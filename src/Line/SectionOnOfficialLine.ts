@@ -32,8 +32,10 @@ export default class SectionOnOfficialLine extends AbstractLine1<StationOnSectio
 
     get name(): string { return this.line.name; }
     get code(): string | null { return this.line.code; }
+    get color(): string | null { return this.line.color; }
 
     *codes(): IterableIterator<string> { yield* this.line.codes(); }
+    *colors(): IterableIterator<string> { yield* this.line.colors(); }
 
     codeOf(station: Station): string | null | undefined {
         const stationOnLine = this.onLineOf(station);
