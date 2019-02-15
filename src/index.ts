@@ -50,11 +50,9 @@ class XMLHandler {
             direction === outbound ? line.to : line.from :
             this.stationsDB.get1(toKey);
 
-        const name1: string | null = e.getAttribute('name');
-        const name: string | undefined = name1 === null ? undefined : name1;
-
-        const lineCode1: string | null = e.getAttribute('code');
-        const lineCode: string | undefined = lineCode1 === null ? undefined : lineCode1;
+        const name: string | undefined = e.getAttribute('name') || undefined;
+        const lineCode: string | undefined = e.getAttribute('code') || undefined;
+        const color: string | undefined = e.getAttribute('color') || undefined;
 
         const hidesVia: boolean = e.hasAttribute('hides-via');
 
@@ -69,7 +67,7 @@ class XMLHandler {
                 stationCodesMap.set(substance, lineCode === undefined ? stationCode : lineCode + stationCode);
         }
 
-        return new Section({ name, code: lineCode, line, direction, from, to, stationCodesMap, hidesVia });
+        return new Section({ name, code: lineCode, color, line, direction, from, to, stationCodesMap, hidesVia });
     }
 
     handleRouteLine(e: Element): RouteLine {
@@ -78,8 +76,8 @@ class XMLHandler {
         const name = e.getAttribute('name');
         if (name === null) throw new Error();
 
-        const lineCode1: string | null = e.getAttribute('code');
-        const lineCode: string | undefined = lineCode1 === null ? undefined : lineCode1;
+        const lineCode: string | undefined = e.getAttribute('code') || undefined;
+        const color: string | undefined = e.getAttribute('color') || undefined;
 
         const hidesVia: boolean = e.hasAttribute('hides-via');
 
@@ -103,7 +101,7 @@ class XMLHandler {
             }
         }
 
-        return new RouteLine({ name, code: lineCode, children: sections, stationCodesMap, hidesVia });
+        return new RouteLine({ name, code: lineCode, color, children: sections, stationCodesMap, hidesVia });
     }
 
     handleOfficialLine(e: Element): Line {
@@ -112,6 +110,7 @@ class XMLHandler {
         const name = e.getAttribute('name');
         if (name === null) throw new Error();
         const lineCode: string | null = e.getAttribute('code');
+        const color: string | null = e.getAttribute('color');
 
         const stations: {
             substance: StationSubstance,
@@ -132,7 +131,7 @@ class XMLHandler {
             stations.push({ substance, distanceFromStart, code: stationCode });
         }
 
-        return new OfficialLine({ name, code: lineCode, stations });
+        return new OfficialLine({ name, code: lineCode, color, stations });
     }
 
     async import(url: URL) {
@@ -226,6 +225,14 @@ const b = (line: Line, sections: Iterable<Line>): HTMLElement => {
                 symbolCount = 1;
             }
         }
+        {
+            const colors = grandchild.colors();
+            const result = colors.next();
+            if (!result.done) {
+                const color = result.value;
+                button.style.setProperty('--color', color);
+            }
+        }
         if (grandchild.name !== line.name) {
             const p: HTMLParagraphElement = document.createElement('p');
             p.appendChild(document.createTextNode(grandchild.name));
@@ -277,8 +284,10 @@ const b = (line: Line, sections: Iterable<Line>): HTMLElement => {
         }
     });
 
+    const sec1 = document.getElementById('sec1')!;
+
     for (const line of linesDB.values()) {
-        document.body.appendChild(a(line));
+        sec1.appendChild(a(line));
     }
 
     document.getElementById('loading')!.style.display = 'none';
