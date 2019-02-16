@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="総武本線" hidden1="">
+    <official name="総武本線" hidden="">
         <!-- Wikipedia:横須賀・総武快速線#駅一覧 -->
         <station name="東京" distance="0" />
         <station name="新日本橋" distance="1.2" />
@@ -48,7 +48,7 @@
         <station name="銚子" distance="120.5" />
     </official>
 
-    <official name="総武本線（錦糸町〜御茶ノ水）" hidden1="">
+    <official name="総武本線（錦糸町〜御茶ノ水）" hidden="">
         <station name="錦糸町" distance="0" />
         <station name="両国" distance="1.5" />
         <station name="浅草橋" distance="2.3" />

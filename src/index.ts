@@ -206,7 +206,7 @@ class XMLHandler {
                 const line: Line<StationSubstance & WritableStation> = this.lineXMLHandler.handle(child);
                 const key: string = child.getAttribute('key') || line.name;
                 this.linesDB.set(key, line);
-                const hidden: boolean = child.hasAttribute('hidden') || child.hasAttribute('hidden1');
+                const hidden: boolean = child.hasAttribute('hidden');
                 if (!hidden) {
                     for (const station of line.stations())
                         station.substance.add(line);

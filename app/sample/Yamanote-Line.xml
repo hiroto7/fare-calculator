@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="山手線" code="JY" color="#80c241" hidden1="">
+    <official name="山手線" code="JY" color="#80c241" hidden="">
         <station name="品川" distance="-27.7" code="25" />
         <station name="大崎" distance="-25.7" code="24" />
         <station name="五反田" distance="-24.8" code="23" />

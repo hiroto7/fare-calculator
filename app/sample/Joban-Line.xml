@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="常磐線" hidden1="">
+    <official name="常磐線" hidden="">
         <station name="日暮里" distance="0" />
         <station name="三河島" distance="1.2" />
         <station name="南千住" distance="3.4" />

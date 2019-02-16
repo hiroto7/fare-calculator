@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="根岸線" code="JK" color="#00B2E5" hidden1="">
+    <official name="根岸線" code="JK" color="#00B2E5" hidden="">
         <station name="横浜" distance="0" code="12" />
         <station name="桜木町" distance="2" code="11" />
         <station name="関内" distance="3" code="10" />

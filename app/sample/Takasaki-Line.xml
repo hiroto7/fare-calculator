@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="高崎線" color="#F68B1E" hidden1="">
+    <official name="高崎線" color="#F68B1E" hidden="">
         <station name="大宮" distance="0" />
         <station name="宮原" distance="4" />
         <station name="上尾" distance="8.2" />

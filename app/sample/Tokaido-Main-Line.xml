@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="東海道本線" hidden1="">
+    <official name="東海道本線" hidden="">
         <!-- Wikipedia:京浜東北線#駅一覧 -->
         <station name="東京" distance="0" />
         <station name="有楽町" distance="0.8" />
@@ -332,7 +332,7 @@
         <!-- <section line="JR神戸線" direction="+" from="大阪" to="神戸" /> -->
     </route>
 
-    <official name="伊東線" code="JT" color="#F68B1E" hidden1="">
+    <official name="伊東線" code="JT" color="#F68B1E" hidden="">
         <station name="熱海" distance="0.0" code="21" />
         <station name="来宮" distance="1.2" code="22" />
         <station name="伊豆多賀" distance="6.0" code="23" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="両毛線" color="#ffd400" hidden1="">
+    <official name="両毛線" color="#ffd400" hidden="">
         <station name="小山" distance="0" />
         <station name="思川" distance="5.4" />
         <station name="栃木" distance="10.8" />
