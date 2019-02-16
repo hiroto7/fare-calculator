@@ -6,20 +6,20 @@ import { StationOnSection } from "../StationOnLine";
 import Line from ".";
 import DB, { ReadonlyDB } from "../DB";
 
-export default class SectionOnOfficialLine extends AbstractLine1<StationOnSection> {
-    protected rawStations: ReadonlyArray<StationOnSection>;
-    protected stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnSection>>;
-    protected isSOL(station: Station): station is StationOnSection { return station instanceof StationOnSection; }
+export default class SectionOnOfficialLine<SS extends StationSubstance> extends AbstractLine1<SS, StationOnSection<SS>> {
+    protected rawStations: ReadonlyArray<StationOnSection<SS>>;
+    protected stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnSection<SS>>>;
+    protected isSOL(station: Station): station is StationOnSection<SS> { return station instanceof StationOnSection; }
 
-    private line: OfficialLine;
+    private line: OfficialLine<SS>;
     private direction: Direction;
 
-    constructor(line: OfficialLine, from: Station, to: Station, direction: Direction) {
+    constructor(line: OfficialLine<SS>, from: Station, to: Station, direction: Direction) {
         super();
-        const stations: StationOnSection[] = [];
-        const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnSection>> = new DB(_ => new Set);
+        const stations: StationOnSection<SS>[] = [];
+        const stationsOnLineMap: ReadonlyDB<SS, Set<StationOnSection<SS>>> = new DB(_ => new Set);
         for (const originalStation of line.stationsBetween(from, to, direction)) {
-            const station = new StationOnSection({ line: this, station: originalStation });
+            const station = new StationOnSection<SS>({ line: this, station: originalStation });
             stations.push(station);
             stationsOnLineMap.get1(station.substance).add(station);
         }
@@ -65,7 +65,7 @@ export default class SectionOnOfficialLine extends AbstractLine1<StationOnSectio
         return this.line.distanceBetween(from1.original, to1.original, direction * this.direction);
     }
 
-    sectionBetween(from: Station, to: Station, direction: Direction): Line {
+    sectionBetween(from: Station, to: Station, direction: Direction): Line<SS> {
         const from1 = this.onLineVersionOf(from);
         const to1 = this.onLineVersionOf(to);
         if (from1 === null) throw new Error();
@@ -73,5 +73,5 @@ export default class SectionOnOfficialLine extends AbstractLine1<StationOnSectio
         return this.line.sectionBetween(from1.original, to1.original, direction * this.direction);
     }
 
-    *grandchildren() { yield this; }
+    *grandchildren(): IterableIterator<this> { yield this; }
 }

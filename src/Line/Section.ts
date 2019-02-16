@@ -5,12 +5,12 @@ import AbstractLine1 from "./AbstractLine1";
 import { StationOnSection } from "../StationOnLine";
 import DB, { ReadonlyDB } from "../DB";
 
-export default class Section extends AbstractLine1<StationOnSection> {
-    protected rawStations: ReadonlyArray<StationOnSection>;
-    protected stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnSection>>;
-    protected isSOL(station: Station): station is StationOnSection { return station instanceof StationOnSection; }
+export default class Section<SS extends StationSubstance> extends AbstractLine1<SS, StationOnSection<SS>> {
+    protected rawStations: ReadonlyArray<StationOnSection<SS>>;
+    protected stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnSection<SS>>>;
+    protected isSOL(station: Station): station is StationOnSection<SS> { return station instanceof StationOnSection; }
 
-    private readonly line: Line;
+    private readonly line: Line<SS>;
     private readonly stationCodesMap: ReadonlyMap<StationSubstance, string | null>;
     private readonly rawName: string | undefined;
     private readonly rawCode: string | null | undefined;
@@ -22,7 +22,7 @@ export default class Section extends AbstractLine1<StationOnSection> {
         code?: string | null,
         color?: string | null,
         stationCodesMap?: Iterable<[Station, string | null]>,
-        line: Line,
+        line: Line<SS>,
         from: Station,
         to: Station,
         direction: Direction,
@@ -30,10 +30,10 @@ export default class Section extends AbstractLine1<StationOnSection> {
     }) {
         super();
         const section = line.sectionBetween(from, to, direction);
-        const stations: StationOnSection[] = [];
-        const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnSection>> = new DB(_ => new Set);
+        const stations: StationOnSection<SS>[] = [];
+        const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnSection<SS>>> = new DB(_ => new Set);
         for (const original of section.stations()) {
-            const station = new StationOnSection({ line: this, station: original });
+            const station = new StationOnSection<SS>({ line: this, station: original });
             stations.push(station);
             stationsOnLineMap.get1(station.substance).add(station);
         }
@@ -126,12 +126,12 @@ export default class Section extends AbstractLine1<StationOnSection> {
         return this.line.distanceBetween(from1.original, to1.original, direction);
     }
 
-    sectionBetween(from: Station, to: Station, direction: Direction): Line {
+    sectionBetween(from: Station, to: Station, direction: Direction): Line<SS> {
         const from1 = this.onLineVersionOf(from);
         const to1 = this.onLineVersionOf(to);
         if (from1 === null) throw new Error();
         if (to1 === null) throw new Error();
-        return new Section({
+        return new Section<SS>({
             name: this.name,
             code: this.code,
             color: this.color,
@@ -144,7 +144,7 @@ export default class Section extends AbstractLine1<StationOnSection> {
         });
     }
 
-    *grandchildren(hidesVia: boolean = false): IterableIterator<Line> {
+    *grandchildren(hidesVia: boolean = false): IterableIterator<Line<SS>> {
         if (this.hidesVia && hidesVia)
             yield this;
         else

@@ -2,15 +2,16 @@ import Station, { StationSubstance } from "./Station";
 import Line from "./Line";
 import { outbound } from "./Direction";
 
-export interface StationOnLine extends Station {
-    line: Line;
+export interface StationOnLine<SS extends StationSubstance> extends Station {
+    line: Line<SS>;
+    readonly substance: SS;
     codes(): IterableIterator<string>;
     distanceFromStart(): number | null;
     // children(): IterableIterator<StationOnLine>;
 }
 
-export abstract class AbstractStationOnLine1<L extends Line = Line> implements StationOnLine {
-    abstract readonly substance: StationSubstance;
+export abstract class AbstractStationOnLine1<L extends Line<SS>, SS extends StationSubstance> implements StationOnLine<SS> {
+    abstract readonly substance: SS;
     abstract codes(): IterableIterator<string>;
     abstract distanceFromStart(): number | null;
 
@@ -23,13 +24,13 @@ export abstract class AbstractStationOnLine1<L extends Line = Line> implements S
     get name(): string { return this.substance.name; }
     get isSeasonal(): boolean { return this.substance.isSeasonal; }
 
-    *lines(): IterableIterator<Line> { yield* this.substance.lines(); }
+    *lines(): IterableIterator<Line<SS>> { yield* this.substance.lines(); }
 
     toString() { return `${this.name}@${this.line.name}` }
 }
 
-export abstract class AbstractStationOnLine2<L extends Line = Line> extends AbstractStationOnLine1<L> {
-    abstract readonly substance: StationSubstance;
+export abstract class AbstractStationOnLine2<L extends Line<SS>, SS extends StationSubstance> extends AbstractStationOnLine1<L, SS> {
+    abstract readonly substance: SS;
 
     *codes(): IterableIterator<string> {
         yield* this.line.codesOf(this);
@@ -40,16 +41,16 @@ export abstract class AbstractStationOnLine2<L extends Line = Line> extends Abst
     }
 }
 
-export class StationOnSection extends AbstractStationOnLine2 {
-    readonly original: StationOnLine;
+export class StationOnSection<SS extends StationSubstance> extends AbstractStationOnLine2<Line<SS>, SS> {
+    readonly original: StationOnLine<SS>;
 
     constructor({ line, station }: {
-        line: Line,
-        station: StationOnLine
+        line: Line<SS>,
+        station: StationOnLine<SS>
     }) {
         super(line);
         this.original = station;
     }
 
-    get substance(): StationSubstance { return this.original.substance; }
+    get substance(): SS { return this.original.substance; }
 }

@@ -4,7 +4,7 @@ import Station, { StationSubstance } from "../Station";
 import { StationOnLine } from "../StationOnLine";
 import { ReadonlyDB } from "../DB";
 
-export default abstract class AbstractLine1<SOL extends StationOnLine = StationOnLine> implements Line {
+export default abstract class AbstractLine1<SS extends StationSubstance, SOL extends StationOnLine<SS>> implements Line<SS> {
     abstract readonly name: string;
     abstract readonly color: string | null | undefined;
     abstract readonly code: string | null | undefined;
@@ -15,8 +15,8 @@ export default abstract class AbstractLine1<SOL extends StationOnLine = StationO
     abstract codesOf(station: Station): IterableIterator<string>;
     abstract distanceBetween(from: Station, to: Station, direction: Direction): number | null;
     // abstract childrenBetween(from: Station, to: Station, direction: Direction): IterableIterator<Line>;
-    abstract sectionBetween(from: Station, to: Station, direction: Direction): Line;
-    abstract grandchildren(hidesVia?: boolean): IterableIterator<Line>;
+    abstract sectionBetween(from: Station, to: Station, direction: Direction): Line<SS>;
+    abstract grandchildren(hidesVia?: boolean): IterableIterator<Line<SS>>;
 
     protected abstract readonly rawStations: ReadonlyArray<SOL>;
     protected abstract readonly stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<SOL>>;
@@ -54,7 +54,7 @@ export default abstract class AbstractLine1<SOL extends StationOnLine = StationO
             yield* stationsOnLine;
     }
 
-    *sectionsFrom(station: Station): IterableIterator<Line> {
+    *sectionsFrom(station: Station): IterableIterator<Line<SS>> {
         const stationsOnLine = this.stationsOnLineDB.get(station.substance);
         if (stationsOnLine === undefined) return;
         for (const stationOnLine of stationsOnLine) {

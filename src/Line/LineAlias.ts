@@ -5,21 +5,21 @@ import AbstractLine1 from "./AbstractLine1";
 import { AbstractStationOnLine1, StationOnLine } from "../StationOnLine";
 import DB, { ReadonlyDB } from "../DB";
 
-export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
-    protected readonly rawStations: ReadonlyArray<StationOnLineAlias>;
-    protected readonly stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnLineAlias>>;
+export default class LineAlias<SS extends StationSubstance> extends AbstractLine1<SS, StationOnLineAlias<SS>> {
+    protected readonly rawStations: ReadonlyArray<StationOnLineAlias<SS>>;
+    protected readonly stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnLineAlias<SS>>>;
 
-    protected isSOL(station: Station): station is StationOnLineAlias { return station instanceof StationOnLineAlias; }
+    protected isSOL(station: Station): station is StationOnLineAlias<SS> { return station instanceof StationOnLineAlias; }
 
-    readonly original: Line;
+    readonly original: Line<SS>;
 
-    constructor(line: Line) {
+    constructor(line: Line<SS>) {
         super();
         this.original = line;
-        const stations: StationOnLineAlias[] = [];
-        const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnLineAlias>, []> = new DB(_ => new Set);
+        const stations: StationOnLineAlias<SS>[] = [];
+        const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnLineAlias<SS>>, []> = new DB(_ => new Set);
         for (const station of line.stations()) {
-            const stationAlias = new StationOnLineAlias({ line: this, station })
+            const stationAlias = new StationOnLineAlias<SS>({ line: this, station })
             stations.push(stationAlias);
             stationsOnLineMap.get1(station.substance).add(stationAlias);
         }
@@ -48,7 +48,7 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
 
     has(station: Station): boolean { return this.onLineVersionOf(station) !== null; }
 
-    sectionBetween(from: Station, to: Station, direction: Direction): Line {
+    sectionBetween(from: Station, to: Station, direction: Direction): Line<SS> {
         const from1 = this.onLineVersionOf(from);
         const to1 = this.onLineVersionOf(to);
         if (from1 === null || to1 === null) throw new Error();
@@ -56,18 +56,18 @@ export default class LineAlias extends AbstractLine1<StationOnLineAlias> {
         return this.original.sectionBetween(from1.original, to1.original, direction);
     }
 
-    *grandchildren(hidesVia?: boolean): IterableIterator<Line> { yield* this.original.grandchildren(hidesVia); }
+    *grandchildren(hidesVia?: boolean): IterableIterator<Line<SS>> { yield* this.original.grandchildren(hidesVia); }
 }
 
-class StationOnLineAlias extends AbstractStationOnLine1 {
-    readonly original: StationOnLine;
+class StationOnLineAlias<SS extends StationSubstance> extends AbstractStationOnLine1<Line<SS>, SS> {
+    readonly original: StationOnLine<SS>;
 
-    constructor({ line, station }: { line: LineAlias, station: StationOnLine }) {
+    constructor({ line, station }: { line: LineAlias<SS>, station: StationOnLine<SS> }) {
         super(line);
         this.original = station;
     }
 
-    get substance(): StationSubstance { return this.original.substance; }
+    get substance(): SS { return this.original.substance; }
 
     *codes(): IterableIterator<string> { yield* this.original.codes(); }
     distanceFromStart(): number | null { return this.original.distanceFromStart(); }

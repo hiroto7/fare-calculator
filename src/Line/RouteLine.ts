@@ -6,15 +6,15 @@ import AbstractLine1 from "./AbstractLine1";
 import { StationOnLine, AbstractStationOnLine2 } from "../StationOnLine";
 import DB, { ReadonlyDB } from "../DB";
 
-export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
-    protected readonly rawStations: ReadonlyArray<StationOnRouteLine>;
-    protected readonly stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnRouteLine>>;
+export default class RouteLine<SS extends StationSubstance> extends AbstractLine1<SS, StationOnRouteLine<SS>> {
+    protected readonly rawStations: ReadonlyArray<StationOnRouteLine<SS>>;
+    protected readonly stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnRouteLine<SS>>>;
 
-    private readonly rawChildren: ReadonlyArray<Line>;
+    private readonly rawChildren: ReadonlyArray<Line<SS>>;
     private readonly stationCodesMap: ReadonlyMap<StationSubstance, string | null>;
     private readonly hidesVia: boolean;
 
-    protected isSOL(station: Station): station is StationOnRouteLine { return station instanceof StationOnRouteLine; }
+    protected isSOL(station: Station): station is StationOnRouteLine<SS> { return station instanceof StationOnRouteLine; }
 
     readonly name: string;
     readonly code: string | null | undefined;
@@ -24,7 +24,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         name: string,
         code?: string | null,
         color?: string | null,
-        children: Iterable<Line>,
+        children: Iterable<Line<SS>>,
         stationCodesMap?: Iterable<[Station, string | null]>,
         hidesVia?: boolean
     }) {
@@ -33,11 +33,11 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         this.code = code;
         this.color = color;
         this.hidesVia = hidesVia;
-        const rawChildren: Set<Line> = new Set();
-        const stations: Set<StationOnRouteLine> = new Set();
-        const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnRouteLine>, []> = new DB(_ => new Set());
+        const rawChildren: Set<Line<SS>> = new Set();
+        const stations: Set<StationOnRouteLine<SS>> = new Set();
+        const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnRouteLine<SS>>, []> = new DB(_ => new Set());
         let lastSubstance: StationSubstance | null;
-        let stationChildren: Set<StationOnLine> | null;
+        let stationChildren: Set<StationOnLine<SS>> | null;
 
         {
             lastSubstance = null;
@@ -55,7 +55,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
                     stationChildren.add(stationChild);
                 } else {
                     if (stationChildren !== null) {
-                        const station = new StationOnRouteLine({ line: this, children: stationChildren });
+                        const station = new StationOnRouteLine<SS>({ line: this, children: stationChildren });
                         stations.add(station);
                         if (lastSubstance === null) throw new Error();
                         stationsOnLineMap.get1(lastSubstance).add(station);
@@ -69,7 +69,7 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         }
         {
             if (stationChildren === null) throw new Error();
-            const station = new StationOnRouteLine({ line: this, children: stationChildren });
+            const station = new StationOnRouteLine<SS>({ line: this, children: stationChildren });
             stations.add(station);
             if (lastSubstance === null) throw new Error();
             stationsOnLineMap.get1(lastSubstance).add(station);
@@ -164,12 +164,12 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
 
         if (from1 === null || to1 === null) return null;
 
-        const fromChildren: ReadonlyArray<StationOnLine> = [...from1.children()];
-        const toChildren: ReadonlyArray<StationOnLine> = [...to1.children()];
-        const fromChild: StationOnLine = fromChildren[
+        const fromChildren: ReadonlyArray<StationOnLine<SS>> = [...from1.children()];
+        const toChildren: ReadonlyArray<StationOnLine<SS>> = [...to1.children()];
+        const fromChild: StationOnLine<SS> = fromChildren[
             direction === outbound ? fromChildren.length - 1 : 0
         ];
-        const toChild: StationOnLine = toChildren[
+        const toChild: StationOnLine<SS> = toChildren[
             direction === outbound ? 0 : toChildren.length - 1
         ];
 
@@ -222,19 +222,19 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
 
     // has(station: Station): boolean { }
 
-    *childrenBetween(from: Station, to: Station, direction: Direction): IterableIterator<Line> {
+    *childrenBetween(from: Station, to: Station, direction: Direction): IterableIterator<Line<SS>> {
         const from1 = this.onLineVersionOf(from);
         const to1 = this.onLineVersionOf(to);
 
         if (from1 === null) throw new Error();
         if (to1 === null) throw new Error();
 
-        const fromChildren: ReadonlyArray<StationOnLine> = [...from1.children()];
-        const toChildren: ReadonlyArray<StationOnLine> = [...to1.children()];
-        const fromChild: StationOnLine = fromChildren[
+        const fromChildren: ReadonlyArray<StationOnLine<SS>> = [...from1.children()];
+        const toChildren: ReadonlyArray<StationOnLine<SS>> = [...to1.children()];
+        const fromChild: StationOnLine<SS> = fromChildren[
             direction === outbound ? fromChildren.length - 1 : 0
         ];
-        const toChild: StationOnLine = toChildren[
+        const toChild: StationOnLine<SS> = toChildren[
             direction === outbound ? 0 : toChildren.length - 1
         ];
 
@@ -278,8 +278,8 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         }
     }
 
-    sectionBetween(from: Station, to: Station, direction: Direction): Line {
-        return new RouteLine({
+    sectionBetween(from: Station, to: Station, direction: Direction): Line<SS> {
+        return new RouteLine<SS>({
             name: this.name,
             code: this.code,
             color: this.color,
@@ -289,9 +289,9 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
         });
     }
 
-    *children(): IterableIterator<Line> { yield* this.rawChildren; }
+    *children(): IterableIterator<Line<SS>> { yield* this.rawChildren; }
 
-    *grandchildren(hidesVia: boolean = false): IterableIterator<Line> {
+    *grandchildren(hidesVia: boolean = false): IterableIterator<Line<SS>> {
         if (this.hidesVia && hidesVia) {
             yield this;
         } else {
@@ -301,15 +301,15 @@ export default class RouteLine extends AbstractLine1<StationOnRouteLine> {
     }
 }
 
-class StationOnRouteLine extends AbstractStationOnLine2 {
-    private readonly rawChildren: ReadonlyArray<StationOnLine> = [];
+class StationOnRouteLine<SS extends StationSubstance> extends AbstractStationOnLine2<Line<SS>, SS> {
+    private readonly rawChildren: ReadonlyArray<StationOnLine<SS>> = [];
 
-    constructor({ line, children }: { line: RouteLine, children: Iterable<StationOnLine> }) {
+    constructor({ line, children }: { line: RouteLine<SS>, children: Iterable<StationOnLine<SS>> }) {
         super(line);
         this.rawChildren = [...children];
     }
 
-    get substance(): StationSubstance { return this.rawChildren[0].substance; }
+    get substance(): SS { return this.rawChildren[0].substance; }
 
-    *children(): IterableIterator<StationOnLine> { yield* this.rawChildren; }
+    *children(): IterableIterator<StationOnLine<SS>> { yield* this.rawChildren; }
 }
