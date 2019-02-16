@@ -31,7 +31,7 @@
 
     <!-- 両毛線 -->
     <import src="./Ryomo.xml" />
-    <route name="高崎・両毛線">
+    <route name="高崎・両毛線" hidden="">
         <section line="高崎線1" direction="+" />
         <section line="両毛線1" direction="-" from="高崎" to="前橋" />
     </route>

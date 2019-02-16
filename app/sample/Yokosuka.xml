@@ -20,7 +20,7 @@
         <station name="鶴見" distance="17.8" />
     </official>
 
-    <route name="横須賀線" key="横須賀線1" code="JO" color="#007ac0" hides-via="">
+    <route name="横須賀線" key="横須賀線1" code="JO" color="#007ac0" hides-via="" hidden="">
         <section line="東海道本線" direction="+" from="東京" to="品川" />
         <section line="品鶴線" direction="+" />
         <section line="東海道本線" direction="+" from="鶴見" to="大船" />
@@ -37,5 +37,12 @@
         <station name="東戸塚" code="11" />
         <station name="戸塚" code="10" />
         <station name="大船" code="09" />
+    </route>
+
+    <!-- 総武本線 -->
+    <import src="./Sobu.xml" />
+    <route name="横須賀・総武快速線">
+        <section line="横須賀線1" direction="-" />
+        <section line="総武線快速" direction="+" />
     </route>
 </data>
