@@ -24,7 +24,7 @@ export abstract class AbstractStationOnLine1<L extends Line<SS>, SS extends Stat
     get name(): string { return this.substance.name; }
     get isSeasonal(): boolean { return this.substance.isSeasonal; }
 
-    *lines(): IterableIterator<Line<SS>> { yield* this.substance.lines(); }
+    *lines(): IterableIterator<Line<StationSubstance>> { yield* this.substance.lines(); }
 
     toString() { return `${this.name}@${this.line.name}` }
 }

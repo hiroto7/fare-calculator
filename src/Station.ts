@@ -4,11 +4,11 @@ export default interface Station {
     readonly name: string;
     readonly isSeasonal: boolean;
     readonly substance: StationSubstance;
-    lines(): IterableIterator<Line>;
+    lines(): IterableIterator<Line<StationSubstance>>;
 }
 
 export interface WritableStation extends Station {
-    add(line: Line): void;
+    add(line: Line<StationSubstance>): void;
     setOptions({ isSeasonal }: { isSeasonal?: boolean }): void;
 }
 
@@ -20,7 +20,7 @@ export interface StationSubstance extends Station {
 export class Station1 implements StationSubstance, WritableStation {
     isSubstance: true = true;
     private rawIsSeasonal: boolean = false;
-    private readonly rawLines: Set<Line> = new Set();
+    private readonly rawLines: Set<Line<StationSubstance>> = new Set();
 
     readonly substance: this = this;
     readonly name: string;
@@ -36,7 +36,7 @@ export class Station1 implements StationSubstance, WritableStation {
             this.rawIsSeasonal = isSeasonal;
     };
 
-    *lines(): IterableIterator<Line> { yield* this.rawLines; }
-    add(line: Line) { this.rawLines.add(line); }
+    *lines(): IterableIterator<Line<StationSubstance>> { yield* this.rawLines; }
+    add(line: Line<StationSubstance>) { this.rawLines.add(line); }
     toString() { return this.name; }
 }
