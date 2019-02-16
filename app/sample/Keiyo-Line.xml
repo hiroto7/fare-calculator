@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="京葉線" color="#c9242f" hidden="">
+        <station name="東京" distance="0" />
+        <station name="八丁堀" distance="1.2" />
+        <station name="越中島" distance="2.8" />
+        <station name="潮見" distance="5.4" />
+        <station name="新木場" distance="7.4" />
+        <station name="葛西臨海公園" distance="10.6" />
+        <station name="舞浜" distance="12.7" />
+        <station name="新浦安" distance="16.1" />
+        <station name="市川塩浜" distance="18.2" />
+        <station name="二俣新町" distance="22.6" />
+        <station name="南船橋" distance="26" />
+        <station name="新習志野" distance="28.3" />
+        <station name="海浜幕張" distance="31.7" />
+        <station name="検見川浜" distance="33.7" />
+        <station name="稲毛海岸" distance="35.3" />
+        <station name="千葉みなと" distance="39" />
+        <station name="蘇我" distance="43" />
+    </official>
+
+    <route name="京葉線" key="京葉線1" color="#c9242f">
+        <section code="JE" hides-via="" line="京葉線" direction="+" from="東京" to="千葉みなと">
+            <station name="東京" code="01" />
+            <station name="八丁堀" code="02" />
+            <station name="越中島" code="03" />
+            <station name="潮見" code="04" />
+            <station name="新木場" code="05" />
+            <station name="葛西臨海公園" code="06" />
+            <station name="舞浜" code="07" />
+            <station name="新浦安" code="08" />
+            <station name="市川塩浜" code="09" />
+            <station name="二俣新町" code="10" />
+            <station name="南船橋" code="11" />
+            <station name="新習志野" code="12" />
+            <station name="海浜幕張" code="13" />
+            <station name="検見川浜" code="14" />
+            <station name="稲毛海岸" code="15" />
+            <station name="千葉みなと" code="16" />
+        </section>
+        <section line="京葉線" direction="+" from="千葉みなと" to="蘇我" />
+    </route>
+
+    <official name="京葉線（高谷支線）" code="JE" color="#c9242f" hidden="">
+        <station name="市川塩浜" code="09" distance="0" />
+        <station name="西船橋" code="JM10" distance="5.9" />
+    </official>
+
+    <official name="京葉線（二俣支線）" code="JE" color="#c9242f" hidden="">
+        <station name="西船橋" code="JM10" distance="0" />
+        <station name="南船橋" code="11" distance="5.4" />
+    </official>
+</data>

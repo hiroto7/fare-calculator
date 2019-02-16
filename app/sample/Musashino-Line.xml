@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="武蔵野線" code="JM" color="#f15a22" hidden="">
+        <station name="府中本町" distance="0" code="35" />
+        <station name="北府中" distance="1.7" code="34" />
+        <station name="西国分寺" distance="3.9" code="33" />
+        <station name="新小平" distance="7.4" code="32" />
+        <station name="新秋津" distance="13" code="31" />
+        <station name="東所沢" distance="15.7" code="30" />
+        <station name="新座" distance="19.7" code="29" />
+        <station name="北朝霞" distance="22.8" code="28" />
+        <station name="西浦和" distance="27.8" code="27" />
+        <station name="武蔵浦和" distance="29.8" code="26" />
+        <station name="南浦和" distance="31.7" code="25" />
+        <station name="東浦和" distance="35.4" code="24" />
+        <station name="東川口" distance="39.2" code="23" />
+        <station name="南越谷" distance="43.5" code="22" />
+        <station name="越谷レイクタウン" distance="46.3" code="21" />
+        <station name="吉川" distance="48.2" code="20" />
+        <station name="吉川美南" distance="49.8" code="19" />
+        <station name="新三郷" distance="51.3" code="18" />
+        <station name="三郷" distance="53.4" code="17" />
+        <station name="南流山" distance="55.4" code="16" />
+        <station name="新松戸" distance="57.5" code="15" />
+        <station name="新八柱" distance="61.6" code="14" />
+        <station name="東松戸" distance="64" code="13" />
+        <station name="市川大野" distance="65.9" code="12" />
+        <station name="船橋法典" distance="68.9" code="11" />
+        <station name="西船橋" distance="71.8" code="10" />
+    </official>
+
+    <!-- 京葉線 -->
+    <import src="./Keiyo-Line.xml" />
+    <route name="武蔵野線" key="武蔵野線（東京〜府中本町）">
+        <route name="京葉線" hides-via="">
+            <section line="京葉線" direction="+" from="東京" to="市川塩浜" />
+            <section line="京葉線（高谷支線）" direction="+" />
+        </route>
+        <section line="武蔵野線" direction="-" />
+    </route>
+
+    <route name="武蔵野線" key="武蔵野線（海浜幕張〜府中本町）">
+        <route name="京葉線" hides-via="">
+            <section line="京葉線" direction="-" from="海浜幕張" to="南船橋" />
+            <section line="京葉線（二俣支線）" direction="-" />
+        </route>
+        <section line="武蔵野線" direction="-" />
+    </route>
+</data>

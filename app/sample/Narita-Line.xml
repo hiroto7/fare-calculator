@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="成田線" color="#00b261" hidden="">
+        <station name="佐倉" distance="0" />
+        <station name="酒々井" distance="6.4" />
+        <station name="成田" distance="13.1" />
+        <station name="久住" distance="20" />
+        <station name="滑河" distance="25.5" />
+        <station name="下総神崎" distance="31.6" />
+        <station name="大戸" distance="36.1" />
+        <station name="佐原" distance="40" />
+        <station name="香取" distance="43.6" />
+        <station name="水郷" distance="47.5" />
+        <station name="小見川" distance="52.7" />
+        <station name="笹川" distance="57.7" />
+        <station name="下総橘" distance="62.9" />
+        <station name="下総豊里" distance="66.2" />
+        <station name="椎柴" distance="71" />
+        <station name="松岸" distance="75.4" />
+    </official>
+
+    <!-- 総武本線 -->
+    <import src="Sobu-Main-Line.xml" />
+    <route name="成田線" key="成田線1">
+        <route name="成田線" code="JO" color="#00b261" hides-via="">
+            <section line="総武本線1" direction="+" from="千葉" to="佐倉" />
+            <section line="成田線" direction="+" from="佐倉" to="成田" />
+
+            <station name="佐倉" code="33" />
+            <station name="酒々井" code="34" />
+            <station name="成田" code="35" />
+        </route>
+        <route name="成田線" color="#00b261" hides-via="">
+            <section line="成田線" direction="+" from="成田" to="松岸" />
+            <section line="総武本線" direction="+" from="松岸" to="銚子" />
+        </route>
+    </route>
+
+    <official name="成田線（空港支線）" code="JO" color="#00b261" hidden="">
+        <station name="成田" distance="0" code="35" />
+        <station name="空港第2ビル" distance="9.8" code="36" />
+        <station name="成田空港" distance="10.8" code="37" />
+    </official>
+
+    <route name="成田線" key="成田線（千葉〜成田空港）" hides-via="" hidden="">
+        <section line="成田線1" direction="+" from="千葉" to="成田" />
+        <section line="成田線（空港支線）" direction="+" from="成田" to="成田空港" />
+    </route>
+
+    <official name="成田線（我孫子支線）" color="#00b261" hidden="">
+        <station name="我孫子" distance="0" />
+        <station name="東我孫子" distance="3.4" />
+        <station name="湖北" distance="6.3" />
+        <station name="新木" distance="8.9" />
+        <station name="布佐" distance="12.1" />
+        <station name="木下" distance="14" />
+        <station name="小林" distance="18.3" />
+        <station name="安食" distance="23.2" />
+        <station name="下総松崎" distance="27.8" />
+        <station name="成田" distance="32.9" />
+    </official>
+</data>

@@ -41,8 +41,15 @@
 
     <!-- 総武本線 -->
     <import src="./Sobu-Main-Line.xml" />
-    <route name="横須賀・総武快速線">
+    <route name="横須賀・総武快速線" hidden="">
         <section line="横須賀線1" direction="-" />
         <section line="総武線快速" direction="+" />
+    </route>
+
+    <!-- 成田線 -->
+    <import src="./Narita-Line.xml" />
+    <route name="横須賀・総武快速線" key="横須賀・総武快速線（久里浜〜成田空港）">
+        <section line="横須賀・総武快速線" direction="+" />
+        <section line="成田線（千葉〜成田空港）" direction="+" />
     </route>
 </data>

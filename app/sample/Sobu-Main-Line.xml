@@ -69,7 +69,7 @@
         <station name="千葉" code="28" />
     </section>
 
-    <route name="総武本線">
+    <route name="総武本線" key="総武本線1">
         <section line="総武線快速" direction="+" />
         <section code="JO" color="#ffc20d" line="総武本線" direction="+" from="千葉" to="佐倉" hides-via="">
             <station name="千葉" code="28" />

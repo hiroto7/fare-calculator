@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="外房線" color="#db4028">
+        <station name="千葉" distance="0" />
+        <station name="本千葉" distance="1.4" />
+        <station name="蘇我" distance="3.8" />
+        <station name="鎌取" distance="8.8" />
+        <station name="誉田" distance="12.6" />
+        <station name="土気" distance="18.1" />
+        <station name="大網" distance="22.9" />
+        <station name="永田" distance="25.3" />
+        <station name="本納" distance="27.7" />
+        <station name="新茂原" distance="31.4" />
+        <station name="茂原" distance="34.3" />
+        <station name="八積" distance="38.9" />
+        <station name="上総一ノ宮" distance="43" />
+        <station name="東浪見" distance="46.2" />
+        <station name="太東" distance="49.3" />
+        <station name="長者町" distance="52.1" />
+        <station name="三門" distance="53.7" />
+        <station name="大原" distance="57.2" />
+        <station name="浪花" distance="60.5" />
+        <station name="御宿" distance="65.4" />
+        <station name="勝浦" distance="70.9" />
+        <station name="鵜原" distance="74.5" />
+        <station name="上総興津" distance="77.2" />
+        <station name="行川アイランド" distance="80.5" />
+        <station name="安房小湊" distance="84.3" />
+        <station name="安房天津" distance="87.7" />
+        <station name="安房鴨川" distance="93.3" />
+    </official>
+
+    <official name="内房線" color="#00B2E5" hidden="">
+        <station name="蘇我" distance="0" />
+        <station name="浜野" distance="3.4" />
+        <station name="八幡宿" distance="5.6" />
+        <station name="五井" distance="9.3" />
+        <station name="姉ケ崎" distance="15.1" />
+        <station name="長浦" distance="20.5" />
+        <station name="袖ケ浦" distance="24.4" />
+        <station name="巌根" distance="27.5" />
+        <station name="木更津" distance="31.3" />
+        <station name="君津" distance="38.3" />
+        <station name="青堀" distance="42" />
+        <station name="大貫" distance="46.6" />
+        <station name="佐貫町" distance="50.7" />
+        <station name="上総湊" distance="55.1" />
+        <station name="竹岡" distance="60.2" />
+        <station name="浜金谷" distance="64" />
+        <station name="保田" distance="67.5" />
+        <station name="安房勝山" distance="70.8" />
+        <station name="岩井" distance="73.7" />
+        <station name="富浦" distance="79.8" />
+        <station name="那古船形" distance="82.1" />
+        <station name="館山" distance="85.9" />
+        <station name="九重" distance="91.7" />
+        <station name="千倉" distance="96.6" />
+        <station name="千歳" distance="98.6" />
+        <station name="南三原" distance="102.2" />
+        <station name="和田浦" distance="106.8" />
+        <station name="江見" distance="111.4" />
+        <station name="太海" distance="116" />
+        <station name="安房鴨川" distance="119.4" />
+    </official>
+
+    <route name="内房線" key="内房線1" color="#00B2E5" hides-via="">
+        <section line="外房線" direction="+" from="千葉" to="蘇我" />
+        <section line="内房線" direction="+" />
+    </route>
+
+    <official name="東金線" color="#f15a22">
+        <station name="大網" distance="0.0" />
+        <station name="福俵" distance="3.3" />
+        <station name="東金" distance="5.8" />
+        <station name="求名" distance="9.6" />
+        <station name="成東" distance="13.8" />
+    </official>
+</data>

@@ -1,4 +1,4 @@
-import { Direction, outbound } from "./Direction";
+import { Direction, outbound, inbound } from "./Direction";
 import Line, { Section, RouteLine, OfficialLine } from "./Line/";
 import Station, { Station1, StationSubstance, WritableStation } from "./Station";
 import DB, { ReadonlyDB } from "./DB";
@@ -77,7 +77,7 @@ class LineXMLHandler {
             throw new Error('direction 属性を省略することはできません。');
         if (directionString !== '+' && directionString !== '-')
             throw new Error('direction 属性の値は "+" または "-" である必要があります。');
-        const direction: Direction = directionString === '+' ? outbound : Direction.inbound;
+        const direction: Direction = directionString === '+' ? outbound : inbound;
 
         const line: Line<StationSubstance & WritableStation> | undefined = this.linesDB.get(lineKey);
         if (line === undefined)
@@ -178,7 +178,10 @@ class XMLHandler {
     }
 
     async import(url: URL) {
-        const srcText = await (await fetch(url.toString())).text();
+        const response = await fetch(url.toString());
+        if (!response.ok)
+            throw new Error(`[${url.toString()}] を読み込めません。`);
+        const srcText = await response.text();
         const srcXML = this.parser.parseFromString(srcText, 'text/xml');
 
         await this.handleXMLData(srcXML.children[0], url);

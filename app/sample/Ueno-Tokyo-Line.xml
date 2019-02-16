@@ -40,4 +40,10 @@
         <section line="上野東京ライン" direction="+" />
         <section line="常磐線2" direction="+" from="上野" to="高萩" />
     </route>
+
+    <route name="上野東京ライン" key="上野東京ライン（品川〜成田）">
+        <section line="東海道線" direction="-" from="品川" to="東京" />
+        <section line="上野東京ライン" direction="+" />
+        <section line="常磐・成田線" direction="+" />
+    </route>
 </data>
