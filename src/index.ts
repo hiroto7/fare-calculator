@@ -322,16 +322,31 @@ const b = (line: Line<StationSubstance>, station: Station): HTMLElement => {
     const linesDB = handler.getDB().linesDB;
     const stationsDB = handler.getDB().stationsDB;
 
-    document.getElementById('add-button')!.addEventListener('click', () => {
-        const stationInput: HTMLInputElement = document.getElementById('station-input')! as HTMLInputElement;
-        const station: StationSubstance | undefined = stationsDB.get(stationInput.value);
-        if (station === undefined)
-            throw new Error(`${stationInput.value} が見つかりません。`);
+    document.getElementById('station-input')!.addEventListener('keypress', e => {
+        if (e.keyCode !== 13) return;
+        document.getElementById('show-button')!.click();
+        e.preventDefault();
+    });
 
+    document.getElementById('show-button')!.addEventListener('click', () => {
+        try {
+            const stationInput: HTMLInputElement = document.getElementById('station-input')! as HTMLInputElement;
+            const station: StationSubstance | undefined = stationsDB.get(stationInput.value);
+            if (station === undefined)
+                throw new Error(`'${stationInput.value}' が見つかりません。`);
 
+            document.getElementById('list1')!.textContent = null;
+            for (const line of station.lines())
+                document.getElementById('list1')!.appendChild(b(line, station));
+            document.getElementById('p1')!.textContent = null;
+        } catch (e) {
+            document.getElementById('p1')!.textContent = e;
+        }
+    });
+
+    document.getElementById('clear-button')!.addEventListener('click', () => {
+        document.getElementById('p1')!.textContent = null;
         document.getElementById('list1')!.textContent = null;
-        for (const line of station.lines())
-            document.getElementById('list1')!.appendChild(b(line, station));
     });
 
     const sec1 = document.getElementById('sec1')!;
