@@ -40,7 +40,7 @@
     </route>
 
     <!-- 総武本線 -->
-    <import src="./Sobu.xml" />
+    <import src="./Sobu-Main-Line.xml" />
     <route name="横須賀・総武快速線">
         <section line="横須賀線1" direction="-" />
         <section line="総武線快速" direction="+" />

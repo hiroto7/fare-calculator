@@ -21,9 +21,9 @@
     </official>
 
     <!-- 東北本線 -->
-    <import src="./Tohoku.xml" />
+    <import src="./Tohoku-Main-Line.xml" />
     <!-- 東海道本線 -->
-    <import src="./Tokaido.xml" />
+    <import src="./Tokaido-Main-Line.xml" />
     <route name="山手線" key="山手線1" code="JY" color="#80c241" hides-via="">
         <section line="東北本線" direction="+" from="東京" to="田端" />
         <section line="山手線" direction="-" />

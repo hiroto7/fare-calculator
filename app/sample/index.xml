@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
     <!-- 東海道本線 -->
-    <import src="./Tokaido.xml" />
+    <import src="./Tokaido-Main-Line.xml" />
     <!-- 東北本線 -->
-    <import src="./Tohoku.xml" />
+    <import src="./Tohoku-Main-Line.xml" />
     <!-- 中央本線 -->
-    <import src="./Chuo.xml" />
+    <import src="./Chuo-Main-Line.xml" />
     <!-- 総武本線 -->
-    <import src="./Sobu.xml" />
+    <import src="./Sobu-Main-Line.xml" />
     <!-- 常磐線 -->
-    <import src="./Joban.xml" />
+    <import src="./Joban-Line.xml" />
     <!-- 山手線 -->
-    <import src="./Yamanote.xml" />
+    <import src="./Yamanote-Line.xml" />
     <!-- 高崎線 -->
-    <import src="./Takasaki.xml" />
+    <import src="./Takasaki-Line.xml" />
     <!-- 根岸線 -->
-    <import src="./Negishi.xml" />
+    <import src="./Negishi-Line.xml" />
     <!-- 上野東京ライン -->
     <import src="./Ueno-Tokyo-Line.xml" />
     <!-- 湘南新宿ライン -->

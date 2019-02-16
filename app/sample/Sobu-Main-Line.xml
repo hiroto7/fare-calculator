@@ -24,6 +24,28 @@
         <station name="稲毛" distance="35.9" />
         <station name="西千葉" distance="37.8" />
         <station name="千葉" distance="39.2" />
+        <!-- Wikipedia:総武本線#駅一覧 -->
+        <station name="東千葉" distance="40.1" />
+        <station name="都賀" distance="43.4" />
+        <station name="四街道" distance="46.9" />
+        <station name="物井" distance="51.1" />
+        <station name="佐倉" distance="55.3" />
+        <station name="南酒々井" distance="59.3" />
+        <station name="榎戸" distance="62.2" />
+        <station name="八街" distance="65.9" />
+        <station name="日向" distance="71.7" />
+        <station name="成東" distance="76.9" />
+        <station name="松尾" distance="82.5" />
+        <station name="横芝" distance="86.8" />
+        <station name="飯倉" distance="90.6" />
+        <station name="八日市場" distance="93.7" />
+        <station name="干潟" distance="98.8" />
+        <station name="旭" distance="103.6" />
+        <station name="飯岡" distance="106.3" />
+        <station name="倉橋" distance="109.2" />
+        <station name="猿田" distance="111.8" />
+        <station name="松岸" distance="117.3" />
+        <station name="銚子" distance="120.5" />
     </official>
 
     <official name="総武本線（錦糸町〜御茶ノ水）" hidden1="">
@@ -47,8 +69,21 @@
         <station name="千葉" code="28" />
     </section>
 
+    <route name="総武本線">
+        <section line="総武線快速" direction="+" />
+        <section code="JO" color="#ffc20d" line="総武本線" direction="+" from="千葉" to="佐倉" hides-via="">
+            <station name="千葉" code="28" />
+            <station name="東千葉" code="29" />
+            <station name="都賀" code="30" />
+            <station name="四街道" code="31" />
+            <station name="物井" code="32" />
+            <station name="佐倉" code="33" />
+        </section>
+        <section color="#ffc20d" line="総武本線" direction="+" from="佐倉" to="銚子" hides-via="" />
+    </route>
+
     <!-- 中央本線 -->
-    <import src="Chuo.xml" />
+    <import src="Chuo-Main-Line.xml" />
     <route name="中央・総武線各駅停車" code="JB" color="#ffd400" hides-via="">
         <section line="総武本線" direction="-" from="千葉" to="錦糸町" />
         <section line="総武本線（錦糸町〜御茶ノ水）" direction="+" />

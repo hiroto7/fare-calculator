@@ -126,9 +126,9 @@
     </official>
 
     <!-- 東北本線 -->
-    <import src="./Tohoku.xml" />
+    <import src="./Tohoku-Main-Line.xml" />
     <!-- 山手線 -->
-    <import src="./Yamanote.xml" />
+    <import src="./Yamanote-Line.xml" />
     <route name="中央線快速" direction="+" code="JC" color="#f15a22" hides-via="" hidden="">
         <section line="東北本線" direction="+" from="東京" to="神田" />
         <section line="中央本線（神田〜代々木）" direction="+" from="神田" to="代々木" />
@@ -162,7 +162,7 @@
     </route>
 
     <!-- 東海道本線 -->
-    <import src="./Tokaido.xml" />
+    <import src="./Tokaido-Main-Line.xml" />
     <route name="中央本線" key="中央本線（JR東海）" code="CF" color="#3b6c9c" hides-via="" hidden="">
         <section line="東海道本線" direction="-" from="名古屋" to="金山" />
         <section line="中央本線（新宿〜金山）" direction="-" from="金山" to="塩尻" />

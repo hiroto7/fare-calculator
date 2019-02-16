@@ -277,7 +277,7 @@
     </route>
 
     <!-- 北陸本線 -->
-    <import src="./Hokuriku.xml" />
+    <import src="./Hokuriku-Main-Line.xml" />
     <route name="琵琶湖線" code="JR-A" color="#0072bc" hidden="" hides-via="">
         <section line="北陸本線1" direction="-" from="長浜" to="米原" />
         <section line="東海道本線" direction="+" from="米原" to="京都" />

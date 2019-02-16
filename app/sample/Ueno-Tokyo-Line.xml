@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
     <!-- 東北本線 -->
-    <import src="./Tohoku.xml" />
+    <import src="./Tohoku-Main-Line.xml" />
     <!-- 東海道本線 -->
-    <import src="./Tokaido.xml" />
+    <import src="./Tokaido-Main-Line.xml" />
     <!-- 常磐線 -->
-    <import src="./Joban.xml" />
+    <import src="./Joban-Line.xml" />
     <!-- 高崎線 -->
-    <import src="./Takasaki.xml" />
+    <import src="./Takasaki-Line.xml" />
 
     <section name="上野東京ライン" color="purple" line="宇都宮・高崎線" direction="+" from="東京" to="上野" hidden="" hides-via="" />
 

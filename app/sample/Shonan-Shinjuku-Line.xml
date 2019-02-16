@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
     <!-- 東北本線 -->
-    <import src="./Tohoku.xml" />
+    <import src="./Tohoku-Main-Line.xml" />
     <!-- 山手線 -->
-    <import src="./Yamanote.xml" />
+    <import src="./Yamanote-Line.xml" />
     <!-- 横須賀線 -->
-    <import src="./Yokosuka.xml" />
+    <import src="./Yokosuka-Line.xml" />
     <!-- 東海道本線 -->
-    <import src="./Tokaido.xml" />
+    <import src="./Tokaido-Main-Line.xml" />
     <!-- 高崎線 -->
-    <import src="./Takasaki.xml" />
+    <import src="./Takasaki-Line.xml" />
 
     <route name="湘南新宿ライン" code="JS" color="#e21f26" hides-via="" hidden="">
         <section line="東北本線" direction="-" from="大宮" to="田端" />

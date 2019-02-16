@@ -23,7 +23,7 @@
     </official>
 
     <!-- 上越線 -->
-    <import src="./Joetsu.xml" />
+    <import src="./Joetsu-Line.xml" />
     <route name="両毛線" key="両毛線1" color="#ffd400" hides-via="">
         <section line="両毛線" direction="+" />
         <section line="上越線" direction="-" from="新前橋" to="高崎" />

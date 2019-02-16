@@ -83,6 +83,8 @@
         <station name="岩沼" distance="343.7" />
     </official>
 
+    <!-- 東北本線 -->
+    <import src="./Tohoku-Main-Line.xml" />
     <route name="常磐線快速" code="JJ" color="#00b261" hides-via="" hidden="">
         <section line="東北本線" direction="+" from="上野" to="日暮里" />
         <section line="常磐線" direction="+" from="日暮里" to="取手" />
