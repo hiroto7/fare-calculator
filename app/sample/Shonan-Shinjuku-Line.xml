@@ -11,7 +11,7 @@
     <!-- 高崎線 -->
     <import src="./Takasaki.xml" />
 
-    <route name="湘南新宿ライン" code="JS" color="#e21f26" hides-via="">
+    <route name="湘南新宿ライン" code="JS" color="#e21f26" hides-via="" hidden="">
         <section line="東北本線" direction="-" from="大宮" to="田端" />
         <section line="山手線" direction="-" from="田端" to="品川" />
         <section line="品鶴線" direction="+" />

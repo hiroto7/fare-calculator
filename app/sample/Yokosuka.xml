@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="横須賀線" code="JO" color="#007ac0">
+    <official name="横須賀線" code="JO" color="#007ac0" hidden1="">
         <station name="大船" code="09" distance="0" />
         <station name="北鎌倉" code="08" distance="2.3" />
         <station name="鎌倉" code="07" distance="4.5" />
@@ -12,7 +12,7 @@
         <station name="久里浜" code="01" distance="23.9" />
     </official>
 
-    <official name="品鶴線">
+    <official name="品鶴線" hidden1="">
         <station name="品川" distance="0" />
         <station name="西大井" distance="3.6" />
         <station name="武蔵小杉" distance="10" />

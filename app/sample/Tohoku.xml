@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="東北本線">
+    <official name="東北本線" hidden1="">
         <station name="東京" distance="0" />
         <station name="神田" distance="1.3" />
         <station name="秋葉原" distance="2.0" />
@@ -113,9 +113,28 @@
         <station name="清水原" distance="434.4" />
         <station name="有壁" distance="437.8" />
         <station name="一ノ関" distance="445.1" />
+        <station name="山ノ目" distance="448" />
+        <station name="平泉" distance="452.3" />
+        <station name="前沢" distance="459.9" />
+        <station name="陸中折居" distance="465.1" />
+        <station name="水沢" distance="470.1" />
+        <station name="金ケ崎" distance="477.7" />
+        <station name="六原" distance="481.1" />
+        <station name="北上" distance="487.5" />
+        <station name="村崎野" distance="492.2" />
+        <station name="花巻" distance="500" />
+        <station name="花巻空港" distance="505.7" />
+        <station name="石鳥谷" distance="511.4" />
+        <station name="日詰" distance="516.8" />
+        <station name="紫波中央" distance="518.6" />
+        <station name="古館" distance="521.5" />
+        <station name="矢幅" distance="525.1" />
+        <station name="岩手飯岡" distance="529.6" />
+        <station name="仙北町" distance="533.5" />
+        <station name="盛岡" distance="535.3" />
     </official>
 
-    <official name="東北本線（尾久支線）">
+    <official name="東北本線（尾久支線）" hidden1="">
         <station name="日暮里" distance="5.8" />
         <station name="尾久" distance="8.4" />
         <station name="赤羽" distance="13.4" />

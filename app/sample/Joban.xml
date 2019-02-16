@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="常磐線">
+    <official name="常磐線" hidden1="">
         <station name="日暮里" distance="0" />
         <station name="三河島" distance="1.2" />
         <station name="南千住" distance="3.4" />
@@ -98,14 +98,13 @@
         <station name="取手" code="10" />
     </route>
 
-    <route name="常磐線" color="#007ac0" key="常磐線2" hides-via="" hidden="">
-        <section line="常磐線" direction="+" from="取手" to="岩沼" />
-        <section line="東北本線" direction="+" from="岩沼" to="仙台" />
-    </route>
-
-    <route name="常磐線" key="常磐線3">
+    <route name="常磐線" key="常磐線2">
         <section line="常磐線快速" direction="+" />
-        <section line="常磐線2" direction="+" />
+        <route name="常磐線" color="#007ac0" hides-via="">
+            <section line="常磐線" direction="+" from="取手" to="岩沼" />
+            <section line="東北本線" direction="+" from="岩沼" to="仙台" />
+        </route>
+
     </route>
 
     <section name="常磐線各駅停車" code="JL" color="gray" hides-via="" line="常磐線" direction="+" from="綾瀬" to="取手">

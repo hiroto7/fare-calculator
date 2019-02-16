@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="北陸本線">
+    <official name="北陸本線" hidden1="">
         <station name="米原" distance="0" />
         <station name="坂田" distance="2.4" />
         <station name="田村" distance="4.7" />

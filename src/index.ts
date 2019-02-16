@@ -1,13 +1,13 @@
 import { Direction, outbound } from "./Direction";
 import Line, { Section, RouteLine, OfficialLine } from "./Line/";
-import { Station1, StationSubstance, WritableStation } from "./Station";
+import Station, { Station1, StationSubstance, WritableStation } from "./Station";
 import DB, { ReadonlyDB } from "./DB";
 import { StationOnLine } from "./StationOnLine";
 
 class StationXMLHandler {
     constructor(private readonly stationsDB: ReadonlyDB<string, WritableStation & StationSubstance, [string?]>) { }
 
-    handle(e: Element): StationSubstance {
+    handle(e: Element): StationSubstance & WritableStation {
         if (e.tagName !== 'station')
             throw new Error('このメソッドの引数は <station> 要素である必要があります。');
 
@@ -25,7 +25,7 @@ class StationXMLHandler {
 
 class LineXMLHandler {
     constructor(
-        private readonly linesDB: ReadonlyMap<string, Line>,
+        private readonly linesDB: ReadonlyMap<string, Line<StationSubstance & WritableStation>>,
         private readonly stationsDB: ReadonlyDB<string, StationSubstance>,
         private readonly stationXMLHandler: StationXMLHandler) { }
 
@@ -33,13 +33,13 @@ class LineXMLHandler {
         name: string | undefined,
         code: string | undefined,
         color: string | undefined
-    }): OfficialLine {
+    }): OfficialLine<StationSubstance & WritableStation> {
 
         if (name === undefined)
             throw new Error('name 属性を省略することはできません。');
 
         const stations: {
-            substance: StationSubstance,
+            substance: StationSubstance & WritableStation,
             distanceFromStart: number | null,
             code?: string | null
         }[] = [];
@@ -66,7 +66,7 @@ class LineXMLHandler {
         color: string | undefined,
         hidesVia: boolean,
         stationCodesMap: Iterable<[StationSubstance, string | null]>
-    }): Section {
+    }): Section<StationSubstance & WritableStation> {
 
         const lineKey = e.getAttribute('line');
         if (lineKey === null)
@@ -79,7 +79,7 @@ class LineXMLHandler {
             throw new Error('direction 属性の値は "+" または "-" である必要があります。');
         const direction: Direction = directionString === '+' ? outbound : Direction.inbound;
 
-        const line: Line | undefined = this.linesDB.get(lineKey);
+        const line: Line<StationSubstance & WritableStation> | undefined = this.linesDB.get(lineKey);
         if (line === undefined)
             throw new Error(`${lineKey} が見つかりません。`);
 
@@ -102,12 +102,12 @@ class LineXMLHandler {
         color: string | undefined,
         hidesVia: boolean,
         stationCodesMap: Iterable<[StationSubstance, string | null]>
-    }): RouteLine {
+    }): RouteLine<StationSubstance & WritableStation> {
 
         if (name === undefined)
             throw new Error('name 属性を省略することはできません。');
 
-        const sections: Line[] = [];
+        const sections: Line<StationSubstance & WritableStation>[] = [];
         for (const child of Array.from(e.children)) {
             if (child.tagName !== 'official' && child.tagName !== 'route' && child.tagName !== 'section') continue;
 
@@ -118,7 +118,7 @@ class LineXMLHandler {
         return new RouteLine({ name, code: lineCode, color, children: sections, stationCodesMap, hidesVia });
     }
 
-    handle(e: Element): Line {
+    handle(e: Element): Line<StationSubstance & WritableStation> {
         const name: string | undefined = e.getAttribute('name') || undefined;
         const lineCode: string | undefined = e.getAttribute('code') || undefined;
         const color: string | undefined = e.getAttribute('color') || undefined;
@@ -162,13 +162,13 @@ class LineXMLHandler {
 class XMLHandler {
     private visited: Set<string> = new Set();
     private readonly parser = new DOMParser();
-    private readonly linesDB: Map<string, Line>;
+    private readonly linesDB: Map<string, Line<StationSubstance>>;
     private readonly stationsDB: Map<string, WritableStation & StationSubstance>;
     private readonly stationXMLHandler: StationXMLHandler;
     private readonly lineXMLHandler: LineXMLHandler;
 
     constructor() {
-        const linesDB: ReadonlyMap<string, Line> = this.linesDB = new Map();
+        const linesDB: ReadonlyMap<string, Line<StationSubstance & WritableStation>> = this.linesDB = new Map();
         const stationsDB: ReadonlyDB<string, WritableStation & StationSubstance> = this.stationsDB = new DB((key: string, name?: string) => {
             name = name || key;
             return new Station1(name);
@@ -203,10 +203,14 @@ class XMLHandler {
 
         for (const child of Array.from(data.children)) {
             if (child.tagName === 'official' || child.tagName === 'route' || child.tagName === 'section') {
-                const line: Line = this.lineXMLHandler.handle(child);
+                const line: Line<StationSubstance & WritableStation> = this.lineXMLHandler.handle(child);
                 const key: string = child.getAttribute('key') || line.name;
                 this.linesDB.set(key, line);
-                // const hidden: boolean = child.hasAttribute('hidden');
+                const hidden: boolean = child.hasAttribute('hidden') || child.hasAttribute('hidden1');
+                if (!hidden) {
+                    for (const station of line.stations())
+                        station.substance.add(line);
+                }
             } else if (child.tagName === 'station') {
                 this.stationXMLHandler.handle(child);
             } else if (child.tagName === 'import') {
@@ -216,7 +220,7 @@ class XMLHandler {
     }
 
     getDB(): {
-        readonly linesDB: ReadonlyMap<string, Line>,
+        readonly linesDB: ReadonlyMap<string, Line<StationSubstance>>,
         readonly stationsDB: ReadonlyMap<string, StationSubstance>
     } {
         return {
@@ -225,7 +229,7 @@ class XMLHandler {
     }
 }
 
-const a = (line: Line): HTMLElement => {
+const a = (line: Line<StationSubstance>): HTMLElement => {
     const section: HTMLElement = document.createElement('section');
 
     section.innerHTML = `<h1>${[...line.codes()].map(v => `[${v}] `).join(``)}${line.name} [${line.from.name} - ${line.to.name}]</h1>
@@ -247,7 +251,7 @@ const a = (line: Line): HTMLElement => {
     return section;
 }
 
-const b = (line: Line, sections: Iterable<Line>): HTMLElement => {
+const b = (line: Line<StationSubstance>, station: Station): HTMLElement => {
     const list: HTMLElement = document.createElement('x-named-direction-list');
 
     const summary: HTMLHeadingElement = document.createElement('h1');
@@ -256,6 +260,7 @@ const b = (line: Line, sections: Iterable<Line>): HTMLElement => {
     list.appendChild(summary);
 
     let symbolCount = 0;
+    const sections = line.sectionsFrom(station);
     for (const section of sections) {
         const button: HTMLElement = document.createElement('x-line-button');
         const grandchild = section.grandchildren(true).next().value;
@@ -289,7 +294,7 @@ const b = (line: Line, sections: Iterable<Line>): HTMLElement => {
             const h1: HTMLHeadingElement = document.createElement('h1');
             const halfway: Set<StationSubstance> = new Set();
             {
-                const stations: IterableIterator<StationOnLine> = section.stations();
+                const stations: IterableIterator<StationOnLine<StationSubstance>> = section.stations();
                 halfway.add((stations.next(), stations.next()).value.substance);
             }
             halfway.add(grandchild.to.substance);
@@ -318,16 +323,15 @@ const b = (line: Line, sections: Iterable<Line>): HTMLElement => {
     const stationsDB = handler.getDB().stationsDB;
 
     document.getElementById('add-button')!.addEventListener('click', () => {
-        try {
-            const stationInput: HTMLInputElement = document.getElementById('station-input')! as HTMLInputElement;
-            const lineInput: HTMLInputElement = document.getElementById('line-input')! as HTMLInputElement;
-            const station: StationSubstance = stationsDB.get(stationInput.value)!;
-            const line: Line = linesDB.get(lineInput.value)!;
+        const stationInput: HTMLInputElement = document.getElementById('station-input')! as HTMLInputElement;
+        const station: StationSubstance | undefined = stationsDB.get(stationInput.value);
+        if (station === undefined)
+            throw new Error(`${stationInput.value} が見つかりません。`);
 
-            document.getElementById('list1')!.appendChild(b(line, line.sectionsFrom(station)));
-        } catch (e) {
-            console.error(e);
-        }
+
+        document.getElementById('list1')!.textContent = null;
+        for (const line of station.lines())
+            document.getElementById('list1')!.appendChild(b(line, station));
     });
 
     const sec1 = document.getElementById('sec1')!;

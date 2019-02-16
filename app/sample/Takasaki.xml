@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="高崎線" color="#F68B1E">
+    <official name="高崎線" color="#F68B1E" hidden1="">
         <station name="大宮" distance="0" />
         <station name="宮原" distance="4" />
         <station name="上尾" distance="8.2" />
@@ -27,13 +27,6 @@
     <route name="高崎線" key="高崎線1" hidden="">
         <section line="宇都宮・高崎線" direction="+" />
         <section line="高崎線" direction="+" />
-    </route>
-
-    <!-- 上越線 -->
-    <import src="./Joetsu.xml" />
-    <route name="高崎・上越線">
-        <section line="高崎線1" direction="+" />
-        <section line="上越線" direction="+" from="高崎" to="新前橋" />
     </route>
 
     <!-- 両毛線 -->
