@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <!-- 北陸本線-official -->
-    <import src="./Hokuriku-Main-Line-official.xml" />
     <official name="北陸本線" color="#0072bc" hidden="">
         <station name="米原" distance="0" />
         <station name="坂田" distance="2.4" />
@@ -47,23 +45,4 @@
         <station name="西金沢" distance="172.9" />
         <station name="金沢" distance="176.6" />
     </official>
-
-    <!-- 東海道本線 -->
-    <import src="./Biwako-Line.xml" />
-    <route name="北陸本線" key="北陸本線1">
-        <section line="琵琶湖線" direction="-" from="米原" to="長浜" />
-        <section line="北陸本線" direction="+" from="長浜" to="敦賀" code="JR-A" hides-via="">
-            <station name="長浜" code="09" />
-            <station name="虎姫" code="08" />
-            <station name="河毛" code="07" />
-            <station name="高月" code="06" />
-            <station name="木ノ本" code="05" />
-            <station name="余呉" code="04" />
-            <station name="近江塩津" code="03" />
-            <station name="新疋田" code="02" />
-            <station name="敦賀" code="01" />
-        </section>
-        <section line="北陸本線" direction="+" from="敦賀" to="金沢" />
-    </route>
 </data>
-

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <!-- 東海道本線 -->
+    <import src="./Tokaido-Main-Line-official.xml" />
+    <!-- 北陸本線 -->
+    <import src="./Hokuriku-Main-Line-official.xml" />
+    <route name="琵琶湖線" code="JR-A" color="#0072bc" hides-via="">
+        <section line="北陸本線" direction="-" from="長浜" to="米原" />
+        <section line="東海道本線" direction="+" from="米原" to="京都" />
+
+        <station name="長浜" code="09" />
+        <station name="田村" code="10" />
+        <station name="坂田" code="11" />
+        <station name="米原" code="12" />
+        <station name="彦根" code="13" />
+        <station name="南彦根" code="14" />
+        <station name="河瀬" code="15" />
+        <station name="稲枝" code="16" />
+        <station name="能登川" code="17" />
+        <station name="安土" code="18" />
+        <station name="近江八幡" code="19" />
+        <station name="篠原" code="20" />
+        <station name="野洲" code="21" />
+        <station name="守山" code="22" />
+        <station name="栗東" code="23" />
+        <station name="草津" code="24" />
+        <station name="南草津" code="25" />
+        <station name="瀬田" code="26" />
+        <station name="石山" code="27" />
+        <station name="膳所" code="28" />
+        <station name="大津" code="29" />
+        <station name="山科" code="30" />
+        <station name="京都" code="31" />
+    </route>
+</data>

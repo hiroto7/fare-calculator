@@ -1,164 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="東海道本線" hidden="">
-        <!-- Wikipedia:京浜東北線#駅一覧 -->
-        <station name="東京" distance="0" />
-        <station name="有楽町" distance="0.8" />
-        <station name="新橋" distance="1.9" />
-        <station name="浜松町" distance="3.1" />
-        <station name="田町" distance="4.6" />
-        <station name="品川" distance="6.8" />
-        <station name="大井町" distance="9.2" />
-        <station name="大森" distance="11.4" />
-        <station name="蒲田" distance="14.4" />
-        <station name="川崎" distance="18.2" />
-        <station name="鶴見" distance="21.7" />
-        <station name="新子安" distance="24.8" />
-        <station name="東神奈川" distance="27" />
-        <station name="横浜" distance="28.8" />
-        <!-- Wikipedia:横須賀線#駅一覧 -->
-        <station name="保土ケ谷" distance="31.8" />
-        <station name="東戸塚" distance="36.7" />
-        <station name="戸塚" distance="40.9" />
-        <station name="大船" distance="46.5" />
-        <!-- Wikipedia:東海道線_(JR東日本)#駅一覧 -->
-        <station name="藤沢" distance="51.1" />
-        <station name="辻堂" distance="54.8" />
-        <station name="茅ケ崎" distance="58.6" />
-        <station name="平塚" distance="63.8" />
-        <station name="大磯" distance="67.8" />
-        <station name="二宮" distance="73.1" />
-        <station name="国府津" distance="77.7" />
-        <station name="鴨宮" distance="80.8" />
-        <station name="小田原" distance="83.9" />
-        <station name="早川" distance="86" />
-        <station name="根府川" distance="90.4" />
-        <station name="真鶴" distance="95.8" />
-        <station name="湯河原" distance="99.1" />
-        <station name="熱海" distance="104.6" />
-        <!-- Wikipedia:東海道線_(静岡地区)#駅一覧 -->
-        <station name="函南" distance="114.5" />
-        <station name="三島" distance="120.7" />
-        <station name="沼津" distance="126.2" />
-        <station name="片浜" distance="130.3" />
-        <station name="原" distance="132.8" />
-        <station name="東田子の浦" distance="137.4" />
-        <station name="吉原" distance="141.3" />
-        <station name="富士" distance="146.2" />
-        <station name="富士川" distance="149.7" />
-        <station name="新蒲原" distance="152.5" />
-        <station name="蒲原" distance="154.9" />
-        <station name="由比" distance="158.4" />
-        <station name="興津" distance="164.3" />
-        <station name="清水" distance="169" />
-        <station name="草薙" distance="174.2" />
-        <station name="東静岡" distance="177.7" />
-        <station name="静岡" distance="180.2" />
-        <station name="安倍川" distance="184.5" />
-        <station name="用宗" distance="186.6" />
-        <station name="焼津" distance="193.7" />
-        <station name="西焼津" distance="197" />
-        <station name="藤枝" distance="200.3" />
-        <station name="六合" distance="204.9" />
-        <station name="島田" distance="207.8" />
-        <station name="金谷" distance="212.9" />
-        <station name="菊川" distance="222.2" />
-        <station name="掛川" distance="229.3" />
-        <station name="愛野" distance="234.6" />
-        <station name="袋井" distance="238.1" />
-        <station name="磐田" distance="245.9" />
-        <station name="豊田町" distance="248.8" />
-        <station name="天竜川" distance="252.7" />
-        <station name="浜松" distance="257.1" />
-        <station name="高塚" distance="262.4" />
-        <station name="舞阪" distance="267.5" />
-        <station name="弁天島" distance="269.8" />
-        <station name="新居町" distance="272.9" />
-        <station name="鷲津" distance="276.6" />
-        <station name="新所原" distance="282.4" />
-        <station name="二川" distance="286.7" />
-        <station name="豊橋" distance="293.6" />
-        <!-- Wikipedia:東海道線_(名古屋地区)#駅一覧 -->
-        <station name="西小坂井" distance="298.4" />
-        <station name="愛知御津" distance="302.1" />
-        <station name="三河大塚" distance="305.2" />
-        <station name="三河三谷" distance="308.3" />
-        <station name="蒲郡" distance="310.6" />
-        <station name="三河塩津" distance="312.9" />
-        <station name="三ケ根" distance="315.5" />
-        <station name="幸田" distance="318.5" />
-        <station name="相見" distance="321.6" />
-        <station name="岡崎" distance="325.9" />
-        <station name="西岡崎" distance="330.1" />
-        <station name="安城" distance="333.7" />
-        <station name="三河安城" distance="336.3" />
-        <station name="東刈谷" distance="338.1" />
-        <station name="野田新町" distance="339.7" />
-        <station name="刈谷" distance="341.6" />
-        <station name="逢妻" distance="343.5" />
-        <station name="大府" distance="346.5" />
-        <station name="共和" distance="349.5" />
-        <station name="南大高" distance="351.8" />
-        <station name="大高" distance="353.6" />
-        <station name="笠寺" distance="356.8" />
-        <station name="熱田" distance="360.8" />
-        <station name="金山" distance="362.7" />
-        <station name="尾頭橋" distance="363.6" />
-        <station name="名古屋" distance="366" />
-        <station name="枇杷島" distance="370" />
-        <station name="清洲" distance="373.8" />
-        <station name="稲沢" distance="377.1" />
-        <station name="尾張一宮" distance="383.1" />
-        <station name="木曽川" distance="388.6" />
-        <station name="岐阜" distance="396.3" />
-        <station name="西岐阜" distance="399.5" />
-        <station name="穂積" distance="402.3" />
-        <station name="大垣" distance="410" />
-        <station name="垂井" distance="418.1" />
-        <station name="関ケ原" distance="423.8" />
-        <station name="柏原" distance="430.9" />
-        <station name="近江長岡" distance="435.2" />
-        <station name="醒ケ井" distance="439.8" />
-        <station name="米原" distance="445.9" />
-        <!-- Wikipedia:琵琶湖線#駅一覧 -->
-        <station name="彦根" distance="451.9" />
-        <station name="南彦根" distance="455.2" />
-        <station name="河瀬" distance="458.3" />
-        <station name="稲枝" distance="462" />
-        <station name="能登川" distance="465.7" />
-        <station name="安土" distance="470.8" />
-        <station name="近江八幡" distance="474.3" />
-        <station name="篠原" distance="478.3" />
-        <station name="野洲" distance="483.9" />
-        <station name="守山" distance="487" />
-        <station name="栗東" distance="489.1" />
-        <station name="草津" distance="491.4" />
-        <station name="南草津" distance="493.9" />
-        <station name="瀬田" distance="496.6" />
-        <station name="石山" distance="499.1" />
-        <station name="膳所" distance="501.9" />
-        <station name="大津" distance="503.6" />
-        <station name="山科" distance="508.1" />
-        <station name="京都" distance="513.6" />
-        <!-- Wikipedia:JR京都線#駅一覧 -->
-        <station name="西大路" distance="516.1" />
-        <station name="桂川" distance="518.9" />
-        <station name="向日町" distance="520" />
-        <station name="長岡京" distance="523.7" />
-        <station name="山崎" distance="527.7" />
-        <station name="島本" distance="529.9" />
-        <station name="高槻" distance="535.2" />
-        <station name="摂津富田" distance="538.1" />
-        <station name="JR総持寺" distance="539.8" />
-        <station name="茨木" distance="541.8" />
-        <station name="千里丘" distance="544.7" />
-        <station name="岸辺" distance="546.4" />
-        <station name="吹田" distance="548.8" />
-        <station name="東淀川" distance="551.9" />
-        <station name="新大阪" distance="552.6" />
-        <station name="大阪" distance="556.4" />
-    </official>
-
+    <!-- 東海道本線-official -->
+    <import src="./Tokaido-Main-Line-official.xml" />
     <section name="東海道線" color="#F68B1E" line="東海道本線" direction="+" code="JT" from="東京" to="熱海" hidden="" hides-via="">
         <station name="東京" code="01" />
         <station name="新橋" code="02" />
@@ -276,34 +119,6 @@
         <section line="東海道本線（JR東海）" direction="+" from="熱海" to="沼津" />
     </route>
 
-    <!-- 北陸本線 -->
-    <import src="./Hokuriku-Main-Line.xml" />
-    <route name="琵琶湖線" code="JR-A" color="#0072bc" hidden="" hides-via="">
-        <section line="北陸本線1" direction="-" from="長浜" to="米原" />
-        <section line="東海道本線" direction="+" from="米原" to="京都" />
-
-        <station name="米原" code="12" />
-        <station name="彦根" code="13" />
-        <station name="南彦根" code="14" />
-        <station name="河瀬" code="15" />
-        <station name="稲枝" code="16" />
-        <station name="能登川" code="17" />
-        <station name="安土" code="18" />
-        <station name="近江八幡" code="19" />
-        <station name="篠原" code="20" />
-        <station name="野洲" code="21" />
-        <station name="守山" code="22" />
-        <station name="栗東" code="23" />
-        <station name="草津" code="24" />
-        <station name="南草津" code="25" />
-        <station name="瀬田" code="26" />
-        <station name="石山" code="27" />
-        <station name="膳所" code="28" />
-        <station name="大津" code="29" />
-        <station name="山科" code="30" />
-        <station name="京都" code="31" />
-    </route>
-
     <section name="JR京都線" code="JR-A" color="#0072bc" direction="+" line="東海道本線" from="京都" to="大阪" hidden="" hides-via="">
         <station name="京都" code="31" />
         <station name="西大路" code="32" />
@@ -324,6 +139,8 @@
         <station name="大阪" code="47" />
     </section>
 
+    <!-- 琵琶湖線 -->
+    <import src="./Biwako-Line.xml" />
     <route name="東海道本線" key="東海道本線1">
         <section line="東海道線" direction="+" />
         <section line="東海道本線（JR東海）" direction="+" />
