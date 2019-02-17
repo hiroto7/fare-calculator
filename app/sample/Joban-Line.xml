@@ -129,6 +129,6 @@
     <import src="./Narita-Line.xml" />
     <route name="常磐・成田線" hidden="">
         <section line="常磐線快速" direction="+" from="上野" to="我孫子" />
-        <section line="成田線（我孫子支線）" name="成田線" hides-via="" direction="+" />
+        <section line="成田線（我孫子支線）" hides-via="" direction="+" />
     </route>
 </data>
