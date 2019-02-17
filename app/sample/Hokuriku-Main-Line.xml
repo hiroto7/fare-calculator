@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="北陸本線" hidden="">
+    <official name="北陸本線" color="#0072bc" hidden="">
         <station name="米原" distance="0" />
         <station name="坂田" distance="2.4" />
         <station name="田村" distance="4.7" />
@@ -46,23 +46,21 @@
         <station name="金沢" distance="176.6" />
     </official>
 
-    <section line="北陸本線" name="北陸本線" key="北陸本線1" direction="+" from="米原" to="敦賀" hidden="" code="JR-A">
-        <station name="米原" code="12" />
-        <station name="坂田" code="11" />
-        <station name="田村" code="10" />
-        <station name="長浜" code="09" />
-        <station name="虎姫" code="08" />
-        <station name="河毛" code="07" />
-        <station name="高月" code="06" />
-        <station name="木ノ本" code="05" />
-        <station name="余呉" code="04" />
-        <station name="近江塩津" code="03" />
-        <station name="新疋田" code="02" />
-        <station name="敦賀" code="01" />
-    </section>
-
-    <route name="北陸本線" key="北陸本線2">
-        <section line="北陸本線1" direction="+" />
+    <route name="北陸本線" key="北陸本線1">
+        <section line="北陸本線" name="北陸本線" key="北陸本線1" direction="+" from="米原" to="敦賀" code="JR-A" hides-via="">
+            <station name="米原" code="12" />
+            <station name="坂田" code="11" />
+            <station name="田村" code="10" />
+            <station name="長浜" code="09" />
+            <station name="虎姫" code="08" />
+            <station name="河毛" code="07" />
+            <station name="高月" code="06" />
+            <station name="木ノ本" code="05" />
+            <station name="余呉" code="04" />
+            <station name="近江塩津" code="03" />
+            <station name="新疋田" code="02" />
+            <station name="敦賀" code="01" />
+        </section>
         <section line="北陸本線" direction="+" from="敦賀" to="金沢" />
     </route>
 </data>
