@@ -8,6 +8,8 @@
     <import src="./Chuo-Main-Line.xml" />
     <!-- 総武本線 -->
     <import src="./Sobu-Main-Line.xml" />
+    <!-- 北陸本線 -->
+    <import src="./Hokuriku-Main-Line.xml" />
     <!-- 常磐線 -->
     <import src="./Joban-Line.xml" />
     <!-- 山手線 -->
