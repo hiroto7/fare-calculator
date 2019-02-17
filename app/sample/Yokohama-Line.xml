@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="横浜線" code="JH" color="#80c241" hidden="">
+        <station name="東神奈川" distance="0" code="13" />
+        <station name="大口" distance="2.2" code="14" />
+        <station name="菊名" distance="4.8" code="15" />
+        <station name="新横浜" distance="6.1" code="16" />
+        <station name="小机" distance="7.8" code="17" />
+        <station name="鴨居" distance="10.9" code="18" />
+        <station name="中山" distance="13.5" code="19" />
+        <station name="十日市場" distance="15.9" code="20" />
+        <station name="長津田" distance="17.9" code="21" />
+        <station name="成瀬" distance="20.2" code="22" />
+        <station name="町田" distance="22.9" code="23" />
+        <station name="古淵" distance="25.7" code="24" />
+        <station name="淵野辺" distance="28.4" code="25" />
+        <station name="矢部" distance="29.2" code="26" />
+        <station name="相模原" distance="31" code="27" />
+        <station name="橋本" distance="33.8" code="28" />
+        <station name="相原" distance="35.7" code="29" />
+        <station name="八王子みなみ野" distance="38.6" code="30" />
+        <station name="片倉" distance="40" code="31" />
+        <station name="八王子" distance="42.6" code="32" />
+    </official>
+
+    <!-- 根岸線 -->
+    <import src="./Negishi-Line.xml" />
+    <route name="横浜・根岸線">
+        <section line="京浜東北・根岸線" direction="-" from="大船" to="東神奈川" />
+        <section line="横浜線" direction="+" />
+    </route>
+</data>

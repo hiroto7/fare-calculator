@@ -24,6 +24,10 @@
     <import src="./Keiyo-Line.xml" />
     <!-- 武蔵野線 -->
     <import src="./Musashino-Line.xml" />
+    <!-- 横浜線 -->
+    <import src="./Yokohama-Line.xml" />
+    <!-- 赤羽線 -->
+    <import src="./Akabane-Line.xml" />
     <!-- 上野東京ライン -->
     <import src="./Ueno-Tokyo-Line.xml" />
     <!-- 湘南新宿ライン -->
