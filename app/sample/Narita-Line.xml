@@ -42,11 +42,6 @@
         <station name="成田空港" distance="10.8" code="37" />
     </official>
 
-    <route name="成田線" key="成田線（千葉〜成田空港）" hides-via="" hidden="">
-        <section line="成田線1" direction="+" from="千葉" to="成田" />
-        <section line="成田線（空港支線）" direction="+" from="成田" to="成田空港" />
-    </route>
-
     <official name="成田線（我孫子支線）" color="#00b261" hidden="">
         <station name="我孫子" distance="0" />
         <station name="東我孫子" distance="3.4" />
@@ -59,4 +54,18 @@
         <station name="下総松崎" distance="27.8" />
         <station name="成田" distance="32.9" />
     </official>
+
+    <official name="鹿島線" color="#c56e2e" hidden="">
+        <station name="香取" distance="0.0" />
+        <station name="十二橋" distance="3.0" />
+        <station name="潮来" distance="5.2" />
+        <station name="延方" distance="10.4" />
+        <station name="鹿島神宮" distance="14.2" />
+        <station name="鹿島サッカースタジアム" distance="17.4" seasonal="" />
+    </official>
+
+    <route name="鹿島線" key="鹿島線1" color="#c56e2e" hides-via="">
+        <section line="成田線" direction="+" from="佐原" to="香取" />
+        <section line="鹿島線" direction="+" />
+    </route>
 </data>
