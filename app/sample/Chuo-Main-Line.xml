@@ -116,7 +116,7 @@
         <station name="金山" distance="393.6" />
     </official>
 
-    <official name="中央本線（辰野支線）">
+    <official name="中央本線（辰野支線）" color="navy">
         <station name="岡谷" distance="0.0" />
         <station name="川岸" distance="3.5" />
         <station name="辰野" distance="9.5" />
@@ -129,7 +129,7 @@
     <import src="./Tohoku-Main-Line.xml" />
     <!-- 山手線 -->
     <import src="./Yamanote-Line.xml" />
-    <route name="中央線快速" direction="+" code="JC" color="#f15a22" hides-via="" hidden="">
+    <route name="中央線快速" code="JC" color="#f15a22" hides-via="" hidden="">
         <section line="東北本線" direction="+" from="東京" to="神田" />
         <section line="中央本線（神田〜代々木）" direction="+" from="神田" to="代々木" />
         <section line="山手線" direction="+" from="代々木" to="新宿" />
@@ -161,9 +161,15 @@
         <station name="高尾" code="24" />
     </route>
 
+    <route name="中央東線" hidden="">
+        <section line="中央線快速" direction="+" />
+        <section line="中央本線（新宿〜金山）" name="中央東線" color="navy" direction="+" from="高尾" to="塩尻" hides-via="" />
+    </route>
+
+
     <!-- 東海道本線 -->
     <import src="./Tokaido-Main-Line.xml" />
-    <route name="中央本線" key="中央本線（JR東海）" code="CF" color="#3b6c9c" hides-via="" hidden="">
+    <route name="中央西線" code="CF" color="#3b6c9c" hides-via="" hidden="">
         <section line="東海道本線" direction="-" from="名古屋" to="金山" />
         <section line="中央本線（新宿〜金山）" direction="-" from="金山" to="塩尻" />
 
@@ -193,8 +199,7 @@
     </route>
 
     <route name="中央本線" key="中央本線2">
-        <section line="中央線快速" direction="+" />
-        <section line="中央本線（新宿〜金山）" name="中央本線" color="navy" direction="+" from="高尾" to="塩尻" hides-via="" />
-        <section line="中央本線（JR東海）" direction="-" />
+        <section line="中央東線" direction="+" />
+        <section line="中央西線" direction="-" />
     </route>
 </data>
