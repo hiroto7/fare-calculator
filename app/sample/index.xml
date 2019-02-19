@@ -10,6 +10,8 @@
     <import src="./Sobu-Main-Line.xml" />
     <!-- 北陸本線 -->
     <import src="./Hokuriku-Main-Line.xml" />
+    <!-- 信越本線 -->
+    <import src="./Shinetsu-Main-Line.xml" />
     <!-- 常磐線 -->
     <import src="./Joban-Line.xml" />
     <!-- 山手線 -->
@@ -28,6 +30,8 @@
     <import src="./Musashino-Line.xml" />
     <!-- 横浜線 -->
     <import src="./Yokohama-Line.xml" />
+    <!-- 篠ノ井線 -->
+    <import src="./Shinonoi-Line.xml" />
     <!-- 赤羽線 -->
     <import src="./Akabane-Line.xml" />
     <!-- 上野東京ライン -->
