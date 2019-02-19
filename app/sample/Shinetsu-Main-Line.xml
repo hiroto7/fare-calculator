@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="信越本線（篠ノ井〜長野）" color="#00b3e6" hidden="">
+        <station name="篠ノ井" distance="0" />
+        <station name="今井" distance="2.1" />
+        <station name="川中島" distance="4.3" />
+        <station name="安茂里" distance="6.4" />
+        <station name="長野" distance="9.3" />
+    </official>
+</data>
