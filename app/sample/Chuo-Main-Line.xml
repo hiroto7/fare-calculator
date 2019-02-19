@@ -166,6 +166,12 @@
         <section line="中央本線（新宿〜金山）" name="中央東線" color="navy" direction="+" from="高尾" to="塩尻" hides-via="" />
     </route>
 
+    <!-- 篠ノ井線 -->
+    <import src="./Shinonoi-Line.xml" />
+    <route name="中央東線" key="中央東線1">
+        <section line="中央東線" direction="+" />
+        <section line="篠ノ井線" direction="+" from="塩尻" to="松本" />
+    </route>
 
     <!-- 東海道本線 -->
     <import src="./Tokaido-Main-Line.xml" />
@@ -198,7 +204,12 @@
         <station name="木曽福島" code="30" />
     </route>
 
-    <route name="中央本線" key="中央本線2">
+    <route name="中央西線" key="中央西線1">
+        <section line="中央西線" direction="+" />
+        <section line="篠ノ井線" direction="+" from="塩尻" to="松本" />
+    </route>
+
+    <route name="中央本線">
         <section line="中央東線" direction="+" />
         <section line="中央西線" direction="-" />
     </route>
