@@ -50,6 +50,7 @@
     <import src="./Narita-Line.xml" />
     <route name="横須賀・総武快速線" key="横須賀・総武快速線（久里浜〜成田空港）">
         <section line="横須賀・総武快速線" direction="+" />
-        <section line="成田線（千葉〜成田空港）" direction="+" />
+        <section line="成田線1" direction="+" from="千葉" to="成田" />
+        <section line="成田線（空港支線）" direction="+" from="成田" to="成田空港" />
     </route>
 </data>
