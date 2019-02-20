@@ -32,6 +32,8 @@
     <import src="./Yokohama-Line.xml" />
     <!-- 篠ノ井線 -->
     <import src="./Shinonoi-Line.xml" />
+    <!-- 飯田線 -->
+    <import src="./Iida-Line.xml" />
     <!-- 赤羽線 -->
     <import src="./Akabane-Line.xml" />
     <!-- 上野東京ライン -->
