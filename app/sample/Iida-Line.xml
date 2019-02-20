@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="飯田線" code="CD" color="#75a2db" hidden="">
+        <station name="豊橋" distance="0" />
+        <station name="船町" distance="1.5" />
+        <station name="下地" distance="2.2" />
+        <station name="小坂井" distance="4.4" />
+        <station name="牛久保" distance="6.6" />
+        <station name="豊川" distance="8.7" />
+        <station name="三河一宮" distance="12" />
+        <station name="長山" distance="14.4" />
+        <station name="江島" distance="15.4" />
+        <station name="東上" distance="17" />
+        <station name="野田城" distance="19.7" />
+        <station name="新城" distance="21.6" />
+        <station name="東新町" distance="22.6" />
+        <station name="茶臼山" distance="23.8" />
+        <station name="三河東郷" distance="25" />
+        <station name="大海" distance="27.9" />
+        <station name="鳥居" distance="29.3" />
+        <station name="長篠城" distance="30.8" />
+        <station name="本長篠" distance="32.1" />
+        <station name="三河大野" distance="35.6" />
+        <station name="湯谷温泉" distance="38" />
+        <station name="三河槙原" distance="40.6" />
+        <station name="柿平" distance="42.9" />
+        <station name="三河川合" distance="45.2" />
+        <station name="池場" distance="50.1" />
+        <station name="東栄" distance="51.2" />
+        <station name="出馬" distance="55.4" />
+        <station name="上市場" distance="56" />
+        <station name="浦川" distance="57.3" />
+        <station name="早瀬" distance="58.5" />
+        <station name="下川合" distance="59.9" />
+        <station name="中部天竜" distance="62.4" />
+        <station name="佐久間" distance="63.5" />
+        <station name="相月" distance="68.5" />
+        <station name="城西" distance="70.5" />
+        <station name="向市場" distance="73.3" />
+        <station name="水窪" distance="74.3" />
+        <station name="大嵐" distance="80.8" />
+        <station name="小和田" distance="83.8" />
+        <station name="中井侍" distance="87.8" />
+        <station name="伊那小沢" distance="90.1" />
+        <station name="鶯巣" distance="91.7" />
+        <station name="平岡" distance="93.8" />
+        <station name="為栗" distance="98.5" />
+        <station name="温田" distance="102.2" />
+        <station name="田本" distance="104.2" />
+        <station name="門島" distance="107.9" />
+        <station name="唐笠" distance="111.3" />
+        <station name="金野" distance="113.6" />
+        <station name="千代" distance="114.8" />
+        <station name="天竜峡" distance="116.2" />
+        <station name="川路" distance="117.5" />
+        <station name="時又" distance="119.3" />
+        <station name="駄科" distance="121.1" />
+        <station name="毛賀" distance="122.5" />
+        <station name="伊那八幡" distance="123.6" />
+        <station name="下山村" distance="124.7" />
+        <station name="鼎" distance="125.7" />
+        <station name="切石" distance="127.7" />
+        <station name="飯田" distance="129.3" />
+        <station name="桜町" distance="130.1" />
+        <station name="伊那上郷" distance="131.1" />
+        <station name="元善光寺" distance="133.8" />
+        <station name="下市田" distance="135.6" />
+        <station name="市田" distance="136.8" />
+        <station name="下平" distance="139.5" />
+        <station name="山吹" distance="140.5" />
+        <station name="伊那大島" distance="143.1" />
+        <station name="上片桐" distance="146.9" />
+        <station name="伊那田島" distance="148.2" />
+        <station name="高遠原" distance="150.7" />
+        <station name="七久保" distance="152.3" />
+        <station name="伊那本郷" distance="155.1" />
+        <station name="飯島" distance="157.9" />
+        <station name="田切" distance="160.1" />
+        <station name="伊那福岡" distance="162.9" />
+        <station name="小町屋" distance="164.4" />
+        <station name="駒ケ根" distance="165.6" />
+        <station name="大田切" distance="167" />
+        <station name="宮田" distance="169.1" />
+        <station name="赤木" distance="170.4" />
+        <station name="沢渡" distance="173.4" />
+        <station name="下島" distance="174.5" />
+        <station name="伊那市" distance="178" />
+        <station name="伊那北" distance="178.9" />
+        <station name="田畑" distance="181" />
+        <station name="北殿" distance="183.2" />
+        <station name="木ノ下" distance="185.6" />
+        <station name="伊那松島" distance="187.1" />
+        <station name="沢" distance="189.7" />
+        <station name="羽場" distance="191.6" />
+        <station name="伊那新町" distance="193.4" />
+        <station name="宮木" distance="194.6" />
+        <station name="辰野" distance="195.7" />
+    </official>
+
+    <!-- 中央本線 -->
+    <import src="./Chuo-Main-Line.xml" />
+    <route name="飯田線" key="飯田線1">
+        <section line="飯田線" direction="+" />
+        <section line="中央本線（辰野支線）" direction="-" from="辰野" to="岡谷" />
+    </route>
+</data>
