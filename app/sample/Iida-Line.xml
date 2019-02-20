@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
     <official name="飯田線" code="CD" color="#75a2db" hidden="">
-        <station name="豊橋" distance="0" />
-        <station name="船町" distance="1.5" />
-        <station name="下地" distance="2.2" />
-        <station name="小坂井" distance="4.4" />
-        <station name="牛久保" distance="6.6" />
-        <station name="豊川" distance="8.7" />
+        <station name="豊橋" distance="0" code="00" />
+        <station name="船町" distance="1.5" code="01" />
+        <station name="下地" distance="2.2" code="02" />
+        <station name="小坂井" distance="4.4" code="03" />
+        <station name="牛久保" distance="6.6" code="04" />
+        <station name="豊川" distance="8.7" code="05" />
         <station name="三河一宮" distance="12" />
         <station name="長山" distance="14.4" />
         <station name="江島" distance="15.4" />
