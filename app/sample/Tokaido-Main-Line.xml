@@ -149,15 +149,8 @@
         <!-- <section line="JR神戸線" direction="+" from="大阪" to="神戸" /> -->
     </route>
 
-    <official name="伊東線" code="JT" color="#F68B1E" hidden="">
-        <station name="熱海" distance="0.0" code="21" />
-        <station name="来宮" distance="1.2" code="22" />
-        <station name="伊豆多賀" distance="6.0" code="23" />
-        <station name="網代" distance="8.7" code="24" />
-        <station name="宇佐美" distance="13.0" code="25" />
-        <station name="伊東" distance="16.9" code="26" />
-    </official>
-
+    <!-- 伊東線 -->
+    <import src="./Ito-Line.xml" />
     <route name="東海道・伊東線" hidden="">
         <section line="東海道線" direction="+" from="東京" to="熱海" />
         <section line="伊東線" direction="+" from="熱海" to="伊東" />
