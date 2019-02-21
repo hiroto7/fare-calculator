@@ -32,18 +32,14 @@
     <!-- 京葉線 -->
     <import src="./Keiyo-Line.xml" />
     <route name="武蔵野線" key="武蔵野線（東京〜府中本町）">
-        <route name="京葉線" hides-via="">
-            <section line="京葉線" direction="+" from="東京" to="市川塩浜" />
-            <section line="京葉線（高谷支線）" direction="+" />
-        </route>
+        <section line="京葉線1" direction="+" from="東京" to="市川塩浜" />
+        <section line="京葉線（高谷支線）" direction="+" />
         <section line="武蔵野線" direction="-" />
     </route>
 
     <route name="武蔵野線" key="武蔵野線（海浜幕張〜府中本町）">
-        <route name="京葉線" hides-via="">
-            <section line="京葉線" direction="-" from="海浜幕張" to="南船橋" />
-            <section line="京葉線（二俣支線）" direction="-" />
-        </route>
+        <section line="京葉線1" direction="-" from="海浜幕張" to="南船橋" />
+        <section line="京葉線（二俣支線）" direction="-" />
         <section line="武蔵野線" direction="-" />
     </route>
 </data>
