@@ -100,67 +100,91 @@ const a = (line: Line<StationSubstance>): HTMLElement => {
     return section;
 }
 
-const b = (line: Line<StationSubstance>, station: Station): HTMLElement => {
-    const list: HTMLElement = document.createElement('x-named-direction-list');
-
-    const summary: HTMLHeadingElement = document.createElement('h1');
-    summary.appendChild(document.createTextNode(line.name));
-    summary.slot = 'summary';
-    list.appendChild(summary);
-
-    let symbolCount = 0;
-    const sections = line.sectionsFrom(station);
-    for (const section of sections) {
-        const button: HTMLElement = document.createElement('x-line-button');
-        const grandchild = section.grandchildren(true).next().value;
-        {
-            const codes = grandchild.codes();
-            const result = codes.next();
-            if (!result.done) {
-                const code = result.value;
-                const image: HTMLImageElement = document.createElement('img');
-                image.src = `./sample/${code}.svg`;
-                image.slot = 'symbol';
-                button.appendChild(image);
-                symbolCount = 1;
-            }
-        }
-        {
-            const colors = grandchild.colors();
-            const result = colors.next();
-            if (!result.done) {
-                const color = result.value;
-                button.style.setProperty('--color', color);
-            }
-        }
-        if (grandchild.name !== line.name) {
-            const p: HTMLParagraphElement = document.createElement('p');
-            p.appendChild(document.createTextNode(grandchild.name));
-            p.slot = 'summary';
-            button.appendChild(p);
-        }
-        {
-            const h1: HTMLHeadingElement = document.createElement('h1');
-            const halfway: Set<StationSubstance> = new Set();
-            {
-                const stations: IterableIterator<StationOnLine<StationSubstance>> = section.stations();
-                halfway.add((stations.next(), stations.next()).value.substance);
-            }
-            halfway.add(grandchild.to.substance);
-            halfway.add(section.to.substance);
-            h1.appendChild(document.createTextNode(`${[...halfway].join(', ')} 方面`));
-            h1.slot = 'summary';
-            button.appendChild(h1);
-        }
-
-        button.slot = 'direction';
-        list.appendChild(button);
+class NamedDirectionsList extends HTMLElement {
+    constructor() {
+        super();
+        const templateId = 'x-named-directions-list-template';
+        const template = document.getElementById(templateId);
+        if (template === null)
+            throw new Error(`#${templateId} が不足しています。`);
+        else if (!(template instanceof HTMLTemplateElement))
+            throw new Error(`#${templateId} は <template> 要素である必要があります。`);
+        this.attachShadow({ mode: 'open' })
+            .appendChild(template.content.cloneNode(true));
     }
-    list.style.setProperty('--symbols-count', '' + symbolCount);
-    list.slot = 'line';
 
-    return list;
+    set(line: Line<StationSubstance>, station: Station) {
+        this.textContent = null;
+
+        const h1: HTMLHeadingElement = document.createElement('h1');
+        h1.appendChild(document.createTextNode(line.name));
+        h1.slot = 'summary';
+        this.appendChild(h1);
+
+        let secondaryItemCount = 0;
+        const sections = line.sectionsFrom(station);
+        for (const section of sections) {
+            const button: HTMLElement = document.createElement('x-line-button');
+            const grandchild = section.grandchildren(true).next().value;
+            {
+                const colors = grandchild.colors();
+                const result = colors.next();
+                if (!result.done) {
+                    const color = result.value;
+                    button.style.setProperty('--color', color);
+                }
+            }
+            {
+                const codes = grandchild.codes();
+                const result = codes.next();
+                if (!result.done) {
+                    const code = result.value;
+                    const symbolsList: HTMLElement = document.createElement('x-symbols-list');
+                    const image: HTMLImageElement = document.createElement('img');
+                    image.src = `./sample/${code}.svg`;
+                    image.slot = 'symbol';
+                    image.style.width = "2em";
+                    symbolsList.appendChild(image);
+                    symbolsList.slot = 'secondary';
+                    secondaryItemCount = 1;
+                    button.appendChild(symbolsList);
+                }
+            }
+            {
+                const summary = document.createElement('x-line-summary');
+                if (grandchild.name !== line.name) {
+                    const p: HTMLParagraphElement = document.createElement('p');
+                    p.appendChild(document.createTextNode(grandchild.name));
+                    p.slot = 'summary';
+                    summary.appendChild(p);
+                }
+                {
+                    const h1: HTMLHeadingElement = document.createElement('h1');
+                    const halfway: Set<StationSubstance> = new Set();
+                    {
+                        const stations: IterableIterator<StationOnLine<StationSubstance>> = section.stations();
+                        halfway.add((stations.next(), stations.next()).value.substance);
+                    }
+                    halfway.add(grandchild.to.substance);
+                    halfway.add(section.to.substance);
+                    h1.appendChild(document.createTextNode(`${[...halfway].join(', ')} 方面`));
+                    h1.slot = 'summary';
+                    summary.appendChild(h1);
+                }
+                summary.slot = 'primary';
+                button.appendChild(summary);
+            }
+            button.slot = 'direction';
+            this.appendChild(button);
+        }
+        this.style.setProperty('--secondary-item-count', '' + secondaryItemCount);
+    }
 }
+
+customElements.define('x-named-directions-list', NamedDirectionsList);
+declare const document: Document & {
+    createElement: (tagName: 'x-named-directions-list', options?: ElementCreationOptions) => NamedDirectionsList;
+};
 
 (async () => {
     const handler = new XMLHandler();
@@ -184,9 +208,15 @@ const b = (line: Line<StationSubstance>, station: Station): HTMLElement => {
             if (station === undefined)
                 throw new Error(`'${stationInput.value}' が見つかりません。`);
 
-            document.getElementById('list1')!.textContent = null;
-            for (const line of station.lines())
-                document.getElementById('list1')!.appendChild(b(line, station));
+            const list1 = document.getElementById('list1')!;
+
+            list1.textContent = null;
+            for (const line of station.lines()) {
+                const directionsList = document.createElement('x-named-directions-list');
+                directionsList.set(line, station);
+                directionsList.slot = 'line';
+                document.getElementById('list1')!.appendChild(directionsList);
+            }
             document.getElementById('p1')!.textContent = null;
         } catch (e) {
             document.getElementById('p1')!.textContent = e;

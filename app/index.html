@@ -6,6 +6,7 @@
     body {
         background-color: snow;
         font-family: "M PLUS Rounded 1c";
+        font-size: 16px;
         margin: 0;
     }
 </style>
@@ -40,50 +41,57 @@
     <slot name="summary"></slot>
 </template>
 
-<template id="x-line-button-template">
+<template id="x-symbols-list-template">
     <style>
         :host {
-            --border-bottom-radius: 4px;
-            --border-top-radius: 4px;
-            column-gap: 4px;
-            cursor: pointer;
+            align-items: center;
             display: inline-grid;
-            grid-template-columns: repeat(var(--symbols-count), 32px) 1fr;
-            user-select: none;
-        }
-
-        :host(:hover) ::slotted(img),
-        :host(:hover) x-line-summary {
-            filter: brightness(1.125);
-        }
-
-        :host(:active) ::slotted(img),
-        :host(:active) x-line-summary {
-            filter: brightness(0.75);
-        }
-
-        ::slotted(img) {
-            align-self: center;
-            width: 100%;
-            margin: 2px 0;
-        }
-
-        x-line-summary {
-            grid-column: -2;
+            gap: 0.25em;
         }
     </style>
     <slot name="symbol"></slot>
-    <x-line-summary>
-        <slot name="summary" slot="summary"></slot>
-    </x-line-summary>
 </template>
 
-<template id="x-direction-list-template">
+<template id="x-line-button-template">
+    <style>
+        :host {
+            --border-bottom-radius: 0.25em;
+            --border-top-radius: 0.25em;
+            column-gap: 0.25em;
+            cursor: pointer;
+            display: inline-grid;
+            grid-template-columns: repeat(var(--secondary-item-count, 0), auto) 1fr;
+            user-select: none;
+        }
+
+        :host(:hover) ::slotted(*[name="secondary"]),
+        :host(:hover) ::slotted(x-line-summary) {
+            filter: brightness(1.125);
+        }
+
+        :host(:active) ::slotted(*[name="secondary"]),
+        :host(:active) ::slotted(x-line-summary) {
+            filter: brightness(0.75);
+        }
+
+        ::slotted(*[name="secondary"]) {
+            margin: 0.125em 0;
+        }
+
+        ::slotted(x-line-summary) {
+            grid-column: -2;
+        }
+    </style>
+    <slot name="secondary"></slot>
+    <slot name="primary"></slot>
+</template>
+
+<template id="x-directions-list-template">
     <style>
         :host {
             column-gap: 4px;
             display: inline-grid;
-            grid-template-columns: repeat(var(--symbols-count), 32px) 1fr;
+            grid-template-columns: repeat(var(--secondary-item-count, 0), auto) 1fr;
             row-gap: 1px;
             user-select: none;
         }
@@ -105,7 +113,7 @@
     <slot name="direction"></slot>
 </template>
 
-<template id="x-named-direction-list-template">
+<template id="x-named-directions-list-template">
     <style>
         :host {
             display: inline-flex;
@@ -129,19 +137,19 @@
             margin-bottom: 8px;
         }
 
-        x-direction-list {
+        x-directions-list {
             flex-grow: 1;
         }
     </style>
     <div class="summary">
         <slot name="summary"></slot>
     </div>
-    <x-direction-list>
+    <x-directions-list>
         <slot name="direction" slot="direction"></slot>
-    </x-direction-list>
+    </x-directions-list>
 </template>
 
-<template id="x-line-list-template">
+<template id="x-lines-list-template">
     <style>
         :host {
             display: grid;
@@ -155,10 +163,10 @@
 <script>
     for (const name of [
         'x-line-button',
-        'x-line-list',
-        'x-direction-list',
-        'x-named-direction-list',
+        'x-lines-list',
+        'x-directions-list',
         'x-line-summary',
+        'x-symbols-list'
     ]) {
         customElements.define(name,
             class extends HTMLElement {
@@ -172,6 +180,7 @@
                 }
             });
     }
+
 </script>
 
 <header style="margin: 8px;">
@@ -188,10 +197,10 @@
     <p id="p1" style="color: red;"></p>
 </form>
 
-<x-line-list style="margin: 16px;" id="list1">
-</x-line-list>
+<x-lines-list style="margin: 16px;" id="list1">
+</x-lines-list>
 
 <p id="loading" style="margin: 8px;">Loading ...</p>
-<section id="sec1" style="margin: 8px;">
+<section id="sec1" style="margin: 8px; display: none;">
 </section>
 <script src="bundle.js"></script>
