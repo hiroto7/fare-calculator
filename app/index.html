@@ -66,12 +66,12 @@
             user-select: none;
         }
 
-        :host(:hover) ::slotted(*[name="secondary"]),
+        :host(:hover) ::slotted(*[slot="secondary"]),
         :host(:hover) ::slotted(x-line-summary) {
             filter: brightness(1.125);
         }
 
-        :host(:active) ::slotted(*[name="secondary"]),
+        :host(:active) ::slotted(*[slot="secondary"]),
         :host(:active) ::slotted(x-line-summary) {
             filter: brightness(0.75);
         }
