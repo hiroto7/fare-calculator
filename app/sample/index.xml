@@ -2,10 +2,11 @@
 <data>
     <!-- 東海道本線 -->
     <import src="./Tokaido-Main-Line.xml" />
-    <!-- 東北本線 -->
-    <import src="./Tohoku-Main-Line.xml" />
     <!-- 中央本線 -->
     <import src="./Chuo-Main-Line.xml" />
+
+    <!-- 東北本線 -->
+    <import src="./Tohoku-Main-Line.xml" />
     <!-- 総武本線 -->
     <import src="./Sobu-Main-Line.xml" />
     <!-- 北陸本線 -->
@@ -32,12 +33,18 @@
     <import src="./Yokohama-Line.xml" />
     <!-- 篠ノ井線 -->
     <import src="./Shinonoi-Line.xml" />
-    <!-- 飯田線 -->
-    <import src="./Iida-Line.xml" />
+    <!-- 仙石線 -->
+    <import src="./Senseki-Line.xml" />
+    <!-- 石巻線 -->
+    <import src="./Ishinomaki-Line.xml" />
     <!-- 赤羽線 -->
     <import src="./Akabane-Line.xml" />
+
     <!-- 上野東京ライン -->
     <import src="./Ueno-Tokyo-Line.xml" />
     <!-- 湘南新宿ライン -->
     <import src="./Shonan-Shinjuku-Line.xml" />
+
+    <!-- 飯田線 -->
+    <import src="./Iida-Line.xml" />
 </data>

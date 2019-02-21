@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <!-- 東北本線 -->
+    <import src="./Tohoku-Main-Line.xml" />
+    <official name="仙石線" color="#00aaee">
+        <station name="あおば通" distance="0" />
+        <station name="仙台" distance="0.5" />
+        <station name="榴ケ岡" distance="1.3" />
+        <station name="宮城野原" distance="2.4" />
+        <station name="陸前原ノ町" distance="3.2" />
+        <station name="苦竹" distance="4" />
+        <station name="小鶴新田" distance="5.6" />
+        <station name="福田町" distance="7.7" />
+        <station name="陸前高砂" distance="8.6" />
+        <station name="中野栄" distance="10.3" />
+        <station name="多賀城" distance="12.6" />
+        <station name="下馬" distance="14.4" />
+        <station name="西塩釜" distance="15.2" />
+        <station name="本塩釜" distance="16" />
+        <station name="東塩釜" distance="17.2" />
+        <station name="陸前浜田" distance="20.3" />
+        <station name="松島海岸" distance="23.2" />
+        <station name="高城町" distance="25.5" />
+        <station name="手樽" distance="27.3" />
+        <station name="陸前富山" distance="28.6" />
+        <station name="陸前大塚" distance="30.8" />
+        <station name="東名" distance="32.2" />
+        <station name="野蒜" distance="33.4" />
+        <station name="陸前小野" distance="36" />
+        <station name="鹿妻" distance="37.6" />
+        <station name="矢本" distance="40.2" />
+        <station name="東矢本" distance="41.6" />
+        <station name="陸前赤井" distance="43.1" />
+        <station name="石巻あゆみ野" distance="45.2" />
+        <station name="蛇田" distance="46.6" />
+        <station name="陸前山下" distance="47.6" />
+        <station name="石巻" distance="49" />
+    </official>
+
+    <!-- 石巻線 -->
+    <import src="./Ishinomaki-Line.xml" />
+    <route name="仙石東北ライン">
+        <route name="仙石東北ライン" color="#00aaee" hides-via="">
+            <section line="東北本線" direction="+" from="仙台" to="松島" />
+            <section line="仙石線・東北本線接続線" direction="+" />
+            <section line="仙石線" direction="+" from="高城町" to="石巻" />
+        </route>
+        <section line="石巻線" direction="+" from="石巻" to="女川" />
+    </route>
+</data>
