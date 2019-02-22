@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <svgcode name="JA" src="./jr-east-line-symbols/JR_JA_line_symbol.svg" />
-    <svgcode name="JB" src="./jr-east-line-symbols/JR_JB_line_symbol.svg" />
-    <svgcode name="JC" src="./jr-east-line-symbols/JR_JC_line_symbol.svg" />
-    <svgcode name="JE" src="./jr-east-line-symbols/JR_JE_line_symbol.svg" />
-    <svgcode name="JH" src="./jr-east-line-symbols/JR_JH_line_symbol.svg" />
-    <svgcode name="JJ" src="./jr-east-line-symbols/JR_JJ_line_symbol.svg" />
-    <svgcode name="JK" src="./jr-east-line-symbols/JR_JK_line_symbol.svg" />
-    <svgcode name="JL" src="./jr-east-line-symbols/JR_JL_line_symbol.svg" />
-    <svgcode name="JM" src="./jr-east-line-symbols/JR_JM_line_symbol.svg" />
-    <svgcode name="JO" src="./jr-east-line-symbols/JR_JO_line_symbol.svg" />
-    <svgcode name="JS" src="./jr-east-line-symbols/JR_JS_line_symbol.svg" />
-    <svgcode name="JT" src="./jr-east-line-symbols/JR_JT_line_symbol.svg" />
-    <svgcode name="JU" src="./jr-east-line-symbols/JR_JU_line_symbol.svg" />
-    <svgcode name="JY" src="./jr-east-line-symbols/JR_JY_line_symbol.svg" />
+    <svgcode name="JA" src="./JR_JA_line_symbol.svg" />
+    <svgcode name="JB" src="./JR_JB_line_symbol.svg" />
+    <svgcode name="JC" src="./JR_JC_line_symbol.svg" />
+    <svgcode name="JE" src="./JR_JE_line_symbol.svg" />
+    <svgcode name="JH" src="./JR_JH_line_symbol.svg" />
+    <svgcode name="JJ" src="./JR_JJ_line_symbol.svg" />
+    <svgcode name="JK" src="./JR_JK_line_symbol.svg" />
+    <svgcode name="JL" src="./JR_JL_line_symbol.svg" />
+    <svgcode name="JM" src="./JR_JM_line_symbol.svg" />
+    <svgcode name="JO" src="./JR_JO_line_symbol.svg" />
+    <svgcode name="JS" src="./JR_JS_line_symbol.svg" />
+    <svgcode name="JT" src="./JR_JT_line_symbol.svg" />
+    <svgcode name="JU" src="./JR_JU_line_symbol.svg" />
+    <svgcode name="JY" src="./JR_JY_line_symbol.svg" />
 </data>
