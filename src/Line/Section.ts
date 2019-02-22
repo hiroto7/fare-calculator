@@ -4,6 +4,7 @@ import { Direction, outbound } from "../Direction";
 import AbstractLine1 from "./AbstractLine1";
 import { StationOnSection } from "../StationOnLine";
 import DB, { ReadonlyDB } from "../DB";
+import Code from "../Code";
 
 export default class Section<SS extends StationSubstance> extends AbstractLine1<SS, StationOnSection<SS>> {
     protected rawStations: ReadonlyArray<StationOnSection<SS>>;
@@ -13,13 +14,13 @@ export default class Section<SS extends StationSubstance> extends AbstractLine1<
     private readonly line: Line<SS>;
     private readonly stationCodesMap: ReadonlyMap<StationSubstance, string | null>;
     private readonly rawName: string | undefined;
-    private readonly rawCode: string | null | undefined;
+    private readonly rawCode: Code | null | undefined;
     private readonly rawColor: string | null | undefined;
     private readonly hidesVia: boolean;
 
     constructor({ name, code, color, line, from, to, direction, stationCodesMap = [], hidesVia = false }: {
         name?: string,
-        code?: string | null,
+        code?: Code | null,
         color?: string | null,
         stationCodesMap?: Iterable<[Station, string | null]>,
         line: Line<SS>,
@@ -60,7 +61,7 @@ export default class Section<SS extends StationSubstance> extends AbstractLine1<
             return this.rawName;
     }
 
-    get code(): string | null | undefined {
+    get code(): Code | null | undefined {
         if (this.rawCode === undefined)
             return this.line.code;
         else
@@ -74,7 +75,7 @@ export default class Section<SS extends StationSubstance> extends AbstractLine1<
             return this.rawColor;
     }
 
-    *codes(direction: Direction = outbound): IterableIterator<string> {
+    *codes(direction: Direction = outbound): IterableIterator<Code> {
         if (this.code === undefined)
             yield* this.line.codes(direction);
         else if (this.code === null)

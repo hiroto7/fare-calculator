@@ -1,6 +1,7 @@
 import { Direction } from "../Direction";
 import Station, { StationSubstance } from "../Station";
 import { StationOnLine } from "../StationOnLine";
+import Code from "../Code";
 
 export { default as AbstractLine1 } from './AbstractLine1';
 export { default as OfficialLine } from './OfficialLine';
@@ -10,11 +11,11 @@ export { default as Section } from './Section';
 export default interface Line<SS extends StationSubstance> {
     readonly name: string;
     readonly color: string | null | undefined;
-    readonly code: string | null | undefined;
+    readonly code: Code | null | undefined;
     readonly from: StationOnLine<SS>;
     readonly to: StationOnLine<SS>;
     colors(direction?: Direction): IterableIterator<string>;
-    codes(direction?: Direction): IterableIterator<string>;
+    codes(direction?: Direction): IterableIterator<Code>;
     stations(direction?: Direction): IterableIterator<StationOnLine<SS>>;
     length(): number;
     distanceBetween(from: Station, to: Station, direction: Direction): number | null;

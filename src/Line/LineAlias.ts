@@ -4,6 +4,7 @@ import { Direction } from "../Direction";
 import AbstractLine1 from "./AbstractLine1";
 import { AbstractStationOnLine1, StationOnLine } from "../StationOnLine";
 import DB, { ReadonlyDB } from "../DB";
+import Code from "../Code";
 
 export default class LineAlias<SS extends StationSubstance> extends AbstractLine1<SS, StationOnLineAlias<SS>> {
     protected readonly rawStations: ReadonlyArray<StationOnLineAlias<SS>>;
@@ -30,9 +31,9 @@ export default class LineAlias<SS extends StationSubstance> extends AbstractLine
 
     get name(): string { return this.original.name; }
     get color(): string | null | undefined { return this.original.color; }
-    get code(): string | null | undefined { return this.original.code; }
+    get code(): Code | null | undefined { return this.original.code; }
 
-    *codes(direction?: Direction): IterableIterator<string> { yield* this.original.codes(direction); }
+    *codes(direction?: Direction): IterableIterator<Code> { yield* this.original.codes(direction); }
     *colors(direction?: Direction): IterableIterator<string> { yield* this.original.colors(direction); }
     length(): number { return this.original.length(); }
     codeOf(station: Station): string | null | undefined { return this.original.codeOf(station); }

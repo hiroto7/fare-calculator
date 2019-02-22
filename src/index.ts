@@ -4,29 +4,34 @@ import DB, { ReadonlyDB } from "./DB";
 import { StationOnLine } from "./StationOnLine";
 import StationXMLHandler from "./StationXMLHandler";
 import LineXMLHandler from "./LineXMLHandler";
+import Code from "./Code";
+import { handleLineCodeXML } from "./handleLineCodeXML";
 
 class XMLHandler {
     private visited: Set<string> = new Set();
     private readonly parser = new DOMParser();
     private readonly linesDB: Map<string, Line<StationSubstance>>;
     private readonly stationsDB: Map<string, WritableStation & StationSubstance>;
+    private readonly codesDB: Map<string, Code>;
     private readonly stationXMLHandler: StationXMLHandler;
     private readonly lineXMLHandler: LineXMLHandler;
 
     constructor() {
         const linesDB: ReadonlyMap<string, Line<StationSubstance & WritableStation>> = this.linesDB = new Map();
-        const stationsDB: ReadonlyDB<string, WritableStation & StationSubstance> = this.stationsDB = new DB((key: string, name?: string) => {
-            name = name || key;
-            return new Station1(name);
-        });
+
+        const stationsDB: ReadonlyDB<string, WritableStation & StationSubstance, [string?]> =
+            this.stationsDB = new DB((key: string, name?: string) => new Station1(name || key));
+
+        const codesDB: ReadonlyMap<string, Code> = this.codesDB = new Map();
+
         const stationXMLHandler = this.stationXMLHandler = new StationXMLHandler(stationsDB);
-        this.lineXMLHandler = new LineXMLHandler(linesDB, stationsDB, stationXMLHandler);
+        this.lineXMLHandler = new LineXMLHandler({ linesDB, stationsDB, codesDB, stationXMLHandler });
     }
 
     async import(url: URL) {
-        const response = await fetch(url.toString());
+        const response = await fetch(url.href);
         if (!response.ok)
-            throw new Error(`[${url.toString()}] を読み込めません。`);
+            throw new Error(`[${url.href}] を読み込めません。`);
         const srcText = await response.text();
         const srcXML = this.parser.parseFromString(srcText, 'text/xml');
 
@@ -40,10 +45,10 @@ class XMLHandler {
         if (src === null) throw new Error();
 
         const url: URL = new URL(src, baseURL);
-        if (this.visited.has(url.toString()))
+        if (this.visited.has(url.href))
             return;
 
-        this.visited.add(url.toString());
+        this.visited.add(url.href);
         await this.import(url);
     }
 
@@ -62,6 +67,10 @@ class XMLHandler {
                 }
             } else if (child.tagName === 'station') {
                 this.stationXMLHandler.handle(child);
+            } else if (child.tagName === 'code' || child.tagName === 'svgcode') {
+                const code: Code = handleLineCodeXML(child, baseURL);
+                const key: string = child.getAttribute('key') || code.name;
+                this.codesDB.set(key, code);
             } else if (child.tagName === 'import') {
                 await this.handleImport(child, baseURL);
             }
@@ -140,11 +149,10 @@ class NamedDirectionsList extends HTMLElement {
                 if (!result.done) {
                     const code = result.value;
                     const symbolsList: HTMLElement = document.createElement('x-symbols-list');
-                    const image: HTMLImageElement = document.createElement('img');
-                    image.src = `./sample/${code}.svg`;
-                    image.slot = 'symbol';
-                    image.style.width = "2em";
-                    symbolsList.appendChild(image);
+                    const codeSymbol: HTMLElement = code.toHTML();
+                    codeSymbol.slot = 'symbol';
+                    codeSymbol.style.width = "2em";
+                    symbolsList.appendChild(codeSymbol);
                     symbolsList.slot = 'secondary';
                     secondaryItemCount = 1;
                     button.appendChild(symbolsList);

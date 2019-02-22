@@ -3,16 +3,29 @@ import { StationSubstance, WritableStation } from "./Station";
 import { ReadonlyDB } from "./DB";
 import { Direction, outbound, inbound } from "./Direction";
 import StationXMLHandler from "./StationXMLHandler";
+import Code from "./Code";
 
 export default class LineXMLHandler {
-    constructor(
-        private readonly linesDB: ReadonlyMap<string, Line<StationSubstance & WritableStation>>,
-        private readonly stationsDB: ReadonlyDB<string, StationSubstance>,
-        private readonly stationXMLHandler: StationXMLHandler) { }
+    private readonly linesDB: ReadonlyMap<string, Line<StationSubstance & WritableStation>>;
+    private readonly stationsDB: ReadonlyDB<string, StationSubstance>;
+    private readonly codesDB: ReadonlyMap<string, Code>;
+    private readonly stationXMLHandler: StationXMLHandler;
+
+    constructor({ linesDB, stationsDB, codesDB, stationXMLHandler }: {
+        linesDB: ReadonlyMap<string, Line<StationSubstance & WritableStation>>,
+        stationsDB: ReadonlyDB<string, StationSubstance>,
+        codesDB: ReadonlyMap<string, Code>,
+        stationXMLHandler: StationXMLHandler
+    }) {
+        this.linesDB = linesDB;
+        this.stationsDB = stationsDB;
+        this.codesDB = codesDB;
+        this.stationXMLHandler = stationXMLHandler;
+    }
 
     private handleO(e: Element, { name, code: lineCode, color }: {
         name: string | undefined,
-        code: string | undefined,
+        code: Code | undefined,
         color: string | undefined
     }): OfficialLine<StationSubstance & WritableStation> {
 
@@ -33,7 +46,7 @@ export default class LineXMLHandler {
 
             const stationCode1 = stationXML.getAttribute('code');
             const stationCode = stationCode1 === null ? null :
-                lineCode === null ? stationCode1 : lineCode + stationCode1;
+                lineCode === undefined ? stationCode1 : lineCode.name + stationCode1;
 
             stations.push({ substance, distanceFromStart, code: stationCode });
         }
@@ -43,7 +56,7 @@ export default class LineXMLHandler {
 
     private handleS(e: Element, { name, code: lineCode, color, hidesVia, stationCodesMap }: {
         name: string | undefined,
-        code: string | undefined,
+        code: Code | undefined,
         color: string | undefined,
         hidesVia: boolean,
         stationCodesMap: Iterable<[StationSubstance, string | null]>
@@ -79,7 +92,7 @@ export default class LineXMLHandler {
 
     private handleR(e: Element, { name, code: lineCode, color, hidesVia, stationCodesMap }: {
         name: string | undefined,
-        code: string | undefined,
+        code: Code | undefined,
         color: string | undefined,
         hidesVia: boolean,
         stationCodesMap: Iterable<[StationSubstance, string | null]>
@@ -101,13 +114,20 @@ export default class LineXMLHandler {
 
     handle(e: Element): Line<StationSubstance & WritableStation> {
         const name: string | undefined = e.getAttribute('name') || undefined;
-        const lineCode: string | undefined = e.getAttribute('code') || undefined;
         const color: string | undefined = e.getAttribute('color') || undefined;
         const hidesVia: boolean = e.hasAttribute('hides-via');
 
+        const lineCodeKey: string | undefined = e.getAttribute('code') || undefined;
+        let lineCode: Code | undefined = undefined
+        if (lineCodeKey !== undefined) {
+            lineCode = this.codesDB.get(lineCodeKey);
+            if (lineCode === undefined)
+                throw new Error(`路線記号 '${lineCodeKey}' が見つかりません。`);
+        }
+
         const params: {
             name: string | undefined,
-            code: string | undefined,
+            code: Code | undefined,
             color: string | undefined,
             hidesVia: boolean,
             stationCodesMap?: Iterable<[StationSubstance, string | null]>
@@ -125,7 +145,7 @@ export default class LineXMLHandler {
                 const stationCode = stationXML.getAttribute('code');
 
                 if (stationCode !== null)
-                    stationCodesMap.set(substance, lineCode === undefined ? stationCode : lineCode + stationCode);
+                    stationCodesMap.set(substance, lineCode === undefined ? stationCode : lineCode.name + stationCode);
             }
 
             if (e.tagName === 'section') {

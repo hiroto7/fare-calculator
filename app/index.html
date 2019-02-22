@@ -2,6 +2,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+
 <style>
     body {
         background-color: snow;
@@ -10,6 +12,29 @@
         margin: 0;
     }
 </style>
+
+<template id="jr-west-line-symbol-template">
+    <style>
+        :host {
+            background-color: var(--color, gray);
+            color: white;
+            display: inline-block;
+            font-family: Lato;
+            height: 2em;
+            width: 2em;
+            line-height: 2em;
+            text-align: center;
+        }
+
+        span {
+            display: contents;
+            font-size: 2em;
+        }
+    </style>
+    <span>
+        <slot name="line-code"></slot>
+    </span>
+</template>
 
 <template id="x-line-summary-template">
     <style>

@@ -5,6 +5,7 @@ import { Direction } from "../Direction";
 import { StationOnSection } from "../StationOnLine";
 import Line from ".";
 import DB, { ReadonlyDB } from "../DB";
+import Code from "../Code";
 
 export default class SectionOnOfficialLine<SS extends StationSubstance> extends AbstractLine1<SS, StationOnSection<SS>> {
     protected rawStations: ReadonlyArray<StationOnSection<SS>>;
@@ -31,10 +32,10 @@ export default class SectionOnOfficialLine<SS extends StationSubstance> extends 
     }
 
     get name(): string { return this.line.name; }
-    get code(): string | null { return this.line.code; }
+    get code(): Code | null { return this.line.code; }
     get color(): string | null { return this.line.color; }
 
-    *codes(): IterableIterator<string> { yield* this.line.codes(); }
+    *codes(): IterableIterator<Code> { yield* this.line.codes(); }
     *colors(): IterableIterator<string> { yield* this.line.colors(); }
 
     codeOf(station: Station): string | null | undefined {

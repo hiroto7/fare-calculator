@@ -5,6 +5,7 @@ import LineAlias from "./LineAlias";
 import AbstractLine1 from "./AbstractLine1";
 import { StationOnLine, AbstractStationOnLine2 } from "../StationOnLine";
 import DB, { ReadonlyDB } from "../DB";
+import Code from "../Code";
 
 export default class RouteLine<SS extends StationSubstance> extends AbstractLine1<SS, StationOnRouteLine<SS>> {
     protected readonly rawStations: ReadonlyArray<StationOnRouteLine<SS>>;
@@ -17,12 +18,12 @@ export default class RouteLine<SS extends StationSubstance> extends AbstractLine
     protected isSOL(station: Station): station is StationOnRouteLine<SS> { return station instanceof StationOnRouteLine; }
 
     readonly name: string;
-    readonly code: string | null | undefined;
+    readonly code: Code | null | undefined;
     readonly color: string | null | undefined;
 
     constructor({ name, code, color, children, stationCodesMap = [], hidesVia = false }: {
         name: string,
-        code?: string | null,
+        code?: Code | null,
         color?: string | null,
         children: Iterable<Line<SS>>,
         stationCodesMap?: Iterable<[Station, string | null]>,
@@ -86,9 +87,9 @@ export default class RouteLine<SS extends StationSubstance> extends AbstractLine
         this.stationCodesMap = stationCodesMap1;
     }
 
-    *codes(direction: Direction = outbound): IterableIterator<string> {
+    *codes(direction: Direction = outbound): IterableIterator<Code> {
         if (this.code === undefined) {
-            const codes: Set<string> = new Set();
+            const codes: Set<Code> = new Set();
             if (direction === outbound) {
                 for (let i = 0; i < this.rawChildren.length; i++) {
                     for (const code of this.rawChildren[i].codes(direction))

@@ -5,6 +5,7 @@ import AbstractLine1 from "./AbstractLine1";
 import SectionOnOfficialLine from "./SectionOnOfficialLine";
 import { AbstractStationOnLine1 } from "../StationOnLine";
 import DB, { ReadonlyDB } from "../DB";
+import Code from "../Code";
 
 export default class OfficialLine<SS extends StationSubstance> extends AbstractLine1<SS, StationOnOfficialLine<SS>> {
     protected rawStations: ReadonlyArray<StationOnOfficialLine<SS>>;
@@ -14,12 +15,12 @@ export default class OfficialLine<SS extends StationSubstance> extends AbstractL
 
     readonly name: string;
     readonly color: string | null;
-    readonly code: string | null;
+    readonly code: Code | null;
 
     constructor({ name, code = null, color = null, stations }: {
         name: string,
         color?: string | null,
-        code?: string | null,
+        code?: Code | null,
         stations: Iterable<{
             substance: SS,
             distanceFromStart: number | null,
@@ -48,7 +49,7 @@ export default class OfficialLine<SS extends StationSubstance> extends AbstractL
             yield color;
     }
 
-    *codes(): IterableIterator<string> {
+    *codes(): IterableIterator<Code> {
         const code = this.code;
         if (code !== null)
             yield code;
