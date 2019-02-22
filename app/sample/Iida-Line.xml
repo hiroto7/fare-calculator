@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
+    <svgcode name="CD" src="./jr-central-line-symbols/JR_Central_Iida_Line.svg" />
+
     <official name="飯田線" code="CD" color="#75a2db" hidden="">
         <station name="豊橋" distance="0" code="00" />
         <station name="船町" distance="1.5" code="01" />

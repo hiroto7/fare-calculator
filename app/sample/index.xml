@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
+    <!-- 路線記号:JR東日本 -->
+    <import src="./jr-east-line-symbols/index.xml" />
+    <!-- 路線記号:JR西日本 -->
+    <import src="./jr-west-line-symbols.xml" />
+
     <!-- 東海道本線 -->
     <import src="./Tokaido-Main-Line.xml" />
     <!-- 中央本線 -->

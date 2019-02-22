@@ -173,6 +173,8 @@
         <section line="篠ノ井線" direction="+" from="塩尻" to="松本" />
     </route>
 
+    <svgcode name="CF" src="./jr-central-line-symbols/JR_Central_Chuo_Line.svg" />
+
     <!-- 東海道本線 -->
     <import src="./Tokaido-Main-Line.xml" />
     <route name="中央西線" code="CF" color="#3b6c9c" hides-via="" hidden="">

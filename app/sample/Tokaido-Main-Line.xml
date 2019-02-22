@@ -2,6 +2,9 @@
 <data>
     <!-- 東海道本線-official -->
     <import src="./Tokaido-Main-Line-official.xml" />
+
+    <svgcode name="CA" src="./jr-central-line-symbols/JR_Central_Tokaido_Line.svg" />
+
     <section name="東海道線" color="#F68B1E" line="東海道本線" direction="+" code="JT" from="東京" to="熱海" hidden="" hides-via="">
         <station name="東京" code="01" />
         <station name="新橋" code="02" />
