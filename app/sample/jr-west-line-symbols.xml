@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <code name="JR-A" text="A" color="#0072bc" template="jr-west-line-symbol-template" />
+    <code name="JR-A" text="A" template="jr-west-line-symbol-template" />
+    <code name="JR-B" text="B" template="jr-west-line-symbol-template" />
 </data>

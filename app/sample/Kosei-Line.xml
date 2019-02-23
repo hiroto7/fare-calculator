@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="湖西線" color="#00ACD1" code="JR-B" hidden="">
+        <station name="山科" distance="0" code="30" />
+        <station name="大津京" distance="5.4" code="29" />
+        <station name="唐崎" distance="8.5" code="28" />
+        <station name="比叡山坂本" distance="11.1" code="27" />
+        <station name="おごと温泉" distance="14.5" code="26" />
+        <station name="堅田" distance="17.7" code="25" />
+        <station name="小野" distance="19.8" code="24" />
+        <station name="和邇" distance="22.5" code="23" />
+        <station name="蓬莱" distance="24.9" code="22" />
+        <station name="志賀" distance="27.3" code="21" />
+        <station name="比良" distance="30" code="20" />
+        <station name="近江舞子" distance="32.2" code="19" />
+        <station name="北小松" distance="34.5" code="18" />
+        <station name="近江高島" distance="40.9" code="17" />
+        <station name="安曇川" distance="45" code="16" />
+        <station name="新旭" distance="48.3" code="15" />
+        <station name="近江今津" distance="53.2" code="14" />
+        <station name="近江中庄" distance="58" code="13" />
+        <station name="マキノ" distance="61.2" code="12" />
+        <station name="永原" distance="68.3" code="11" />
+        <station name="近江塩津" distance="74.1" code="10" />
+    </official>
+
+    <!-- 東海道本線 -->
+    <import src="./Tokaido-Main-Line-official.xml" />
+    <!-- 北陸本線 -->
+    <import src="./Hokuriku-Main-Line-official.xml" />
+    <route name="湖西線" key="湖西線1" color="#00ACD1" code="JR-B" hides-via="">
+        <section line="東海道本線" direction="-" from="京都" to="山科" />
+        <section line="湖西線" direction="+" />
+        <section line="北陸本線" direction="+" from="近江塩津" to="敦賀" />
+
+        <station name="京都" code="31" />
+        <station name="山科" code="30" />
+
+        <station name="近江塩津" code="10" />
+        <station name="新疋田" code="09" />
+        <station name="敦賀" code="08" />
+    </route>
+</data>

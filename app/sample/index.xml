@@ -38,6 +38,10 @@
     <import src="./Yokohama-Line.xml" />
     <!-- 篠ノ井線 -->
     <import src="./Shinonoi-Line.xml" />
+    <!-- 上越線 -->
+    <import src="./Joetsu-Line.xml" />
+    <!-- 両毛線 -->
+    <import src="./Ryomo-Line.xml" />
     <!-- 仙石線 -->
     <import src="./Senseki-Line.xml" />
     <!-- 石巻線 -->
@@ -52,4 +56,9 @@
 
     <!-- 飯田線 -->
     <import src="./Iida-Line.xml" />
+    <!-- 湖西線 -->
+    <import src="./Kosei-Line.xml" />
+
+    <!-- 琵琶湖線 -->
+    <import src="./Biwako-Line.xml" />
 </data>
