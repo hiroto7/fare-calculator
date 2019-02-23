@@ -151,7 +151,6 @@ class NamedDirectionsList extends HTMLElement {
                     const symbolsList: HTMLElement = document.createElement('x-symbols-list');
                     const codeSymbol: HTMLElement = code.toHTML();
                     codeSymbol.slot = 'symbol';
-                    codeSymbol.style.width = "2em";
                     symbolsList.appendChild(codeSymbol);
                     symbolsList.slot = 'secondary';
                     secondaryItemCount = 1;

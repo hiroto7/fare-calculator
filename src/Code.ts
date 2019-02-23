@@ -13,6 +13,7 @@ export class SVGCode implements Code {
     toHTML(): HTMLElement {
         const image = document.createElement('img');
         image.src = this.url.href;
+        image.style.width = '2em';
         return image;
     }
 
