@@ -85,7 +85,7 @@
 
     <!-- 東北本線 -->
     <import src="./Tohoku-Main-Line.xml" />
-    <route name="常磐線快速" code="JJ" color="#00b261" hides-via="" hidden="">
+    <route name="常磐線（快速）" code="JJ" color="#00b261" hides-via="" hidden="">
         <section line="東北本線" direction="+" from="上野" to="日暮里" />
         <section line="常磐線" direction="+" from="日暮里" to="取手" />
         <station name="上野" code="01" />
@@ -101,14 +101,14 @@
     </route>
 
     <route name="常磐線" key="常磐線2">
-        <section line="常磐線快速" direction="+" />
+        <section line="常磐線（快速）" direction="+" />
         <route name="常磐線" color="#007ac0" hides-via="">
             <section line="常磐線" direction="+" from="取手" to="岩沼" />
             <section line="東北本線" direction="+" from="岩沼" to="仙台" />
         </route>
     </route>
 
-    <section name="常磐線各駅停車" code="JL" color="gray" hides-via="" line="常磐線" direction="+" from="綾瀬" to="取手">
+    <section name="常磐線（各駅停車）" code="JL" color="gray" hides-via="" line="常磐線" direction="+" from="綾瀬" to="取手">
         <station name="綾瀬" code="19" />
         <station name="亀有" code="20" />
         <station name="金町" code="21" />
@@ -128,7 +128,7 @@
     <!-- 成田線 -->
     <import src="./Narita-Line.xml" />
     <route name="常磐・成田線" hidden="">
-        <section line="常磐線快速" direction="+" from="上野" to="我孫子" />
+        <section line="常磐線（快速）" direction="+" from="上野" to="我孫子" />
         <section line="成田線（我孫子支線）" hides-via="" direction="+" />
     </route>
 </data>

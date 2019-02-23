@@ -129,7 +129,7 @@
     <import src="./Tohoku-Main-Line.xml" />
     <!-- 山手線 -->
     <import src="./Yamanote-Line.xml" />
-    <route name="中央線快速" code="JC" color="#f15a22" hides-via="" hidden="">
+    <route name="中央線（快速）" code="JC" color="#f15a22" hides-via="" hidden="">
         <section line="東北本線" direction="+" from="東京" to="神田" />
         <section line="中央本線（神田〜代々木）" direction="+" from="神田" to="代々木" />
         <section line="山手線" direction="+" from="代々木" to="新宿" />
@@ -161,8 +161,33 @@
         <station name="高尾" code="24" />
     </route>
 
+    <route name="中央線（各駅停車）" code="JB" color="#ffd400" hides-via="" hidden="">
+        <section line="中央本線（神田〜代々木）" direction="+" from="御茶ノ水" to="代々木" />
+        <section line="山手線" direction="+" from="代々木" to="新宿" />
+        <section line="中央本線（新宿〜金山）" direction="+" from="新宿" to="三鷹" />
+
+        <station name="御茶ノ水" code="18" />
+        <station name="水道橋" code="17" />
+        <station name="飯田橋" code="16" />
+        <station name="市ケ谷" code="15" />
+        <station name="四ツ谷" code="14" />
+        <station name="信濃町" code="13" />
+        <station name="千駄ケ谷" code="12" />
+        <station name="代々木" code="11" />
+        <station name="新宿" code="10" />
+        <station name="大久保" code="09" />
+        <station name="東中野" code="08" />
+        <station name="中野" code="07" />
+        <station name="高円寺" code="06" />
+        <station name="阿佐ケ谷" code="05" />
+        <station name="荻窪" code="04" />
+        <station name="西荻窪" code="03" />
+        <station name="吉祥寺" code="02" />
+        <station name="三鷹" code="01" />
+    </route>
+
     <route name="中央東線" hidden="">
-        <section line="中央線快速" direction="+" />
+        <section line="中央線（快速）" direction="+" />
         <section line="中央本線（新宿〜金山）" name="中央東線" color="navy" direction="+" from="高尾" to="塩尻" hides-via="" />
     </route>
 
