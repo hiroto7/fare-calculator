@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <svgcode name="Shinkansen_jrc" src="./shinkansen-line-symbols/Shinkansen_jrc.svg" />
+
+    <official name="東海道新幹線" color="#f77321" code="Shinkansen_jrc">
+        <station name="東京" distance="0" />
+        <station name="品川" distance="6.8" />
+        <station name="新横浜" distance="28.8" />
+        <station name="小田原" distance="83.9" />
+        <station name="熱海" distance="104.6" />
+        <station name="三島" distance="120.7" />
+        <station name="新富士" distance="146.2" />
+        <station name="静岡" distance="180.2" />
+        <station name="掛川" distance="229.3" />
+        <station name="浜松" distance="257.1" />
+        <station name="豊橋" distance="293.6" />
+        <station name="三河安城" distance="336.3" />
+        <station name="名古屋" distance="366" />
+        <station name="岐阜羽島" distance="396.3" />
+        <station name="米原" distance="445.9" />
+        <station name="京都" distance="513.6" />
+        <station name="新大阪" distance="552.6" />
+    </official>
+</data>

@@ -7,6 +7,8 @@
 
     <!-- 東北新幹線 -->
     <import src="./Tohoku-Shinkansen.xml" />
+    <!-- 東海道新幹線 -->
+    <import src="./Tokaido-Shinkansen.xml" />
 
     <!-- 東海道本線 -->
     <import src="./Tokaido-Main-Line.xml" />
