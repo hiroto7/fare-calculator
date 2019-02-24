@@ -5,6 +5,9 @@
     <!-- 路線記号:JR西日本 -->
     <import src="./jr-west-line-symbols.xml" />
 
+    <!-- 東北新幹線 -->
+    <import src="./Tohoku-Shinkansen.xml" />
+
     <!-- 東海道本線 -->
     <import src="./Tokaido-Main-Line.xml" />
     <!-- 中央本線 -->
@@ -12,14 +15,23 @@
 
     <!-- 東北本線 -->
     <import src="./Tohoku-Main-Line.xml" />
+    <!-- 奥羽本線 -->
+    <import src="./Ou-Main-Line.xml" />
     <!-- 総武本線 -->
     <import src="./Sobu-Main-Line.xml" />
     <!-- 北陸本線 -->
     <import src="./Hokuriku-Main-Line.xml" />
     <!-- 信越本線 -->
     <import src="./Shinetsu-Main-Line.xml" />
+
     <!-- 常磐線 -->
     <import src="./Joban-Line.xml" />
+    <!-- 仙石線 -->
+    <import src="./Senseki-Line.xml" />
+    <!-- 石巻線 -->
+    <import src="./Ishinomaki-Line.xml" />
+    <!-- 田沢湖線 -->
+    <import src="./Tazawako-Line.xml" />
     <!-- 山手線 -->
     <import src="./Yamanote-Line.xml" />
     <!-- 高崎線 -->
@@ -42,10 +54,6 @@
     <import src="./Joetsu-Line.xml" />
     <!-- 両毛線 -->
     <import src="./Ryomo-Line.xml" />
-    <!-- 仙石線 -->
-    <import src="./Senseki-Line.xml" />
-    <!-- 石巻線 -->
-    <import src="./Ishinomaki-Line.xml" />
     <!-- 赤羽線 -->
     <import src="./Akabane-Line.xml" />
 

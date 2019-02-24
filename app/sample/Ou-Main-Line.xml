@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="奥羽本線" color="#ee7b28" hidden="">
+        <!-- Wikipedia:山形線#駅一覧 -->
+        <station name="福島" distance="0" />
+        <station name="笹木野" distance="3.8" />
+        <station name="庭坂" distance="6.9" />
+        <station name="赤岩" distance="14.6" />
+        <station name="板谷" distance="21.2" />
+        <station name="峠" distance="24.5" />
+        <station name="大沢" distance="28.8" />
+        <station name="関根" distance="34.8" />
+        <station name="米沢" distance="40.1" />
+        <station name="置賜" distance="45.6" />
+        <station name="高畠" distance="49.9" />
+        <station name="赤湯" distance="56.1" />
+        <station name="中川" distance="64.4" />
+        <station name="羽前中山" distance="68.3" />
+        <station name="かみのやま温泉" distance="75" />
+        <station name="茂吉記念館前" distance="77.8" />
+        <station name="蔵王" distance="81.8" />
+        <station name="山形" distance="87.1" />
+        <station name="北山形" distance="89" />
+        <station name="羽前千歳" distance="91.9" />
+        <station name="南出羽" distance="93.6" />
+        <station name="漆山" distance="94.9" />
+        <station name="高擶" distance="97" />
+        <station name="天童南" distance="98.3" />
+        <station name="天童" distance="100.4" />
+        <station name="乱川" distance="103.4" />
+        <station name="神町" distance="106.3" />
+        <station name="さくらんぼ東根" distance="108.1" />
+        <station name="東根" distance="110.6" />
+        <station name="村山" distance="113.5" />
+        <station name="袖崎" distance="121.5" />
+        <station name="大石田" distance="126.9" />
+        <station name="北大石田" distance="130.8" />
+        <station name="芦沢" distance="133.7" />
+        <station name="舟形" distance="140.3" />
+        <station name="新庄" distance="148.6" />
+        <!-- Wikipedia:奥羽本線#駅一覧 -->
+        <station name="泉田" distance="154.2" />
+        <station name="羽前豊里" distance="161.3" />
+        <station name="真室川" distance="164" />
+        <station name="釜淵" distance="173.2" />
+        <station name="大滝" distance="180.3" />
+        <station name="及位" distance="185.8" />
+        <station name="院内" distance="194.4" />
+        <station name="横堀" distance="198.4" />
+        <station name="三関" distance="204.4" />
+        <station name="上湯沢" distance="207.1" />
+        <station name="湯沢" distance="210.4" />
+        <station name="下湯沢" distance="214.5" />
+        <station name="十文字" distance="217.8" />
+        <station name="醍醐" distance="221.2" />
+        <station name="柳田" distance="224.4" />
+        <station name="横手" distance="228.3" />
+        <station name="後三年" distance="234.7" />
+        <station name="飯詰" distance="239.8" />
+        <station name="大曲" distance="247" />
+        <station name="神宮寺" distance="253" />
+        <station name="刈和野" distance="260.6" />
+        <station name="峰吉川" distance="265.4" />
+        <station name="羽後境" distance="271.9" />
+        <station name="大張野" distance="280" />
+        <station name="和田" distance="285.4" />
+        <station name="四ツ小屋" distance="292.3" />
+        <station name="秋田" distance="298.7" />
+        <station name="土崎" distance="305.8" />
+        <station name="上飯島" distance="308.3" />
+        <station name="追分" distance="311.7" />
+        <station name="大久保" distance="318.9" />
+        <station name="羽後飯塚" distance="322.2" />
+        <station name="井川さくら" distance="323.6" />
+        <station name="八郎潟" distance="327.5" />
+        <station name="鯉川" distance="333" />
+        <station name="鹿渡" distance="338.4" />
+        <station name="森岳" distance="345.1" />
+        <station name="北金岡" distance="349.4" />
+        <station name="東能代" distance="355.4" />
+        <station name="鶴形" distance="360.3" />
+        <station name="富根" distance="365.5" />
+        <station name="二ツ井" distance="372.2" />
+        <station name="前山" distance="379.5" />
+        <station name="鷹ノ巣" distance="384.9" />
+        <station name="糠沢" distance="388.1" />
+        <station name="早口" distance="393.5" />
+        <station name="下川沿" distance="397.7" />
+        <station name="大館" distance="402.9" />
+        <station name="白沢" distance="409.4" />
+        <station name="陣場" distance="416.5" />
+        <station name="津軽湯の沢" distance="422.3" />
+        <station name="碇ケ関" distance="427.2" />
+        <station name="長峰" distance="432" />
+        <station name="大鰐温泉" distance="435.3" />
+        <station name="石川" distance="440.7" />
+        <station name="弘前" distance="447.1" />
+        <station name="撫牛子" distance="449.8" />
+        <station name="川部" distance="453.4" />
+        <station name="北常盤" distance="456.6" />
+        <station name="浪岡" distance="462.1" />
+        <station name="大釈迦" distance="467.2" />
+        <station name="鶴ケ坂" distance="473.4" />
+        <station name="津軽新城" distance="478.8" />
+        <station name="新青森" distance="480.6" />
+        <station name="青森" distance="484.5" />
+    </official>
+
+    <section name="山形線" line="奥羽本線" direction="+" from="福島" to="新庄" hides-via="" hidden="" />
+
+    <route name="奥羽本線" key="奥羽本線1">
+        <section line="山形線" direction="+" />
+        <section line="奥羽本線" direction="+" from="新庄" to="青森" />
+    </route>
+
+    <!-- 東北新幹線 -->
+    <import src="./Tohoku-Shinkansen.xml" />
+    <route name="山形新幹線">
+        <section line="東北新幹線" direction="+" from="東京" to="福島" />
+        <section name="山形新幹線" line="山形線" direction="+" color="#ee7b28" hides-via="" />
+    </route>
+
+    <official name="男鹿線" color="#36823e" hidden="">
+        <station name="追分" distance="0" />
+        <station name="出戸浜" distance="5.1" />
+        <station name="上二田" distance="8.3" />
+        <station name="二田" distance="10.4" />
+        <station name="天王" distance="13.2" />
+        <station name="船越" distance="14.9" />
+        <station name="脇本" distance="18.9" />
+        <station name="羽立" distance="23.7" />
+        <station name="男鹿" distance="26.4" />
+    </official>
+
+    <route name="男鹿線" key="男鹿線1" color="#36823e" hides-via="">
+        <section line="奥羽本線" direction="+" from="秋田" to="追分" />
+        <section line="男鹿線" direction="+" />
+    </route>
+</data>

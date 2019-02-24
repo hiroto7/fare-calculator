@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <svgcode name="Shinkansen-E" src="./shinkansen-line-symbols/Shinkansen-E.svg" />
+    <svgcode name="Shinkansen_jrh" src="./shinkansen-line-symbols/Shinkansen_jrh.svg" />
+
+    <official name="東北新幹線" color="#008000" code="Shinkansen-E" hidden="">
+        <station name="東京" distance="0" />
+        <station name="上野" distance="3.6" />
+        <station name="大宮" distance="30.3" />
+        <station name="小山" distance="80.6" />
+        <station name="宇都宮" distance="109.5" />
+        <station name="那須塩原" distance="157.8" />
+        <station name="新白河" distance="185.4" />
+        <station name="郡山" distance="226.7" />
+        <station name="福島" distance="272.8" />
+        <station name="白石蔵王" distance="306.8" />
+        <station name="仙台" distance="351.8" />
+        <station name="古川" distance="395" />
+        <station name="くりこま高原" distance="416.2" />
+        <station name="一ノ関" distance="445.1" />
+        <station name="水沢江刺" distance="470.1" />
+        <station name="北上" distance="487.5" />
+        <station name="新花巻" distance="500" />
+        <station name="盛岡" distance="535.3" />
+        <station name="いわて沼宮内" distance="566.4" />
+        <station name="二戸" distance="601" />
+        <station name="八戸" distance="631.9" />
+        <station name="七戸十和田" distance="668" />
+        <station name="新青森" distance="713.7" />
+    </official>
+
+    <official name="北海道新幹線" color="#2cb431" code="Shinkansen_jrh" hidden="">
+        <station name="新青森" distance="0" />
+        <station name="奥津軽いまべつ" distance="38.5" />
+        <station name="木古内" distance="113.3" />
+        <station name="新函館北斗" distance="148.8" />
+    </official>
+
+    <route name="東北・北海道新幹線">
+        <section line="東北新幹線" direction="+" />
+        <section line="北海道新幹線" direction="+" />
+    </route>
+</data>

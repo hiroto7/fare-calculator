@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <official name="田沢湖線" color="#9d72b0">
+        <station name="盛岡" distance="0" />
+        <station name="大釜" distance="6" />
+        <station name="小岩井" distance="10.5" />
+        <station name="雫石" distance="16" />
+        <station name="春木場" distance="18.7" />
+        <station name="赤渕" distance="22" />
+        <station name="田沢湖" distance="40.1" />
+        <station name="刺巻" distance="44.4" />
+        <station name="神代" distance="52.8" />
+        <station name="生田" distance="55.3" />
+        <station name="角館" distance="58.8" />
+        <station name="鶯野" distance="61.6" />
+        <station name="羽後長野" distance="64.6" />
+        <station name="鑓見内" distance="67.9" />
+        <station name="羽後四ツ屋" distance="70.2" />
+        <station name="北大曲" distance="72" />
+        <station name="大曲" distance="75.6" />
+    </official>
+
+    <!-- 東北新幹線 -->
+    <import src="./Tohoku-Shinkansen.xml" />
+    <!-- 奥羽本線 -->
+    <import src="./Ou-Main-Line.xml" />
+    <route name="秋田新幹線">
+        <section line="東北新幹線" direction="+" from="東京" to="盛岡" />
+        <route name="秋田新幹線" color="#ed4399" hides-via="">
+            <section line="田沢湖線" direction="+" />
+            <section line="奥羽本線" direction="+" from="大曲" to="秋田" />
+        </route>
+    </route>
+</data>

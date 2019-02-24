@@ -47,10 +47,9 @@ export default class Section<SS extends StationSubstance> extends AbstractLine1<
         this.hidesVia = hidesVia;
 
         const stationCodesMap1: Map<StationSubstance, string | null> = new Map();
-        for (const [station, code] of stationCodesMap) {
-            const substance = station.substance;
-            stationCodesMap1.set(substance, code);
-        }
+        for (const [station, code] of stationCodesMap)
+            stationCodesMap1.set(station.substance, code);
+
         this.stationCodesMap = stationCodesMap1;
     }
 
