@@ -82,7 +82,7 @@
         <section color="#ffc20d" line="総武本線" direction="+" from="佐倉" to="銚子" hides-via="" />
     </route>
 
-    <route name="総武線（各駅停車）" code="JB" color="#ffd400" hides-via="" hidden="">
+    <route name="総武線（各駅停車）" code="JB" color="#ffd400" color2="black" hides-via="" hidden="">
         <section line="総武本線" direction="-" from="千葉" to="錦糸町" />
         <section line="総武本線（錦糸町〜御茶ノ水）" direction="+" />
 

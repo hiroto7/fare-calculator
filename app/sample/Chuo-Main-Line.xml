@@ -161,7 +161,7 @@
         <station name="高尾" code="24" />
     </route>
 
-    <route name="中央線（各駅停車）" code="JB" color="#ffd400" hides-via="" hidden="">
+    <route name="中央線（各駅停車）" code="JB" color="#ffd400" color2="black" hides-via="" hidden="">
         <section line="中央本線（神田〜代々木）" direction="+" from="御茶ノ水" to="代々木" />
         <section line="山手線" direction="+" from="代々木" to="新宿" />
         <section line="中央本線（新宿〜金山）" direction="+" from="新宿" to="三鷹" />
