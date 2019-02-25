@@ -6,6 +6,7 @@ import SectionOnOfficialLine from "./SectionOnOfficialLine";
 import { AbstractStationOnLine1 } from "../StationOnLine";
 import DB, { ReadonlyDB } from "../DB";
 import Code from "../Code";
+import ColorPair from "../Color";
 
 export default class OfficialLine<SS extends StationSubstance> extends AbstractLine1<SS, StationOnOfficialLine<SS>> {
     protected rawStations: ReadonlyArray<StationOnOfficialLine<SS>>;
@@ -14,12 +15,12 @@ export default class OfficialLine<SS extends StationSubstance> extends AbstractL
     protected isSOL(station: Station): station is StationOnOfficialLine<SS> { return station instanceof StationOnOfficialLine; }
 
     readonly name: string;
-    readonly color: string | null;
+    readonly color: ColorPair | null;
     readonly code: Code | null;
 
     constructor({ name, code = null, color = null, stations }: {
         name: string,
-        color?: string | null,
+        color?: ColorPair | null,
         code?: Code | null,
         stations: Iterable<{
             substance: SS,
@@ -43,7 +44,7 @@ export default class OfficialLine<SS extends StationSubstance> extends AbstractL
         this.stationsOnLineDB = stationsOnLineMap;
     }
 
-    *colors(): IterableIterator<string> {
+    *colors(): IterableIterator<ColorPair> {
         const color = this.color;
         if (color !== null)
             yield color;

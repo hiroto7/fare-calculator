@@ -4,6 +4,7 @@ import { ReadonlyDB } from "./DB";
 import { Direction, outbound, inbound } from "./Direction";
 import StationXMLHandler from "./StationXMLHandler";
 import Code from "./Code";
+import ColorPair from "./Color";
 
 export default class LineXMLHandler {
     private readonly linesDB: ReadonlyMap<string, Line<StationSubstance & WritableStation>>;
@@ -26,7 +27,7 @@ export default class LineXMLHandler {
     private handleO(e: Element, { name, code: lineCode, color }: {
         name: string | undefined,
         code: Code | undefined,
-        color: string | undefined
+        color: ColorPair | undefined
     }): OfficialLine<StationSubstance & WritableStation> {
 
         if (name === undefined)
@@ -57,7 +58,7 @@ export default class LineXMLHandler {
     private handleS(e: Element, { name, code: lineCode, color, hidesVia, stationCodesMap }: {
         name: string | undefined,
         code: Code | undefined,
-        color: string | undefined,
+        color: ColorPair | undefined,
         hidesVia: boolean,
         stationCodesMap: Iterable<[StationSubstance, string | null]>
     }): Section<StationSubstance & WritableStation> {
@@ -93,7 +94,7 @@ export default class LineXMLHandler {
     private handleR(e: Element, { name, code: lineCode, color, hidesVia, stationCodesMap }: {
         name: string | undefined,
         code: Code | undefined,
-        color: string | undefined,
+        color: ColorPair | undefined,
         hidesVia: boolean,
         stationCodesMap: Iterable<[StationSubstance, string | null]>
     }): RouteLine<StationSubstance & WritableStation> {
@@ -114,8 +115,11 @@ export default class LineXMLHandler {
 
     handle(e: Element): Line<StationSubstance & WritableStation> {
         const name: string | undefined = e.getAttribute('name') || undefined;
-        const color: string | undefined = e.getAttribute('color') || undefined;
         const hidesVia: boolean = e.hasAttribute('hides-via');
+
+        const color1: string | null = e.getAttribute('color');
+        const color2: string | null = e.getAttribute('color2');
+        const color: ColorPair | undefined = color1 === null ? undefined : new ColorPair(color1, color2 || 'white');
 
         const lineCodeKey: string | undefined = e.getAttribute('code') || undefined;
         let lineCode: Code | undefined = undefined
@@ -128,7 +132,7 @@ export default class LineXMLHandler {
         const params: {
             name: string | undefined,
             code: Code | undefined,
-            color: string | undefined,
+            color: ColorPair | undefined,
             hidesVia: boolean,
             stationCodesMap?: Iterable<[StationSubstance, string | null]>
         } = { name, code: lineCode, color, hidesVia };

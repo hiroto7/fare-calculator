@@ -4,12 +4,13 @@ import Station, { StationSubstance } from "../Station";
 import { StationOnLine } from "../StationOnLine";
 import { ReadonlyDB } from "../DB";
 import Code from "../Code";
+import ColorPair from "../Color";
 
 export default abstract class AbstractLine1<SS extends StationSubstance, SOL extends StationOnLine<SS>> implements Line<SS> {
     abstract readonly name: string;
-    abstract readonly color: string | null | undefined;
+    abstract readonly color: ColorPair | null | undefined;
     abstract readonly code: Code | null | undefined;
-    abstract colors(direction?: Direction): IterableIterator<string>;
+    abstract colors(direction?: Direction): IterableIterator<ColorPair>;
     abstract codes(direction?: Direction): IterableIterator<Code>;
     abstract length(): number;
     abstract codeOf(station: Station): string | null | undefined;

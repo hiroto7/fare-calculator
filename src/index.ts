@@ -140,7 +140,8 @@ class NamedDirectionsList extends HTMLElement {
                 const result = colors.next();
                 if (!result.done) {
                     const color = result.value;
-                    button.style.setProperty('--color', color);
+                    button.style.setProperty('--color', color.first);
+                    button.style.setProperty('--color2', color.second);
                 }
             }
             {

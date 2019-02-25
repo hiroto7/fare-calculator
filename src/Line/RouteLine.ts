@@ -6,6 +6,7 @@ import AbstractLine1 from "./AbstractLine1";
 import { StationOnLine, AbstractStationOnLine2 } from "../StationOnLine";
 import DB, { ReadonlyDB } from "../DB";
 import Code from "../Code";
+import ColorPair from "../Color";
 
 export default class RouteLine<SS extends StationSubstance> extends AbstractLine1<SS, StationOnRouteLine<SS>> {
     protected readonly rawStations: ReadonlyArray<StationOnRouteLine<SS>>;
@@ -19,12 +20,12 @@ export default class RouteLine<SS extends StationSubstance> extends AbstractLine
 
     readonly name: string;
     readonly code: Code | null | undefined;
-    readonly color: string | null | undefined;
+    readonly color: ColorPair | null | undefined;
 
     constructor({ name, code, color, children, stationCodesMap = [], hidesVia = false }: {
         name: string,
         code?: Code | null,
-        color?: string | null,
+        color?: ColorPair | null,
         children: Iterable<Line<SS>>,
         stationCodesMap?: Iterable<[Station, string | null]>,
         hidesVia?: boolean
@@ -109,9 +110,9 @@ export default class RouteLine<SS extends StationSubstance> extends AbstractLine
         }
     }
 
-    *colors(direction: Direction = outbound): IterableIterator<string> {
+    *colors(direction: Direction = outbound): IterableIterator<ColorPair> {
         if (this.color === undefined) {
-            const colors: Set<string> = new Set();
+            const colors: Set<ColorPair> = new Set();
             if (direction === outbound) {
                 for (let i = 0; i < this.rawChildren.length; i++) {
                     for (const color of this.rawChildren[i].colors(direction))
