@@ -6,7 +6,7 @@ import AbstractLine1 from "./AbstractLine1";
 import { StationOnLine, AbstractStationOnLine2 } from "../StationOnLine";
 import DB, { ReadonlyDB } from "../DB";
 import Code from "../Code";
-import ColorPair from "../Color";
+import ColorPair from "../ColorPair";
 
 export default class RouteLine<SS extends StationSubstance> extends AbstractLine1<SS, StationOnRouteLine<SS>> {
     protected readonly rawStations: ReadonlyArray<StationOnRouteLine<SS>>;

@@ -4,7 +4,7 @@ import { ReadonlyDB } from "./DB";
 import { Direction, outbound, inbound } from "./Direction";
 import StationXMLHandler from "./StationXMLHandler";
 import Code from "./Code";
-import ColorPair from "./Color";
+import ColorPair from "./ColorPair";
 
 export default class LineXMLHandler {
     private readonly linesDB: ReadonlyMap<string, Line<StationSubstance & WritableStation>>;

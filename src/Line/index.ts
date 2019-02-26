@@ -2,7 +2,7 @@ import { Direction } from "../Direction";
 import Station, { StationSubstance } from "../Station";
 import { StationOnLine } from "../StationOnLine";
 import Code from "../Code";
-import ColorPair from "../Color";
+import ColorPair from "../ColorPair";
 
 export { default as AbstractLine1 } from './AbstractLine1';
 export { default as OfficialLine } from './OfficialLine';

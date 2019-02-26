@@ -4,7 +4,7 @@ import Station, { StationSubstance } from "../Station";
 import { StationOnLine } from "../StationOnLine";
 import { ReadonlyDB } from "../DB";
 import Code from "../Code";
-import ColorPair from "../Color";
+import ColorPair from "../ColorPair";
 
 export default abstract class AbstractLine1<SS extends StationSubstance, SOL extends StationOnLine<SS>> implements Line<SS> {
     abstract readonly name: string;

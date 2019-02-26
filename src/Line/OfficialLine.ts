@@ -6,7 +6,7 @@ import SectionOnOfficialLine from "./SectionOnOfficialLine";
 import { AbstractStationOnLine1 } from "../StationOnLine";
 import DB, { ReadonlyDB } from "../DB";
 import Code from "../Code";
-import ColorPair from "../Color";
+import ColorPair from "../ColorPair";
 
 export default class OfficialLine<SS extends StationSubstance> extends AbstractLine1<SS, StationOnOfficialLine<SS>> {
     protected rawStations: ReadonlyArray<StationOnOfficialLine<SS>>;
