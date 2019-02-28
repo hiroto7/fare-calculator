@@ -55,7 +55,7 @@ class XMLHandler {
     async handleXMLData(data: Element, baseURL: URL) {
         if (data.tagName !== 'data') throw new Error();
 
-        for (const child of Array.from(data.children)) {
+        for (const child of data.children) {
             if (child.tagName === 'official' || child.tagName === 'route' || child.tagName === 'section') {
                 const line: Line<StationSubstance & WritableStation> = this.lineXMLHandler.handle(child);
                 const key: string = child.getAttribute('key') || line.name;

@@ -38,7 +38,7 @@ export default class LineXMLHandler {
             distanceFromStart: number | null,
             code?: string | null
         }[] = [];
-        for (const stationXML of Array.from(e.children)) {
+        for (const stationXML of e.children) {
             if (stationXML.tagName !== 'station') continue;
 
             const substance = this.stationXMLHandler.handle(stationXML);
@@ -103,7 +103,7 @@ export default class LineXMLHandler {
             throw new Error('name 属性を省略することはできません。');
 
         const sections: Line<StationSubstance & WritableStation>[] = [];
-        for (const child of Array.from(e.children)) {
+        for (const child of e.children) {
             if (child.tagName !== 'official' && child.tagName !== 'route' && child.tagName !== 'section') continue;
 
             const section = this.handle(child);
@@ -142,7 +142,7 @@ export default class LineXMLHandler {
         } else if (e.tagName === 'section' || e.tagName === 'route') {
 
             const stationCodesMap: Map<StationSubstance, string | null> = new Map();
-            for (const stationXML of Array.from(e.children)) {
+            for (const stationXML of e.children) {
                 if (stationXML.tagName !== 'station') continue;
 
                 const substance = this.stationXMLHandler.handle(stationXML);
