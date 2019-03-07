@@ -25,13 +25,13 @@
     <!-- 東北本線 -->
     <import src="./Tohoku-Main-Line.xml" />
     <route name="高崎線" key="高崎線1" hidden="">
-        <section line="宇都宮・高崎線" direction="+" />
+        <section line="宇都宮線" direction="+" from="東京" to="大宮" name="高崎線" hides-via="" />
         <section line="高崎線" direction="+" />
     </route>
 
     <!-- 両毛線 -->
     <import src="./Ryomo-Line.xml" />
-    <route name="高崎・両毛線" hidden="">
+    <route name="高崎・両毛線">
         <section line="高崎線1" direction="+" />
         <section line="両毛線1" direction="-" from="高崎" to="前橋" />
     </route>

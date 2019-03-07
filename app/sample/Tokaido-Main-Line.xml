@@ -117,11 +117,6 @@
         <station name="米原" code="83" />
     </section>
 
-    <route name="東海道線" key="東海道線（東京〜沼津）" hidden="">
-        <section line="東海道線" direction="+" from="東京" to="熱海" />
-        <section line="東海道本線（JR東海）" direction="+" from="熱海" to="沼津" />
-    </route>
-
     <section name="JR京都線" code="JR-A" color="#0072bc" direction="+" line="東海道本線" from="京都" to="大阪" hidden="" hides-via="">
         <station name="京都" code="31" />
         <station name="西大路" code="32" />
