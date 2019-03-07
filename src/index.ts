@@ -10,14 +10,15 @@ import { handleLineCodeXML } from "./handleLineCodeXML";
 class XMLHandler {
     private visited: Set<string> = new Set();
     private readonly parser = new DOMParser();
-    private readonly linesDB: Map<string, Line<StationSubstance>>;
-    private readonly stationsDB: Map<string, WritableStation & StationSubstance>;
+    private readonly linesDB: Map<string, Line>;
+    private readonly stationsDB: Map<string, StationSubstance>;
     private readonly codesDB: Map<string, Code>;
+    private readonly mapFromStationToLines: ReadonlyDB<StationSubstance, Set<Line>>;
     private readonly stationXMLHandler: StationXMLHandler;
     private readonly lineXMLHandler: LineXMLHandler;
 
     constructor() {
-        const linesDB: ReadonlyMap<string, Line<StationSubstance & WritableStation>> = this.linesDB = new Map();
+        const linesDB: ReadonlyMap<string, Line> = this.linesDB = new Map();
 
         const stationsDB: ReadonlyDB<string, WritableStation & StationSubstance, [string?]> =
             this.stationsDB = new DB((key: string, name?: string) => new Station1(name || key));
@@ -26,6 +27,7 @@ class XMLHandler {
 
         const stationXMLHandler = this.stationXMLHandler = new StationXMLHandler(stationsDB);
         this.lineXMLHandler = new LineXMLHandler({ linesDB, stationsDB, codesDB, stationXMLHandler });
+        this.mapFromStationToLines = new DB(_ => new Set);
     }
 
     async import(url: URL) {
@@ -57,13 +59,13 @@ class XMLHandler {
 
         for (const child of data.children) {
             if (child.tagName === 'official' || child.tagName === 'route' || child.tagName === 'section') {
-                const line: Line<StationSubstance & WritableStation> = this.lineXMLHandler.handle(child);
+                const line: Line = this.lineXMLHandler.handle(child);
                 const key: string = child.getAttribute('key') || line.name;
                 this.linesDB.set(key, line);
                 const hidden: boolean = child.hasAttribute('hidden');
                 if (!hidden) {
                     for (const station of line.stations())
-                        station.substance.add(line);
+                        this.mapFromStationToLines.get1(station.substance).add(line);
                 }
             } else if (child.tagName === 'station') {
                 this.stationXMLHandler.handle(child);
@@ -78,16 +80,17 @@ class XMLHandler {
     }
 
     getDB(): {
-        readonly linesDB: ReadonlyMap<string, Line<StationSubstance>>,
-        readonly stationsDB: ReadonlyMap<string, StationSubstance>
+        readonly linesDB: ReadonlyMap<string, Line>,
+        readonly stationsDB: ReadonlyMap<string, StationSubstance>,
+        readonly mapFromStationToLines: ReadonlyDB<StationSubstance, Set<Line>>
     } {
         return {
-            linesDB: this.linesDB, stationsDB: this.stationsDB
+            linesDB: this.linesDB, stationsDB: this.stationsDB, mapFromStationToLines: this.mapFromStationToLines
         };
     }
 }
 
-const a = (line: Line<StationSubstance>): HTMLElement => {
+const a = (line: Line): HTMLElement => {
     const section: HTMLElement = document.createElement('section');
 
     section.innerHTML = `<h1>${[...line.codes()].map(v => `[${v}] `).join(``)}${line.name} [${line.from.name} - ${line.to.name}]</h1>
@@ -101,7 +104,7 @@ const a = (line: Line<StationSubstance>): HTMLElement => {
         <td>${station.name}</td>
         <td>${Math.floor(station.distanceFromStart()! * 10) / 10}</td>
         <td>${station.isSeasonal ? '臨時駅' : ''}</td>
-        <td>${[...station.lines()].toString()}</td>`
+        <td>${[/*...station.lines()*/].toString()}</td>`
         table.appendChild(tr);
     }
     section.appendChild(table);
@@ -136,6 +139,7 @@ declare const document: Document & {
 
     const linesDB = handler.getDB().linesDB;
     const stationsDB = handler.getDB().stationsDB;
+    const mapFromStationToLines = handler.getDB().mapFromStationToLines;
 
     document.getElementById('station-input')!.addEventListener('keypress', e => {
         if (e.keyCode !== 13) return;
@@ -153,11 +157,23 @@ declare const document: Document & {
             const linesList = document.getElementById('list1')!;
             linesList.textContent = null;
 
-            const map: DB<string, Set<Line<StationSubstance>>> = new DB(_ => new Set);
-            for (const line of station.lines()) {
+            const map: ReadonlyDB<string, Set<Line>> = new DB(_ => new Set);
+            for (const line of mapFromStationToLines.get1(station)) {
+                l1:
                 for (const section of line.sectionsFrom(station)) {
                     const grandchild = section.grandchildren(true).next().value;
-                    map.get1(grandchild.name).add(section);
+                    const minimized = section.minimize();
+                    l2:
+                    for (const existing of map.get1(grandchild.name)) {
+                        l3:
+                        if (existing.contains(minimized)) {
+                            continue l1;
+                        } else if (minimized.contains(existing)) {
+                            map.get1(grandchild.name).delete(existing);
+                            break l2;
+                        }
+                    }
+                    map.get1(grandchild.name).add(section.minimize());
                 }
             }
 
@@ -208,7 +224,7 @@ declare const document: Document & {
                             const h1: HTMLHeadingElement = document.createElement('h1');
                             const halfway: Set<StationSubstance> = new Set();
                             {
-                                const stations: IterableIterator<StationOnLine<StationSubstance>> = section.stations();
+                                const stations: IterableIterator<StationOnLine> = section.stations();
                                 halfway.add((stations.next(), stations.next()).value.substance);
                             }
                             halfway.add(grandchild.to.substance);

@@ -2,16 +2,17 @@ import Station, { StationSubstance } from "./Station";
 import Line from "./Line";
 import { outbound } from "./Direction";
 
-export interface StationOnLine<SS extends StationSubstance> extends Station {
-    line: Line<SS>;
-    readonly substance: SS;
+export interface StationOnLine extends Station {
+    line: Line;
+    readonly substance: StationSubstance;
     codes(): IterableIterator<string>;
     distanceFromStart(): number | null;
+    index(): number;
     // children(): IterableIterator<StationOnLine>;
 }
 
-export abstract class AbstractStationOnLine1<L extends Line<SS>, SS extends StationSubstance> implements StationOnLine<SS> {
-    abstract readonly substance: SS;
+export abstract class AbstractStationOnLine1<L extends Line> implements StationOnLine {
+    abstract readonly substance: StationSubstance;
     abstract codes(): IterableIterator<string>;
     abstract distanceFromStart(): number | null;
 
@@ -24,13 +25,17 @@ export abstract class AbstractStationOnLine1<L extends Line<SS>, SS extends Stat
     get name(): string { return this.substance.name; }
     get isSeasonal(): boolean { return this.substance.isSeasonal; }
 
-    *lines(): IterableIterator<Line<StationSubstance>> { yield* this.substance.lines(); }
-
     toString() { return `${this.name}@${this.line.name}` }
+    index(): number {
+        const index = this.line.indexOf(this);
+        if (index === null)
+            throw new Error(`'${this.name}' 駅のインデックスを取得できません。`);
+        return index;
+    }
 }
 
-export abstract class AbstractStationOnLine2<L extends Line<SS>, SS extends StationSubstance> extends AbstractStationOnLine1<L, SS> {
-    abstract readonly substance: SS;
+export abstract class AbstractStationOnLine2<L extends Line> extends AbstractStationOnLine1<L> {
+    abstract readonly substance: StationSubstance;
 
     *codes(): IterableIterator<string> {
         yield* this.line.codesOf(this);
@@ -41,16 +46,16 @@ export abstract class AbstractStationOnLine2<L extends Line<SS>, SS extends Stat
     }
 }
 
-export class StationOnSection<SS extends StationSubstance> extends AbstractStationOnLine2<Line<SS>, SS> {
-    readonly original: StationOnLine<SS>;
+export abstract class AbstractStationOnSection<SOL extends StationOnLine> extends AbstractStationOnLine2<Line> {
+    readonly original: SOL;
 
     constructor({ line, station }: {
-        line: Line<SS>,
-        station: StationOnLine<SS>
+        line: Line,
+        station: SOL
     }) {
         super(line);
         this.original = station;
     }
 
-    get substance(): SS { return this.original.substance; }
+    get substance(): StationSubstance { return this.original.substance; }
 }

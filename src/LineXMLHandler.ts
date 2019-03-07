@@ -7,13 +7,13 @@ import Code from "./Code";
 import ColorPair from "./ColorPair";
 
 export default class LineXMLHandler {
-    private readonly linesDB: ReadonlyMap<string, Line<StationSubstance & WritableStation>>;
+    private readonly linesDB: ReadonlyMap<string, Line>;
     private readonly stationsDB: ReadonlyDB<string, StationSubstance>;
     private readonly codesDB: ReadonlyMap<string, Code>;
     private readonly stationXMLHandler: StationXMLHandler;
 
     constructor({ linesDB, stationsDB, codesDB, stationXMLHandler }: {
-        linesDB: ReadonlyMap<string, Line<StationSubstance & WritableStation>>,
+        linesDB: ReadonlyMap<string, Line>,
         stationsDB: ReadonlyDB<string, StationSubstance>,
         codesDB: ReadonlyMap<string, Code>,
         stationXMLHandler: StationXMLHandler
@@ -28,7 +28,7 @@ export default class LineXMLHandler {
         name: string | undefined,
         code: Code | undefined,
         color: ColorPair | undefined
-    }): OfficialLine<StationSubstance & WritableStation> {
+    }): OfficialLine {
 
         if (name === undefined)
             throw new Error('name 属性を省略することはできません。');
@@ -61,7 +61,7 @@ export default class LineXMLHandler {
         color: ColorPair | undefined,
         hidesVia: boolean,
         stationCodesMap: Iterable<[StationSubstance, string | null]>
-    }): Section<StationSubstance & WritableStation> {
+    }): Section {
 
         const lineKey = e.getAttribute('line');
         if (lineKey === null)
@@ -74,7 +74,7 @@ export default class LineXMLHandler {
             throw new Error('direction 属性の値は "+" または "-" である必要があります。');
         const direction: Direction = directionString === '+' ? outbound : inbound;
 
-        const line: Line<StationSubstance & WritableStation> | undefined = this.linesDB.get(lineKey);
+        const line: Line | undefined = this.linesDB.get(lineKey);
         if (line === undefined)
             throw new Error(`${lineKey} が見つかりません。`);
 
@@ -97,12 +97,12 @@ export default class LineXMLHandler {
         color: ColorPair | undefined,
         hidesVia: boolean,
         stationCodesMap: Iterable<[StationSubstance, string | null]>
-    }): RouteLine<StationSubstance & WritableStation> {
+    }): RouteLine {
 
         if (name === undefined)
             throw new Error('name 属性を省略することはできません。');
 
-        const sections: Line<StationSubstance & WritableStation>[] = [];
+        const sections: Line[] = [];
         for (const child of e.children) {
             if (child.tagName !== 'official' && child.tagName !== 'route' && child.tagName !== 'section') continue;
 
@@ -113,7 +113,7 @@ export default class LineXMLHandler {
         return new RouteLine({ name, code: lineCode, color, children: sections, stationCodesMap, hidesVia });
     }
 
-    handle(e: Element): Line<StationSubstance & WritableStation> {
+    handle(e: Element): Line {
         const name: string | undefined = e.getAttribute('name') || undefined;
         const hidesVia: boolean = e.hasAttribute('hides-via');
 
