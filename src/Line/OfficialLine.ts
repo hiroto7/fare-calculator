@@ -8,11 +8,11 @@ import DB, { ReadonlyDB } from "../DB";
 import Code from "../Code";
 import ColorPair from "../ColorPair";
 
-export default class OfficialLine<SS extends StationSubstance> extends AbstractLine1<SS, StationOnOfficialLine<SS>> {
-    protected rawStations: ReadonlyArray<StationOnOfficialLine<SS>>;
-    protected stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnOfficialLine<SS>>>;
+export default class OfficialLine extends AbstractLine1<StationOnOfficialLine> {
+    protected rawStations: ReadonlyArray<StationOnOfficialLine>;
+    protected stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnOfficialLine>>;
 
-    protected isSOL(station: Station): station is StationOnOfficialLine<SS> { return station instanceof StationOnOfficialLine; }
+    protected isSOL(station: Station): station is StationOnOfficialLine { return station instanceof StationOnOfficialLine; }
 
     readonly name: string;
     readonly color: ColorPair | null;
@@ -23,7 +23,7 @@ export default class OfficialLine<SS extends StationSubstance> extends AbstractL
         color?: ColorPair | null,
         code?: Code | null,
         stations: Iterable<{
-            substance: SS,
+            substance: StationSubstance,
             distanceFromStart: number | null,
             code?: string | null
         }>
@@ -33,8 +33,8 @@ export default class OfficialLine<SS extends StationSubstance> extends AbstractL
         this.color = color;
         this.code = code;
 
-        const rawStations: StationOnOfficialLine<SS>[] = [];
-        const stationsOnLineMap: ReadonlyDB<SS, Set<StationOnOfficialLine<SS>>, []> = new DB(_ => new Set());
+        const rawStations: StationOnOfficialLine[] = [];
+        const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnOfficialLine>, []> = new DB(_ => new Set());
         for (const stationParameter of stations) {
             const station = new StationOnOfficialLine({ line: this, ...stationParameter });
             rawStations.push(station);
@@ -87,11 +87,11 @@ export default class OfficialLine<SS extends StationSubstance> extends AbstractL
         return d1 === null || d2 === null ? null : direction * (d2 - d1);
     }
 
-    sectionBetween(from: Station, to: Station, direction: Direction): Line<SS> {
-        return new SectionOnOfficialLine<SS>(this, from, to, direction);
+    sectionBetween(from: Station, to: Station, direction: Direction): Line {
+        return new SectionOnOfficialLine(this, from, to, direction);
     }
 
-    *stationsBetween(from: Station, to: Station, direction: Direction): IterableIterator<StationOnOfficialLine<SS>> {
+    *stationsBetween(from: Station, to: Station, direction: Direction): IterableIterator<StationOnOfficialLine> {
         const from1 = this.onLineVersionOf(from);
         const to1 = this.onLineVersionOf(to);
         if (from1 === null) throw new Error(`${this}, ${from}, ${to}, ${direction}`);
@@ -104,23 +104,44 @@ export default class OfficialLine<SS extends StationSubstance> extends AbstractL
             this.rawStations.lastIndexOf(to1, fromIndex);
         if (toIndex < 0) throw new Error();
 
-        for (let i = fromIndex; direction * i <= direction * toIndex; i += direction) {
+        for (let i = fromIndex; direction * i <= direction * toIndex; i += direction)
             yield this.rawStations[i];
-        }
     }
 
     *grandchildren() { yield this; }
+
+    equals(line: Line): boolean { return this === line; }
+
+    minimize() { return this; }
+
+    contains(line: Line): boolean {
+        if (line.hasChildren()) {
+            const children = [...line.children()];
+            if (children.length === 1)
+                return this.contains(children[0]);
+            else
+                return false;
+        } else if (line instanceof OfficialLine) {
+            return line === this;
+        } else if (line instanceof SectionOnOfficialLine) {
+            return line.original === this && line.direction === outbound;
+        } else {
+            throw new Error();
+        }
+    }
+
+    hasChildren(): false { return false; }
 }
 
-class StationOnOfficialLine<SS extends StationSubstance> extends AbstractStationOnLine1<OfficialLine<SS>, SS> {
+export class StationOnOfficialLine extends AbstractStationOnLine1<OfficialLine> {
     private readonly rawDistanceFromStart: number | null;
     private readonly rawCode: string | null;
 
-    readonly substance: SS;
+    readonly substance: StationSubstance;
 
     constructor({ line, substance, distanceFromStart, code = null }: {
-        line: OfficialLine<SS>,
-        substance: SS,
+        line: OfficialLine,
+        substance: StationSubstance,
         distanceFromStart: number | null,
         code?: string | null
     }) {

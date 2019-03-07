@@ -1,27 +1,27 @@
 import Line from ".";
-import Station, { StationSubstance } from "../Station";
-import { Direction } from "../Direction";
-import AbstractLine1 from "./AbstractLine1";
-import { AbstractStationOnLine1, StationOnLine } from "../StationOnLine";
-import DB, { ReadonlyDB } from "../DB";
 import Code from "../Code";
 import ColorPair from "../ColorPair";
+import DB, { ReadonlyDB } from "../DB";
+import { Direction } from "../Direction";
+import Station, { StationSubstance } from "../Station";
+import { AbstractStationOnLine1, StationOnLine } from "../StationOnLine";
+import { AbstractLineWithChildren1 } from "./AbstractLine1";
 
-export default class LineAlias<SS extends StationSubstance> extends AbstractLine1<SS, StationOnLineAlias<SS>> {
-    protected readonly rawStations: ReadonlyArray<StationOnLineAlias<SS>>;
-    protected readonly stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnLineAlias<SS>>>;
+export default class LineAlias extends AbstractLineWithChildren1<StationOnLineAlias>  {
+    protected readonly rawStations: ReadonlyArray<StationOnLineAlias>;
+    protected readonly stationsOnLineDB: ReadonlyDB<StationSubstance, Iterable<StationOnLineAlias>>;
 
-    protected isSOL(station: Station): station is StationOnLineAlias<SS> { return station instanceof StationOnLineAlias; }
+    protected isSOL(station: Station): station is StationOnLineAlias { return station instanceof StationOnLineAlias; }
 
-    readonly original: Line<SS>;
+    readonly original: Line;
 
-    constructor(line: Line<SS>) {
+    constructor(line: Line) {
         super();
         this.original = line;
-        const stations: StationOnLineAlias<SS>[] = [];
-        const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnLineAlias<SS>>, []> = new DB(_ => new Set);
+        const stations: StationOnLineAlias[] = [];
+        const stationsOnLineMap: ReadonlyDB<StationSubstance, Set<StationOnLineAlias>, []> = new DB(_ => new Set);
         for (const station of line.stations()) {
-            const stationAlias = new StationOnLineAlias<SS>({ line: this, station })
+            const stationAlias = new StationOnLineAlias({ line: this, original: station })
             stations.push(stationAlias);
             stationsOnLineMap.get1(station.substance).add(stationAlias);
         }
@@ -49,7 +49,7 @@ export default class LineAlias<SS extends StationSubstance> extends AbstractLine
 
     has(station: Station): boolean { return this.onLineVersionOf(station) !== null; }
 
-    sectionBetween(from: Station, to: Station, direction: Direction): Line<SS> {
+    sectionBetween(from: Station, to: Station, direction: Direction): Line {
         const from1 = this.onLineVersionOf(from);
         const to1 = this.onLineVersionOf(to);
         if (from1 === null || to1 === null) throw new Error();
@@ -57,18 +57,28 @@ export default class LineAlias<SS extends StationSubstance> extends AbstractLine
         return this.original.sectionBetween(from1.original, to1.original, direction);
     }
 
-    *grandchildren(hidesVia?: boolean): IterableIterator<Line<SS>> { yield* this.original.grandchildren(hidesVia); }
+    *grandchildren(hidesVia?: boolean): IterableIterator<Line> { yield* this.original.grandchildren(hidesVia); }
+
+    minimize() { return this.original.minimize(); }
+
+    contains(line: Line): boolean { return this.original.contains(line); }
+
+    // isContainedIn(line: Line): boolean { return this.original.contains(line); }
+
+    hasChildren(): true { return true; }
+
+    *children(): IterableIterator<Line> { yield this.original; }
 }
 
-class StationOnLineAlias<SS extends StationSubstance> extends AbstractStationOnLine1<Line<SS>, SS> {
-    readonly original: StationOnLine<SS>;
+class StationOnLineAlias extends AbstractStationOnLine1<Line> {
+    readonly original: StationOnLine;
 
-    constructor({ line, station }: { line: LineAlias<SS>, station: StationOnLine<SS> }) {
+    constructor({ line, original }: { line: LineAlias, original: StationOnLine }) {
         super(line);
-        this.original = station;
+        this.original = original;
     }
 
-    get substance(): SS { return this.original.substance; }
+    get substance(): StationSubstance { return this.original.substance; }
 
     *codes(): IterableIterator<string> { yield* this.original.codes(); }
     distanceFromStart(): number | null { return this.original.distanceFromStart(); }
