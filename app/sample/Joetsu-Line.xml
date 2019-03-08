@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
-    <official name="上越線">
+    <official name="上越線" color="#00b3e6">
         <station name="高崎" distance="0" />
         <station name="高崎問屋町" distance="2.8" />
         <station name="井野" distance="4" />
@@ -37,4 +37,41 @@
         <station name="越後滝谷" distance="156.6" />
         <station name="宮内" distance="162.6" />
     </official>
+
+    <official name="上越新幹線" color="#008000" code="Shinkansen-E">
+        <station name="大宮" distance="0.0" />
+        <station name="熊谷" distance="34.4" />
+        <station name="本庄早稲田" distance="55.7" />
+        <station name="高崎" distance="74.7" />
+        <station name="上毛高原" distance="121.3" />
+        <station name="越後湯沢" distance="168.9" />
+        <station name="浦佐" distance="198.6" />
+        <station name="長岡" distance="240.3" />
+        <station name="燕三条" distance="263.5" />
+        <station name="新潟" distance="303.6" />
+    </official>
+
+    <official name="上越線（越後湯沢〜ガーラ湯沢）" color="#008000" code="Shinkansen-E" hidden="">
+        <station name="越後湯沢" distance="0.0" />
+        <station name="ガーラ湯沢" distance="1.8" />
+    </official>
+
+    <!-- 信越本線 -->
+    <import src="./Shinetsu-Main-Line.xml" />
+    <route name="上越線" key="上越線1" color="#00b3e6" hides-via="">
+        <section line="上越線" direction="+" />
+        <section line="信越本線（直江津〜新潟）" direction="+" from="宮内" to="長岡" />
+    </route>
+
+    <!-- 東北新幹線 -->
+    <import src="./Tohoku-Shinkansen.xml" />
+    <route name="上越新幹線" key="上越新幹線（東京〜新潟）" hides-via="">
+        <section line="東北新幹線" direction="+" from="東京" to="大宮" />
+        <section line="上越新幹線" direction="+" />
+    </route>
+
+    <route name="上越新幹線" key="上越新幹線（東京〜ガーラ湯沢）">
+        <section line="上越新幹線（東京〜新潟）" direction="+" from="東京" to="越後湯沢" />
+        <section name="上越新幹線（新潟〜ガーラ湯沢）" line="上越線（越後湯沢〜ガーラ湯沢）" direction="+" hides-via="" />
+    </route>
 </data>

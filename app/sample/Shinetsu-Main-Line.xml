@@ -1,10 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <data>
+    <official name="信越本線（高崎〜横川）" color="yellowgreen">
+        <station name="高崎" distance="0.0" />
+        <station name="北高崎" distance="2.4" />
+        <station name="群馬八幡" distance="6.4" />
+        <station name="安中" distance="10.6" />
+        <station name="磯部" distance="17.6" />
+        <station name="松井田" distance="22.7" />
+        <station name="西松井田" distance="23.9" />
+        <station name="横川" distance="29.7" />
+    </official>
+
     <official name="信越本線（篠ノ井〜長野）" color="#00b3e6" hidden="">
         <station name="篠ノ井" distance="0" />
         <station name="今井" distance="2.1" />
         <station name="川中島" distance="4.3" />
         <station name="安茂里" distance="6.4" />
         <station name="長野" distance="9.3" />
+    </official>
+
+    <official name="信越本線（直江津〜新潟）" color="#00b3e6">
+        <station name="直江津" distance="0" />
+        <station name="黒井" distance="2.7" />
+        <station name="犀潟" distance="7.1" />
+        <station name="土底浜" distance="9.4" />
+        <station name="潟町" distance="11.2" />
+        <station name="上下浜" distance="14" />
+        <station name="柿崎" distance="17.6" />
+        <station name="米山" distance="23.5" />
+        <station name="笠島" distance="27.4" />
+        <station name="青海川" distance="29.6" />
+        <station name="鯨波" distance="32.6" />
+        <station name="柏崎" distance="36.3" />
+        <station name="茨目" distance="39.3" />
+        <station name="安田" distance="42.2" />
+        <station name="北条" distance="44.8" />
+        <station name="越後広田" distance="48.1" />
+        <station name="長鳥" distance="50.8" />
+        <station name="塚山" distance="55.8" />
+        <station name="越後岩塚" distance="60.5" />
+        <station name="来迎寺" distance="63.3" />
+        <station name="前川" distance="67.4" />
+        <station name="宮内" distance="70" />
+        <station name="長岡" distance="73" />
+        <station name="北長岡" distance="75.5" />
+        <station name="押切" distance="79.9" />
+        <station name="見附" distance="84.4" />
+        <station name="帯織" distance="88.5" />
+        <station name="東光寺" distance="91.1" />
+        <station name="三条" distance="94.6" />
+        <station name="東三条" distance="96.2" />
+        <station name="保内" distance="100" />
+        <station name="加茂" distance="103.8" />
+        <station name="羽生田" distance="107.9" />
+        <station name="田上" distance="111.1" />
+        <station name="矢代田" distance="114.8" />
+        <station name="古津" distance="117.9" />
+        <station name="新津" distance="121.1" />
+        <station name="さつき野" distance="122.6" />
+        <station name="荻川" distance="124.9" />
+        <station name="亀田" distance="129.8" />
+        <station name="越後石山" distance="132.2" />
+        <station name="新潟" distance="136.3" />
     </official>
 </data>
