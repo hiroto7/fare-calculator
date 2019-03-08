@@ -140,13 +140,18 @@
         <station name="赤羽" distance="13.4" />
     </official>
 
+    <section name="上野東京ライン" code="JU" color="purple" line="東北本線" direction="+" from="東京" to="上野" hides-via="">
+        <station name="東京" code="01" />
+        <station name="上野" code="02" />
+    </section>
+
     <route name="宇都宮線" hidden="">
+        <section line="上野東京ライン" direction="+" />
         <route name="宇都宮線" code="JU" color="#F68B1E" hides-via="">
-            <section line="東北本線" direction="+" from="東京" to="日暮里" />
+            <section line="東北本線" direction="+" from="上野" to="日暮里" />
             <section line="東北本線（日暮里〜尾久〜赤羽）" direction="+" />
             <section line="東北本線" direction="+" from="赤羽" to="大宮" />
 
-            <station name="東京" code="01" />
             <station name="上野" code="02" />
             <station name="尾久" code="03" />
             <station name="赤羽" code="04" />

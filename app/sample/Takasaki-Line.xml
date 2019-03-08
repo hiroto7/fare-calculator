@@ -24,8 +24,9 @@
 
     <!-- 東北本線 -->
     <import src="./Tohoku-Main-Line.xml" />
-    <route name="高崎線" key="高崎線1" hidden="">
-        <section line="宇都宮線" direction="+" from="東京" to="大宮" name="高崎線" hides-via="" />
+    <route name="高崎線" key="高崎線1">
+        <section line="上野東京ライン" direction="+" />
+        <section name="高崎線" line="宇都宮線" direction="+" from="上野" to="大宮" hides-via="" />
         <section line="高崎線" direction="+" />
     </route>
 
