@@ -88,48 +88,39 @@ export default class RouteLine extends AbstractLineWithChildren1<StationOnRouteL
         this.stationCodesMap = stationCodesMap1;
     }
 
-    *codes(direction: Direction = outbound): IterableIterator<Code> {
-        if (this.code === undefined) {
-            const codes: Set<Code> = new Set();
-            if (direction === outbound) {
-                for (let i = 0; i < this.rawChildren.length; i++) {
-                    for (const code of this.rawChildren[i].codes(direction))
-                        codes.add(code);
+    private *cs<C extends ColorPair | Code>(
+        direction: Direction,
+        c1: C | undefined | null,
+        cs1: (line: Line, direction: Direction) => Iterable<C>): IterableIterator<C> {
+        switch (c1) {
+            case undefined:
+                const cs: Set<C> = new Set();
+                if (direction === outbound) {
+                    for (let i = 0; i < this.rawChildren.length; i++) {
+                        for (const c of cs1(this.rawChildren[i], direction))
+                            cs.add(c);
+                    }
+                } else {
+                    for (let i = this.rawChildren.length - 1; i >= 0; i--) {
+                        for (const c of cs1(this.rawChildren[i], direction))
+                            cs.add(c);
+                    }
                 }
-            } else {
-                for (let i = this.rawChildren.length; i > 0; i--) {
-                    for (const code of this.rawChildren[i - 1].codes(direction))
-                        codes.add(code);
-                }
-            }
-            yield* codes;
-        } else if (this.code === null) {
-            return;
-        } else {
-            yield this.code;
+                yield* cs;
+                return;
+            case null:
+                return;
+            default:
+                yield c1;
         }
     }
 
+    *codes(direction: Direction = outbound): IterableIterator<Code> {
+        yield* this.cs(direction, this.code, (line, direction) => line.codes(direction));
+    }
+
     *colors(direction: Direction = outbound): IterableIterator<ColorPair> {
-        if (this.color === undefined) {
-            const colors: Set<ColorPair> = new Set();
-            if (direction === outbound) {
-                for (let i = 0; i < this.rawChildren.length; i++) {
-                    for (const color of this.rawChildren[i].colors(direction))
-                        colors.add(color);
-                }
-            } else {
-                for (let i = this.rawChildren.length; i > 0; i--) {
-                    for (const color of this.rawChildren[i - 1].colors(direction))
-                        colors.add(color);
-                }
-            }
-            yield* colors;
-        } else if (this.color === null) {
-            return;
-        } else {
-            yield this.color;
-        }
+        yield* this.cs(direction, this.color, (line, direction) => line.colors(direction));
     }
 
     codeOf(station: Station): string | null | undefined { return this.stationCodesMap.get(station.substance); }
