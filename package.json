@@ -21,6 +21,8 @@
     "webpack-dev-server": "^3.2.1"
   },
   "dependencies": {
-    "@types/jsdom": "^12.2.3"
+    "@types/jsdom": "^12.2.3",
+    "@types/webpack": "^4.4.25",
+    "ts-node": "^8.0.3"
   }
 }

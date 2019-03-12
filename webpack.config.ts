@@ -1,6 +1,7 @@
-const path = require('path');
+import * as path from 'path';
+import * as webpack from 'webpack';
 
-module.exports = {
+export default {
     mode: 'development',
     entry: './src/index.ts',
     devtool: 'source-map',
@@ -26,4 +27,4 @@ module.exports = {
         watchContentBase: true,
         port: 8080,
     }
-};
+} as webpack.Configuration;
