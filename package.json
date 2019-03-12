@@ -12,17 +12,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jsdom": "^12.2.3",
     "@types/node": "^10.12.30",
+    "@types/webpack": "^4.4.25",
     "ts-loader": "^5.3.3",
+    "ts-node": "^8.0.3",
     "tslint": "^5.13.1",
     "typescript": "^3.3.3333",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1"
-  },
-  "dependencies": {
-    "@types/jsdom": "^12.2.3",
-    "@types/webpack": "^4.4.25",
-    "ts-node": "^8.0.3"
   }
 }
