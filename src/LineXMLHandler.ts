@@ -1,7 +1,7 @@
 import Line, { OfficialLine, Section, RouteLine } from "./Line";
 import { StationSubstance, WritableStation } from "./Station";
 import { ReadonlyDB } from "./DB";
-import { Direction, outbound, inbound } from "./Direction";
+import Direction, { outbound, inbound } from "./Direction";
 import StationXMLHandler from "./StationXMLHandler";
 import Code from "./Code";
 import ColorPair from "./ColorPair";

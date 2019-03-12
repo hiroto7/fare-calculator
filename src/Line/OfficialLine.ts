@@ -1,4 +1,4 @@
-import { Direction, outbound } from "../Direction";
+import Direction, { outbound } from "../Direction";
 import Line from ".";
 import Station, { StationSubstance } from "../Station";
 import AbstractLine1 from "./AbstractLine1";

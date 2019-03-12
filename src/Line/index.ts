@@ -1,6 +1,6 @@
 import Code from "../Code";
 import ColorPair from "../ColorPair";
-import { Direction } from "../Direction";
+import Direction from "../Direction";
 import Station from "../Station";
 import { StationOnLine } from "../StationOnLine";
 

@@ -1,5 +1,5 @@
 import Line from ".";
-import { Direction, outbound } from "../Direction";
+import Direction, { outbound } from "../Direction";
 import Station, { StationSubstance } from "../Station";
 import LineAlias from "./LineAlias";
 import { AbstractLineWithChildren1 } from "./AbstractLine1";

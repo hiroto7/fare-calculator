@@ -2,7 +2,7 @@ import Line from ".";
 import Code from "../Code";
 import ColorPair from "../ColorPair";
 import DB, { ReadonlyDB } from "../DB";
-import { Direction } from "../Direction";
+import Direction from "../Direction";
 import Station, { StationSubstance } from "../Station";
 import { AbstractStationOnSection } from "../StationOnLine";
 import AbstractLine1 from "./AbstractLine1";

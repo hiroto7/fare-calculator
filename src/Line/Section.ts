@@ -1,6 +1,6 @@
 import Line from ".";
 import Station, { StationSubstance } from "../Station";
-import { Direction, outbound } from "../Direction";
+import Direction, { outbound } from "../Direction";
 import { AbstractLineWithChildren1 } from "./AbstractLine1";
 import { AbstractStationOnSection, StationOnLine } from "../StationOnLine";
 import DB, { ReadonlyDB } from "../DB";

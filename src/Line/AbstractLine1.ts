@@ -1,5 +1,5 @@
 import Line, { LineWithChildren } from ".";
-import { outbound, Direction, inbound } from "../Direction";
+import Direction, { outbound, inbound } from "../Direction";
 import Station, { StationSubstance } from "../Station";
 import { StationOnLine } from "../StationOnLine";
 import { ReadonlyDB } from "../DB";
